@@ -1,4 +1,4 @@
-import ceylon.math.integer {
+import com.vasileff.ceylon.xmath.integer {
     largest
 }
 
