@@ -1,18 +1,16 @@
-import java.lang {
-    LongArray
-}
-
-// LongArray
-alias Words => LongArray;
+// Array<Integer>
+alias Words => Array<Integer>;
 
 Words wordsOfSize(Integer size)
-    => LongArray(size);
+    => arrayOfSize<Integer>(size, 0);
 
-Integer getw(Words words, Integer index)
-    => WordsUtils.get(words, index);
+Integer getw(Words words, Integer index) {
+    assert (is Integer result = words.getFromFirst(index));
+    return result;
+}
 
 void setw(Words words, Integer index, Integer word) {
-    WordsUtils.set(words, index, word);
+    words.set(index, word);
 }
 
 Integer sizew(Words words)
@@ -28,35 +26,6 @@ void copyWords(
 }
 
 Words clonew(Words source) => source.clone();
-
-// Array<Integer>
-//alias Words => Array<Integer>;
-//
-//Words wordsOfSize(Integer size)
-//    => arrayOfSize<Integer>(size, 0);
-//
-//Integer getw(Words words, Integer index) {
-//    assert (is Integer result = words.getFromFirst(index));
-//    return result;
-//}
-//
-//void setw(Words words, Integer index, Integer word) {
-//    words.set(index, word);
-//}
-//
-//Integer sizew(Words words)
-//    => words.size;
-//
-//void copyWords(
-//        Words source,
-//        Words destination,
-//        Integer sourcePosition = 0,
-//        Integer destinationPosition = 0,
-//        Integer length = sizew(source) - sourcePosition) {
-//    source.copyTo(destination, sourcePosition, destinationPosition, length);
-//}
-//
-//Words clonew(Words source) => source.clone();
 
 // Common
 Words wordsOfOne(Integer word) {

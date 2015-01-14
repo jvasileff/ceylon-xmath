@@ -1,6 +1,3 @@
-import java.math {
-    BigInteger
-}
 by("John Vasileff")
 final class WholeImpl satisfies Whole {
 
@@ -440,19 +437,6 @@ final class WholeImpl satisfies Whole {
     shared actual Boolean unit => positive && absUnit;
 
     shared actual Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
-
-    "The platform-specific implementation object, if any.
-     This is provided for interoperation with the runtime
-     platform."
-    see(`function fromImplementation`)
-    shared actual Object? implementation {
-        if (safelyAddressable) {
-            return BigInteger.valueOf(integer);
-        }
-        else {
-            return toImplementation(this);
-        }
-    }
 
     shared actual Integer hash {
         variable Integer result = 0;

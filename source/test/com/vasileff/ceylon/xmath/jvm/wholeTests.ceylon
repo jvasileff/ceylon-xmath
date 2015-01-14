@@ -495,7 +495,7 @@ test void wholeTortureInteger() {
 
 test void wholeTortureFloat() {
     assert (exists boundWhole = parseWhole("9007199254740992"));
-    assert (is BigInteger boundBI = boundWhole.implementation);
+    value boundBI = toBigInteger(boundWhole);
     wholeTortureNoArg {
         label = "float";
         lhsBits = (8..56).by(8).follow(4);
@@ -540,8 +540,8 @@ void wholeTorture(String label,
                 variable BigInteger? javaResult = null;
                 variable Exception|AssertionError? javaException = null;
                 try {
-                    assert (is BigInteger lhsBI = lhs.implementation);
-                    assert (is BigInteger rhsBI = rhs.implementation);
+                    value lhsBI = toBigInteger(lhs);
+                    value rhsBI = toBigInteger(rhs);
                     javaResult = javaOp(lhsBI)(rhsBI);
                 } catch (Exception e) {
                     javaException = e;
@@ -600,9 +600,9 @@ void wholeTortureThree(String label,
                     variable BigInteger? javaResult = null;
                     variable Exception|AssertionError? javaException = null;
                     try {
-                        assert (is BigInteger lhsBI = lhs.implementation);
-                        assert (is BigInteger rhsBI1 = rhs1.implementation);
-                        assert (is BigInteger rhsBI2 = rhs2.implementation);
+                        value lhsBI = toBigInteger(lhs);
+                        value rhsBI1 = toBigInteger(rhs1);
+                        value rhsBI2 = toBigInteger(rhs2);
                         javaResult = javaOp(lhsBI)(rhsBI1, rhsBI2);
                     } catch (Exception e) {
                         javaException = e;
@@ -656,7 +656,7 @@ void wholeTortureIntArg<Result>(String label,
 
                 Result javaResult;
                 try {
-                    assert (is BigInteger lhsBI = lhs.implementation);
+                    value lhsBI = toBigInteger(lhs);
                     javaResult = javaOp(lhsBI, rhs);
                 } catch (Exception e) {
                     print ("BigInteger exception for ``lhs`` ``label`` ``rhs``");
@@ -695,7 +695,7 @@ void wholeTortureNoArg<Result>(String label,
 
             Result javaResult;
             try {
-                assert (is BigInteger lhsBI = lhs.implementation);
+                value lhsBI = toBigInteger(lhs);
                 javaResult = javaOp(lhsBI);
             } catch (Exception e) {
                 print ("BigInteger exception for ``lhs`` ``label``");

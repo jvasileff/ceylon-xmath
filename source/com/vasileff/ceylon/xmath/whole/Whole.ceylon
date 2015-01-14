@@ -5,12 +5,6 @@ shared interface Whole
         satisfies Integral<Whole> &
                   Exponentiable<Whole, Whole> {
 
-    "The platform-specific implementation object, if any.
-     This is provided for interoperation with the runtime
-     platform."
-    see(`function fromImplementation`)
-    shared formal Object? implementation;
-
     "The result of raising this number to the given power.
 
      Special cases:

@@ -1,8 +1,12 @@
+import com.vasileff.ceylon.xmath.whole {
+    Whole
+}
+
 import java.math {
     BigInteger
 }
 
-BigInteger toImplementation(Whole whole) {
+BigInteger toBigInteger(Whole whole) {
     if (whole.zero) {
         return BigInteger.\iZERO;
     }
