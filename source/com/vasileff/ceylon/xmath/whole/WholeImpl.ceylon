@@ -25,7 +25,7 @@ final class WholeImpl satisfies Whole {
 
         this.sign = if (this.wordsSize == 0) then 0 else sign;
 
-        if (sizew(words) > wordsSize + 3) {
+        if (sizew(words) > this.wordsSize + 3) {
             // avoid excessive waste
             this.words = wordsOfSize(this.wordsSize);
             copyWords(words, this.words, 0, 0, this.wordsSize);
