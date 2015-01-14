@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.vasileff.ceylon.xmath" default="all">
+    <property environment="env"/>
+    <property name="ceylon.home" value="${env.CEYLON_HOME}"/>
+    <property name="ceylon.ant.lib" value="${ceylon.home}/lib/ceylon-ant.jar"/>
+    <property name="source.encoding" value="UTF-8"/>
+
+    <path id="ant-tasks">
+        <pathelement location="${ceylon.ant.lib}"/>
+    </path>
+    <typedef resource="com/redhat/ceylon/ant/antlib.xml" classpathref="ant-tasks"/>
+
+    <moduleset id="modules.xmath.jvm">
+        <module name="com.vasileff.ceylon.xmath"/>
+        <module name="test.com.vasileff.ceylon.xmath.jvm"/>
+        <module name="test.com.vasileff.ceylon.xmath.common"/>
+    </moduleset>
+
+    <moduleset id="modules.xmath.js">
+        <module name="com.vasileff.ceylon.xmath"/>
+        <module name="test.com.vasileff.ceylon.xmath.common"/>
+    </moduleset>
+
+    <target name="all" depends="compile, compile-js, doc"/>
+
+    <target name="compile">
+        <ceylon-compile encoding="${source.encoding}">
+            <moduleset refid="modules.xmath.jvm"/>
+        </ceylon-compile>
+    </target>
+
+    <target name="compile-js">
+        <ceylon-compile-js encoding="${source.encoding}">
+            <moduleset refid="modules.xmath.js"/>
+        </ceylon-compile-js>
+    </target>
+
+    <target name="test" depends="compile">
+        <ceylon-test report="true">
+            <moduleset refid="modules.xmath.jvm"/>
+        </ceylon-test>
+    </target>
+
+    <target name="test-js" depends="compile-js">
+        <ceylon-test-js report="true">
+            <moduleset refid="modules.xmath.js"/>
+        </ceylon-test-js>
+    </target>
+
+    <target name="doc">
+        <ceylon-doc
+                encoding="${source.encoding}"
+                includesourcecode="true">
+            <moduleset refid="modules.xmath.jvm"/>
+        </ceylon-doc>
+    </target>
+
+    <target name="clean">
+        <delete dir="modules"/>
+    </target>
+</project>
