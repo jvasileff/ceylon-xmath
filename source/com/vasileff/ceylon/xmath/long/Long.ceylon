@@ -1,4 +1,4 @@
-import ceylon.math.whole {
+import com.vasileff.ceylon.xmath.whole {
     Whole
 }
 shared sealed interface Long

@@ -1,4 +1,4 @@
-package ceylon.math.whole;
+package com.vasileff.ceylon.xmath.whole;
 
 class WordsUtils {
 

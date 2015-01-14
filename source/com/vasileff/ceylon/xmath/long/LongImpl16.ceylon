@@ -1,4 +1,4 @@
-import ceylon.math.whole {
+import com.vasileff.ceylon.xmath.whole {
     Whole,
     wholeNumber,
     wholeZero = zero

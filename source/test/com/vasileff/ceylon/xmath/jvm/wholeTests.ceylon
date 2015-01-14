@@ -1,12 +1,3 @@
-import ceylon.math.whole {
-    Whole,
-    parseWhole,
-    wholeNumber,
-    one,
-    two,
-    zero,
-    gcd
-}
 import ceylon.test {
     ...
 }
@@ -15,6 +6,15 @@ import com.vasileff.ceylon.random.api {
     randomLimits,
     LCGRandom,
     Random
+}
+import com.vasileff.ceylon.xmath.whole {
+    Whole,
+    parseWhole,
+    wholeNumber,
+    one,
+    two,
+    zero,
+    gcd
 }
 
 import java.lang {
