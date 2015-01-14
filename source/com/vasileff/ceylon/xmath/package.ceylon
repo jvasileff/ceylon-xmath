@@ -1,1 +1,1 @@
-shared package com.vasileff.ceylon.xmath;
+package com.vasileff.ceylon.xmath;
