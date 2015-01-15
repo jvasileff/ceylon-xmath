@@ -365,7 +365,9 @@ final class WholeImpl satisfies Whole {
     shared actual Integer offset(Whole other) {
         value diff = this - other;
         if (integerMin <= diff <= integerMax) {
-            return diff.integer;
+            assert (is WholeImpl diff);
+            value val = integerForWordsNaive(diff.wordsSize, diff.words);
+            return if (diff.negative) then -val else val;
         }
         else {
             throw OverflowException();

@@ -186,7 +186,13 @@ test shared void wholeMiscTests() {
 
     assertEquals(-1, one.offset(two), "one.offset(two)");
     assertEquals(-runtime.maxIntegerValue, zero.offset(wholeNumber(runtime.maxIntegerValue)));
-    assertEquals(runtime.minIntegerValue, zero.offset(wholeNumber(runtime.maxIntegerValue)+one));
+    try {
+        value off = zero.offset(wholeNumber(runtime.maxIntegerValue)+one);
+        assertEquals(off, runtime.minIntegerValue);
+    } catch (OverflowException e) {
+        // this overflows on JS where the maximium magnitude
+        // is the same for both positive and negative integers
+    }
     try {
         value off = zero.offset(wholeNumber(runtime.maxIntegerValue)+two);
         fail("zero.offset(wholeNumber(runtime.maxIntegerValue)+two) returned ``off``");
