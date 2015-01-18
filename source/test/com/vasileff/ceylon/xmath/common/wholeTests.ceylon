@@ -16,7 +16,31 @@ import com.vasileff.ceylon.xmath.whole {
 }
 
 Whole parseWholeOrFail(String str) {
-    Whole? result = parseWhole(str);
+    variable Integer radix = 10;
+    variable String number = str;
+    if (exists first = str.first) {
+        if (first == '#') {
+            radix = 16;
+            number = str.rest;
+        }
+        else if (first == '$') {
+            radix = 2;
+            number = str.rest;
+        }
+        else if ("+-".contains(first),
+                 exists second = str[1]) {
+            if (second == '#') {
+                radix = 16;
+                number = first.string + str.spanFrom(2);
+            }
+            else if (first == '$') {
+                radix = 2;
+                number = first.string + str.spanFrom(2);
+            }
+        }
+    }
+
+    Whole? result = parseWhole(number, radix);
     if (exists result) {
         return result;
     }
@@ -185,13 +209,45 @@ test shared void wholeStringTests() {
 }
 
 test shared void wholePlusTests() {
-    assertTrue(wholeNumber(2) == wholeNumber(1).plus(wholeNumber(1)), "1.plus(1)");
-    assertTrue(wholeNumber(2) == wholeNumber(1) + wholeNumber(1), "1+1");
+    value test = runTest("-", uncurry(Whole.plus), mapTuple3(toWhole));
+
+    test([ 2,  1,  1], null);
+    test([ 0,  0,  0], null);
+    test([-1, -1,  0], null);
+    test([-1,  0, -1], null);
+    test([ 0,  1, -1], null);
+    test([ 0, -2,  2], null);
+    test(["#ffff", "#ff", "#ff00"], null);
+    test(["#10000000000000000", "#ffffffffffffffff", "#1"], "two word carry, JVM");
+    test(["#10000000000000000", "#1", "#ffffffffffffffff"], "two word carry, JVM");
+    test(["#100000000", "#ffffffff", "#1"], "one word carry, JVM");
+    test(["#100000000", "#1", "#ffffffff"], "one word carry, JVM");
+    test(["#10000", "#ffff", "#1"], "one word carry, JS");
+    test(["#10000", "#1", "#ffff"], "one word carry, JS");
+    test(["#1111111122222222", "#11111111", "#1111111111111111"], "first is shorter");
+    test(["#1111111122222222", "#1111111111111111", "#11111111"], "second is shorter");
+    test([0,0,0], null);
 }
 
 test shared void wholeMinusTests() {
-    assertTrue(wholeNumber(0) == wholeNumber(1).minus(wholeNumber(1)), "1.minus(1)");
-    assertTrue(wholeNumber(0) == wholeNumber(1) - wholeNumber(1), "1-1");
+    value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
+
+    test([ 1,  2,  1], null);
+    test([ 0,  0,  0], null);
+    test([ 0, -1, -1], null);
+    test([-1, -1,  0], null);
+    test([-1,  0,  1], null);
+    test([ 2,  0, -2], null);
+    test(["#ff00", "#ffff", "#ff"], null);
+    test(["#ffffffffffffffff", "#10000000000000000", "#1"], "two word borrow, JVM");
+    test(["#1", "#10000000000000000", "#ffffffffffffffff"], "two word borrow, JVM");
+    test(["#ffffffff", "#100000000", "#1"], "one word borrow, JVM");
+    test(["#1", "#100000000", "#ffffffff"], "one word borrow, JVM");
+    test(["#ffff", "#10000", "#1"], "one word borrow, JS");
+    test(["#1", "#10000", "#ffff"], "one word borrow, JS");
+    test(["-#1111111100000000", "#11111111", "#1111111111111111"], "first is shorter");
+    test(["#1111111100000000", "#1111111111111111", "#11111111"], "second is shorter");
+    test([0,0,0], "zeros");
 }
 
 test shared void wholeTimesTests() {
@@ -334,3 +390,27 @@ test shared void wholeMiscTests() {
         // checking this is thrown
     }
 }
+
+void runTest<RawArgs, Args, Result>
+        (String label,
+         Result(*Args) op,
+         Tuple<Anything, Result, Args>(RawArgs) transform)
+        (RawArgs test,
+         String? description)
+        given Args satisfies [Anything*] {
+    value [result, *args] = transform(test);
+    // https://github.com/ceylon/ceylon-js/issues/486
+    assertEquals(unflatten(op)(args), result,
+            "``args`` ``label`` ``description else ""``");
+}
+
+Whole toWhole(Integer|String val)
+    =>  switch (val)
+        case (is Integer) wholeNumber(val)
+        case (is String) parseWholeOrFail(val);
+
+[Out, Out] mapTuple2<In, Out>(Out(In) collecting)([In, In] tuple)
+    =>  [collecting(tuple[0]), collecting(tuple[1])];
+
+[Out, Out, Out] mapTuple3<In, Out>(Out(In) collecting)([In, In, In] tuple)
+    =>  [collecting(tuple[0]), collecting(tuple[1]), collecting(tuple[2])];
