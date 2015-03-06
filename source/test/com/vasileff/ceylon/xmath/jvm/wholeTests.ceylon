@@ -14,9 +14,6 @@ import com.vasileff.ceylon.xmath.whole {
     gcd
 }
 
-import java.lang {
-    Thread
-}
 import java.math {
     BigInteger
 }
