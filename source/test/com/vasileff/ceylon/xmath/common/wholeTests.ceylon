@@ -399,8 +399,7 @@ void runTest<RawArgs, Args, Result>
          String? description)
         given Args satisfies [Anything*] {
     value [result, *args] = transform(test);
-    // https://github.com/ceylon/ceylon-js/issues/486
-    assertEquals(unflatten(op)(args), result,
+    assertEquals(op(*args), result,
             "``args`` ``label`` ``description else ""``");
 }
 
