@@ -10,6 +10,10 @@
     </path>
     <typedef resource="com/redhat/ceylon/ant/antlib.xml" classpathref="ant-tasks"/>
 
+    <!-- directories -->
+    <property name="out.repo" location="${basedir}/modules"/>
+    <property name="ceylon.repo.dir" location="${user.home}/.ceylon/repo" />
+
     <moduleset id="modules.xmath.jvm">
         <module name="com.vasileff.ceylon.xmath"/>
         <module name="test.com.vasileff.ceylon.xmath.jvm"/>
@@ -53,6 +57,15 @@
                 includesourcecode="true">
             <moduleset refid="modules.xmath.jvm"/>
         </ceylon-doc>
+    </target>
+
+    <target name="publish" depends="all"
+            description="Copies the SDK modules to the user's repository">
+        <copy todir="${ceylon.repo.dir}" overwrite="true">
+            <fileset dir="${out.repo}">
+                <include name="com/vasileff/ceylon/xmath/**"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="clean">
