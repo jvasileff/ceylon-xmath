@@ -18,4 +18,5 @@ shared Long maxLongValue = longNumberOfWords(#7fff, #ffff, #ffff, #ffff);
 shared Long minLongValue = longNumberOfWords(#8000, 0, 0, 0);
 
 // FIXME
-Boolean realInts = false && runtime.integerAddressableSize == 64;
+//Boolean realInts = false && runtime.integerAddressableSize == 64;
+Boolean realInts = runtime.integerAddressableSize == 64;
