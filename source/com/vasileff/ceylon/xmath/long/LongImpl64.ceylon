@@ -79,7 +79,7 @@ class LongImpl64 satisfies Long {
     }
 
     shared actual Long plusInteger(Integer integer) {
-        return OfInteger(integer.plusInteger(integer));
+        return OfInteger(this.integer.plusInteger(integer));
     }
 
     shared actual Boolean positive {
@@ -118,7 +118,7 @@ class LongImpl64 satisfies Long {
     }
 
     shared actual Long timesInteger(Integer integer) {
-        return OfInteger(integer.timesInteger(integer));
+        return OfInteger(this.integer.timesInteger(integer));
     }
 
     shared actual Boolean unit {
