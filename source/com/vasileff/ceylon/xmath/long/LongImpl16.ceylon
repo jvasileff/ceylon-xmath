@@ -129,11 +129,11 @@ class LongImpl16 satisfies Long {
         variable Integer diff;
         diff = a.w0 - b.w0;
         c0 = diff.and(#ffff);
-        diff = a.w1 - b.w1 + diff.rightLogicalShift(16);
+        diff = a.w1 - b.w1 + diff.rightArithmeticShift(16);
         c1 = diff.and(#ffff);
-        diff = a.w2 - b.w2 + diff.rightLogicalShift(16);
+        diff = a.w2 - b.w2 + diff.rightArithmeticShift(16);
         c2 = diff.and(#ffff);
-        diff = a.w3 - b.w3 + diff.rightLogicalShift(16);
+        diff = a.w3 - b.w3 + diff.rightArithmeticShift(16);
         c3 = diff.and(#ffff);
 
         return OfWords(c3, c2, c1, c0);
