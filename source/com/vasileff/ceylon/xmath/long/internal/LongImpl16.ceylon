@@ -1,9 +1,21 @@
+import com.vasileff.ceylon.xmath.long {
+    Long,
+    formatLong,
+    lzero=zero,
+    lone=one,
+    longNumber
+}
 import com.vasileff.ceylon.xmath.whole {
     Whole,
     wholeNumber,
     wholeZero=zero
 }
 
+// These are used for Long.offset, so integerAddressableSize is irrelevant
+Long integerMax = longNumber(runtime.maxIntegerValue);
+Long integerMin = longNumber(runtime.minIntegerValue);
+
+shared
 class LongImpl16 satisfies Long {
     shared Integer w3;
     shared Integer w2;
@@ -141,7 +153,7 @@ class LongImpl16 satisfies Long {
 
     shared actual Long times(Long other) {
         if (this.zero || other.zero) {
-            return package.zero;
+            return lzero;
         } else if (this.unit) {
             return other;
         } else if (other.unit) {
@@ -202,7 +214,7 @@ class LongImpl16 satisfies Long {
             throw Exception("Divide by zero");
         }
         return if (zero) then
-            package.zero
+            lzero
         else if (other.unit) then
             this
         else if (other.negativeOne) then
@@ -219,11 +231,11 @@ class LongImpl16 satisfies Long {
             throw Exception("Divide by zero");
         }
         return if (zero) then
-            package.zero
+            lzero
         else if (other.unit) then
-            package.zero
+            lzero
         else if (other.negativeOne) then
-            package.zero
+            lzero
         else if (safelyAddressable && other.safelyAddressable) then
             OfInteger(this.integer % other.integer)
         else
@@ -235,11 +247,11 @@ class LongImpl16 satisfies Long {
             return this;
         }
         else if (exponent.zero) {
-            return package.one;
+            return lone;
         }
         else if (this.negativeOne) {
             return if (exponent.even)
-            then package.one
+            then lone
             else this;
         }
         else if (exponent.unit) {
@@ -455,7 +467,7 @@ class LongImpl16 satisfies Long {
                 w0.not.and(#ffff));
 
     shared actual LongImpl16 negated
-        =>  not.plus(package.one);
+        =>  not.plus(lone);
 
     // same as with Whole - narrow to integer addressable number of bits
     shared actual Integer integer
@@ -527,7 +539,7 @@ class LongImpl16 satisfies Long {
         =>  this;
 
     shared actual Long fractionalPart
-        =>  package.zero;
+        =>  lzero;
 
     shared actual Boolean zero
         =>  w0 == 0 && w1 == 0 && w2 == 0 && w3 == 0;
@@ -582,7 +594,7 @@ class LongImpl16 satisfies Long {
                 larger;
 
     Long powerBySquaring(variable Long exponent) {
-        variable Long result = package.one;
+        variable Long result = lone;
         variable Long x = this;
         while (!exponent.zero) {
             if (!exponent.even) {

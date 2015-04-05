@@ -1,3 +1,6 @@
+import com.vasileff.ceylon.xmath.long.internal {
+    LongImpl64
+}
 "The string representation of the given [[Long]] in the
  base given by [[radix]]. If the given value is negative,
  the string representation will begin with `-`. Digits

@@ -1,3 +1,6 @@
+import com.vasileff.ceylon.xmath.long {
+    Long
+}
 "An arbitrary precision integer."
 by("John Vasileff")
 shared interface Whole
@@ -32,6 +35,11 @@ shared interface Whole
     throws(`class Exception`, "If passed a negative modulus")
     shared formal Whole modPower(Whole exponent,
                                  Whole modulus);
+
+    "The number, as an [[Long]] composed of the
+     64 least significant bits of the two's complement
+     representation of this Whole."
+    shared formal Long long;
 
     "The number, as an [[Integer]] composed of the
      [[runtime.integerAddressableSize]] number of least significant
@@ -117,5 +125,4 @@ shared interface Whole
     "The binary complement of this sequence of bits. The returned value
      will have the opposite sign of the orignal value."
     shared formal Whole not;
-
 }

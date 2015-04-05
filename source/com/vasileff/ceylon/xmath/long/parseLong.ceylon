@@ -1,3 +1,6 @@
+import com.vasileff.ceylon.xmath.long.internal {
+    LongImpl64
+}
 Integer minRadix = 2;
 Integer maxRadix = 36;
 

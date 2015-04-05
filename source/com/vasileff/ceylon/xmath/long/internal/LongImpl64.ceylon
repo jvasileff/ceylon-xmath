@@ -1,7 +1,13 @@
+import com.vasileff.ceylon.xmath.long {
+    Long,
+    lzero=zero
+}
 import com.vasileff.ceylon.xmath.whole {
     Whole,
     wholeNumber
 }
+
+shared
 class LongImpl64 satisfies Long {
 
     shared actual Integer integer;
@@ -36,7 +42,7 @@ class LongImpl64 satisfies Long {
     }
 
     shared actual Long fractionalPart {
-        return package.zero;
+        return lzero;
     }
 
     shared actual Boolean get(Integer index) {

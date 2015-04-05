@@ -1,3 +1,9 @@
+import com.vasileff.ceylon.xmath.long {
+    Long
+}
+import com.vasileff.ceylon.xmath.long.internal {
+    longNumberFromWhole
+}
 by("John Vasileff")
 final class WholeImpl satisfies Whole {
 
@@ -382,6 +388,9 @@ final class WholeImpl satisfies Whole {
     shared actual Integer integer
         =>  integerMemo else (integerMemo =
                 integerForWords(wordsSize, words, negative));
+
+    shared actual Long long
+        =>  longNumberFromWhole(this);
 
     shared actual Float float {
         if (zero) {
