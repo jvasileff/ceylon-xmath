@@ -1,8 +1,9 @@
 import com.vasileff.ceylon.xmath.whole {
     Whole,
     wholeNumber,
-    wholeZero = zero
+    wholeZero=zero
 }
+
 class LongImpl16 satisfies Long {
     shared Integer w3;
     shared Integer w2;
@@ -523,8 +524,8 @@ class LongImpl16 satisfies Long {
         =>  (w3 == 0 && w2 == 0 && !w1.get(15)) ||
             (w3 == #ffff && w2 == #ffff && w1.get(15));
 
-    // FIXME won't work on 32bit, implement once division is ready
-    shared actual String string => integer.string;
+    shared actual String string
+        =>  formatLong(this);
 
     shared actual Boolean equals(Object that)
         =>  if (is LongImpl16 that) then
