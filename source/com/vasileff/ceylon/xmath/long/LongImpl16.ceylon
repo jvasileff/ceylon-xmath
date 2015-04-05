@@ -92,7 +92,7 @@ class LongImpl16 satisfies Long {
         }
     }
 
-    shared actual Long plus(Long other) {
+    shared actual LongImpl16 plus(Long other) {
         value a = this;
         assert(is LongImpl16 b = other);
 
@@ -117,7 +117,7 @@ class LongImpl16 satisfies Long {
     shared actual Long plusInteger(Integer integer)
         =>  this + OfInteger(integer);
 
-    shared actual Long minus(Long other) {
+    shared actual LongImpl16 minus(Long other) {
         value a = this;
         assert(is LongImpl16 b = other);
 
@@ -447,14 +447,14 @@ class LongImpl16 satisfies Long {
         }
     }
 
-    shared actual Long not
+    shared actual LongImpl16 not
         =>  OfWords(
                 w3.not.and(#ffff),
                 w2.not.and(#ffff),
                 w1.not.and(#ffff),
                 w0.not.and(#ffff));
 
-    shared actual Long negated
+    shared actual LongImpl16 negated
         =>  not.plus(package.one);
 
     // same as with Whole - narrow to integer addressable number of bits
@@ -465,6 +465,36 @@ class LongImpl16 satisfies Long {
                   .or(w3.leftLogicalShift(48))
             else
                 w0.or(w1.leftLogicalShift(16));
+
+    shared actual Integer preciseInteger {
+        value result = impreciseInteger;
+        if (! runtime.minIntegerValue <= result <= runtime.maxIntegerValue) {
+            throw OverflowException(
+                "Cannot convert to Integer without loss of precision.");
+        }
+        return result;
+    }
+
+    shared actual Integer impreciseInteger {
+        // special case min int, which can't be negated
+        if (w0 == #8000 && w1 == 0 && w2 == 0 && w3 == 0) {
+            return -9223372036854775808;
+        }
+        value mag = magnitude;
+        variable Integer result;
+        result  = mag.w3;
+        result *= #10000;
+        result += mag.w2;
+        result *= #10000;
+        result += mag.w1;
+        result *= #10000;
+        result += mag.w0;
+        if (negative) {
+            return -result;
+        } else {
+            return result;
+        }
+    }
 
     shared actual Whole whole {
         if (safelyAddressable) {
@@ -487,6 +517,11 @@ class LongImpl16 satisfies Long {
                     .not;
         }
     }
+
+    shared actual LongImpl16 magnitude
+        =>  if (negative)
+            then negated
+            else this;
 
     shared actual Long wholePart
         =>  this;

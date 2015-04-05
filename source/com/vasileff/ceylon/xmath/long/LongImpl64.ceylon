@@ -151,6 +151,12 @@ class LongImpl64 satisfies Long {
         }
     }
 
+    shared actual Integer preciseInteger
+        =>  integer;
+
+    shared actual Integer impreciseInteger
+        =>  integer;
+
     shared actual Integer hash
         => integer.hash;
 
@@ -159,5 +165,4 @@ class LongImpl64 satisfies Long {
 
     shared actual Boolean even
         => integer.even;
-
 }
