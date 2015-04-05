@@ -479,9 +479,9 @@ class LongImpl16 satisfies Long {
                    .leftLogicalShift(16).or(wholeNumber(w0));
         }
         else {
-            return      wholeNumber(w3.not.and(#ffff).leftLogicalShift(48))
-                    .or(wholeNumber(w2.not.and(#ffff).leftLogicalShift(32)))
-                    .or(wholeNumber(w1.not.and(#ffff).leftLogicalShift(16)))
+            return      wholeNumber(w3.not.and(#ffff)).leftLogicalShift(48)
+                    .or(wholeNumber(w2.not.and(#ffff)).leftLogicalShift(32))
+                    .or(wholeNumber(w1.not.and(#ffff)).leftLogicalShift(16))
                     .or(wholeNumber(w0.not.and(#ffff)))
                     .not;
         }
