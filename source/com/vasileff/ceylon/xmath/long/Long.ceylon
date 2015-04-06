@@ -2,7 +2,8 @@ import com.vasileff.ceylon.xmath.whole {
     Whole
 }
 
-shared sealed interface Long
+shared sealed
+interface Long
         satisfies Integral<Long> &
                   Binary<Long> &
                   Exponentiable<Long, Long> {

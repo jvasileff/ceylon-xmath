@@ -8,10 +8,8 @@ import com.vasileff.ceylon.xmath.whole {
     Whole
 }
 
-shared Long longNumberFromWhole(Whole number) {
-    if (realInts) {
-        return LongImpl64.OfInteger(number.integer);
-    } else {
-        return LongImpl16.OfWhole(number);
-    }
-}
+shared
+Long longNumberFromWhole(Whole whole)
+    =>  if (realInts)
+        then LongImpl64.OfInteger(whole.integer)
+        else LongImpl16.OfWhole(whole);

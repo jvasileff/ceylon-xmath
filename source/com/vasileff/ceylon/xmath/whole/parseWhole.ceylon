@@ -6,15 +6,14 @@ Integer maxRadix = 36;
 throws (`class AssertionError`, 
         "if [[radix]] is not between [[minRadix]] and 
          [[maxRadix]]")
-//see (`function formatWhole`,
-//     `function parseFloat`,
-//     `function parseInteger`)
-shared Whole? parseWhole(
-            "The string representation to parse."
-            String string,
-            "The base, between [[minRadix]] and [[maxRadix]] 
-             inclusive."
-            Integer radix = 10) {
+see (`function formatWhole`)
+shared
+Whole? parseWhole(
+        "The string representation to parse."
+        String string,
+        "The base, between [[minRadix]] and [[maxRadix]] 
+         inclusive."
+        Integer radix = 10) {
     
     assert (minRadix <= radix <= maxRadix); 
     value wRadix = wholeNumber(radix);

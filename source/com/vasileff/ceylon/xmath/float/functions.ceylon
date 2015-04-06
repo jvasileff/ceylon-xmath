@@ -37,16 +37,14 @@
 //}
 
 "The given angle (in radians) converted to degrees."
-see(`function toRadians`)
-shared Float toDegrees(Float num) {
-    return num/pi*180;
-}
+shared see(`function toRadians`)
+Float toDegrees(Float num)
+    =>  num/pi*180;
 
 "The given angle (in degrees) converted to radians."
-see(`function toDegrees`)
-shared Float toRadians(Float num) {
-    return num/180*pi;
-}
+shared see(`function toDegrees`)
+Float toRadians(Float num)
+    => num/180*pi;
 
 //"The sine of the given angle specified in radians.
 //
@@ -335,9 +333,8 @@ shared Float toRadians(Float num) {
  * `floor(+infinity)` is `+infinity`,
  * `floor(undefined)` is `undefined`.
  "
-see(`function ceiling`)
-see(`function halfEven`)
-shared Float floor(Float num)
+shared see(`function halfEven`, `function ceiling`)
+Float floor(Float num)
     // TODO review for correctness
     =>  if (num.infinite ||
                 num.undefined ||
@@ -358,9 +355,8 @@ shared Float floor(Float num)
  * `ceiling(+infinity)` is `+infinity`,
  * `ceiling(undefined)` is `undefined`.
  "
-see(`function floor`)
-see(`function halfEven`)
-shared Float ceiling(Float num)
+shared see(`function floor`, `function halfEven`)
+Float ceiling(Float num)
     // TODO review for correctness
     =>  if (num.infinite ||
                 num.undefined ||
@@ -381,9 +377,8 @@ shared Float ceiling(Float num)
  * `halfEven(+infinity)` is `+infinity`
  * `halfEven(undefined)` is `undefined`
  "
-see(`function floor`)
-see(`function ceiling`)
-shared Float halfEven(Float num) {
+shared see(`function floor`, `function ceiling`)
+Float halfEven(Float num) {
     // TODO review for correctness
     if (num.infinite ||
             num.undefined ||
@@ -411,8 +406,8 @@ shared Float halfEven(Float num) {
  * `smallest(+infinity,x) is `x`
  * `smallest(-infinity,x) is `-infinity`
  "
-see(`function largest`)
-shared Float smallest(Float x, Float y)
+shared see(`function largest`)
+Float smallest(Float x, Float y)
     =>  if (x.strictlyNegative && y.strictlyPositive) then
             x
         else if (x.strictlyPositive && y.strictlyNegative) then
@@ -432,8 +427,8 @@ shared Float smallest(Float x, Float y)
  * `largest(+infinity,x) is `+infinity`
  * `largest(-infinity,x) is `x`
  "
-see(`function smallest`)
-shared Float largest(Float x, Float y)
+shared see(`function smallest`)
+Float largest(Float x, Float y)
     =>  if (x.strictlyNegative && y.strictlyPositive) then
             y
         else if (x.strictlyPositive && y.strictlyNegative) then
@@ -447,7 +442,8 @@ shared Float largest(Float x, Float y)
 
 "The sum of the given values, or `0.0` if there are no
  arguments."
-shared Float sum(Float* values) {
+shared
+Float sum(Float* values) {
     variable Float sum=0.0;
     for (x in values) {
         sum+=x;
@@ -457,12 +453,13 @@ shared Float sum(Float* values) {
 
 "The product of the given values, or `1.0` if there are
  no arguments."
-shared Float product(Float* values) {
-    variable Float sum=1.0;
+shared
+Float product(Float* values) {
+    variable Float product=1.0;
     for (x in values) {
-        sum*=x;
+        product*=x;
     }
-    return sum;
+    return product;
 }
 
 //"The value of `x \{#00D7} 2\{#207F}`, calculated exactly

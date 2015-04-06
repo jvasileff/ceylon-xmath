@@ -3,7 +3,8 @@ import com.vasileff.ceylon.xmath.integer {
 }
 
 by("John Vasileff")
-final class MutableWhole extends Object
+final
+class MutableWhole extends Object
         satisfies Integral<MutableWhole> &
                   Exponentiable<MutableWhole, MutableWhole> {
 
@@ -13,7 +14,8 @@ final class MutableWhole extends Object
 
     shared variable Integer wordsSize;
 
-    shared new OfWords(Integer sign, Words words, Integer size = -1)
+    shared
+    new OfWords(Integer sign, Words words, Integer size = -1)
             extends Object() {
         assert (-1 <= sign <= 1);
         this.wordsSize = realSize(words, size);
@@ -21,7 +23,8 @@ final class MutableWhole extends Object
         this.signValue = if (this.wordsSize == 0) then 0 else sign;
     }
 
-    shared new CopyOfWords(Integer sign, Words words, Integer size = -1)
+    shared
+    new CopyOfWords(Integer sign, Words words, Integer size = -1)
             extends Object() {
         assert (-1 <= sign <= 1);
         this.wordsSize = realSize(words, size);
@@ -29,23 +32,28 @@ final class MutableWhole extends Object
         this.signValue = if (this.wordsSize == 0) then 0 else sign;
     }
 
-    shared new CopyOfWhole(Whole whole) extends Object() {
+    shared
+    new CopyOfWhole(Whole whole) extends Object() {
         assert (is WholeImpl whole);
         this.wordsSize = realSize(whole.words, whole.wordsSize);
         this.words = clonew(whole.words);
         this.signValue = whole.sign;
     }
 
-    shared actual MutableWhole plus(MutableWhole other)
+    shared actual
+    MutableWhole plus(MutableWhole other)
         =>  addSigned(this, other, other.sign);
 
-    shared actual MutableWhole minus(MutableWhole other)
+    shared actual
+    MutableWhole minus(MutableWhole other)
         =>  addSigned(this, other, other.sign.negated);
 
-    shared actual MutableWhole plusInteger(Integer integer)
+    shared actual
+    MutableWhole plusInteger(Integer integer)
         =>  plus(mutableWholeNumber(integer));
 
-    shared actual MutableWhole times(MutableWhole other)
+    shared actual
+    MutableWhole times(MutableWhole other)
         =>  if (this.zero || other.zero) then
                 mutableZero()
             else if (this.unit) then
@@ -61,7 +69,8 @@ final class MutableWhole extends Object
                         multiply(this.wordsSize, this.words,
                                  other.wordsSize, other.words));
 
-    shared actual MutableWhole timesInteger(Integer integer)
+    shared actual
+    MutableWhole timesInteger(Integer integer)
         =>  if (zero || integer == 0) then
                 mutableZero()
             else if (0 < integer < wordRadix) then
@@ -69,7 +78,8 @@ final class MutableWhole extends Object
             else
                 times(mutableWholeNumber(integer));
 
-    shared actual MutableWhole divided(MutableWhole other) {
+    shared actual
+    MutableWhole divided(MutableWhole other) {
         if (other.zero) {
             throw Exception("Divide by zero");
         }
@@ -98,7 +108,8 @@ final class MutableWhole extends Object
                  OfWords(sign * other.sign, quotient)));
     }
 
-    shared actual MutableWhole remainder(MutableWhole other) {
+    shared actual
+    MutableWhole remainder(MutableWhole other) {
         if (other.zero) {
             throw Exception("Divide by zero");
         }
@@ -121,10 +132,12 @@ final class MutableWhole extends Object
                  OfWords(sign, remainder)));
     }
 
-    shared MutableWhole leftLogicalShift(Integer shift)
+    shared
+    MutableWhole leftLogicalShift(Integer shift)
         =>  rightArithmeticShift(-shift);
 
-    shared MutableWhole rightArithmeticShift(Integer shift)
+    shared
+    MutableWhole rightArithmeticShift(Integer shift)
         =>  if (shift == 0) then
                 copy()
             else if (shift < 0) then
@@ -134,7 +147,8 @@ final class MutableWhole extends Object
 
     throws(`class Exception`, "If passed a negative exponent")
     throws(`class OverflowException`, "If passed an exponent > runtime.maxIntegerValue")
-    shared actual MutableWhole power(MutableWhole exponent) {
+    shared actual
+    MutableWhole power(MutableWhole exponent) {
         if (this.unit) {
             return copy();
         }
@@ -166,7 +180,8 @@ final class MutableWhole extends Object
 
     throws(`class Exception`, "If passed a negative exponent")
     throws(`class OverflowException`, "If passed an exponent > runtime.maxIntegerValue")
-    shared actual MutableWhole powerOfInteger(Integer exponent) {
+    shared actual
+    MutableWhole powerOfInteger(Integer exponent) {
         if (this.unit) {
             return copy();
         }
@@ -190,10 +205,12 @@ final class MutableWhole extends Object
         }
     }
 
-    shared actual MutableWhole neighbour(Integer offset)
+    shared actual
+    MutableWhole neighbour(Integer offset)
         => plusInteger(offset);
 
-    shared actual Integer offset(MutableWhole other) {
+    shared actual
+    Integer offset(MutableWhole other) {
         value diff = WholeImpl.CopyOfMutableWhole(this - other);
         if (integerMin <= diff <= integerMax) {
             return diff.integer;
@@ -203,10 +220,12 @@ final class MutableWhole extends Object
         }
     }
 
-    shared Integer integer
+    shared
+    Integer integer
         => integerForWords(wordsSize, words, negative);
 
-    shared actual MutableWhole negated
+    shared actual
+    MutableWhole negated
         =>  if (zero) then
                 mutableZero()
             else if (unit) then
@@ -216,31 +235,42 @@ final class MutableWhole extends Object
             else
                 CopyOfWords(sign.negated, words, wordsSize);
 
-    shared MutableWhole copy() => CopyOfWords(sign, words, wordsSize);
+    shared
+    MutableWhole copy() => CopyOfWords(sign, words, wordsSize);
 
-    shared Whole whole => WholeImpl.CopyOfMutableWhole(this);
+    shared
+    Whole whole => WholeImpl.CopyOfMutableWhole(this);
 
-    shared actual MutableWhole wholePart => copy();
+    shared actual
+    MutableWhole wholePart => copy();
 
-    shared actual MutableWhole fractionalPart => mutableZero();
+    shared actual
+    MutableWhole fractionalPart => mutableZero();
 
-    shared actual Boolean positive => sign == 1;
+    shared actual
+    Boolean positive => sign == 1;
 
-    shared actual Boolean negative => sign == -1;
+    shared actual
+    Boolean negative => sign == -1;
 
-    shared actual Boolean zero => sign == 0;
+    shared actual
+    Boolean zero => sign == 0;
 
     Boolean absUnit => wordsSize == 1 && getw(words, 0) == 1;
 
     Boolean negativeOne => negative && absUnit;
 
-    shared actual Boolean unit => positive && absUnit;
+    shared actual
+    Boolean unit => positive && absUnit;
 
-    shared Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
+    shared
+    Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
 
-    shared actual Integer sign => signValue;
+    shared actual
+    Integer sign => signValue;
 
-    shared actual Integer hash {
+    shared actual
+    Integer hash {
         variable Integer result = 0;
         for (i in 0:wordsSize) {
             result = result * 31 + getw(words, i);
@@ -248,10 +278,12 @@ final class MutableWhole extends Object
         return sign * result;
     }
 
-    shared actual String string
+    shared actual
+    String string
         =>  whole.string;
 
-    shared actual Comparison compare(MutableWhole other)
+    shared actual
+    Comparison compare(MutableWhole other)
         =>  if (sign != other.sign) then
                 sign.compare(other.sign)
             else if (zero) then
@@ -263,7 +295,8 @@ final class MutableWhole extends Object
                 compareMagnitude(other.wordsSize, other.words,
                                  this.wordsSize, this.words);
 
-    shared Comparison compareWhole(Whole other) {
+    shared
+    Comparison compareWhole(Whole other) {
         assert (is WholeImpl other);
         return  if (sign != other.sign) then
                 sign.compare(other.sign)
@@ -277,7 +310,8 @@ final class MutableWhole extends Object
                                  this.wordsSize, this.words);
     }
 
-    shared actual Boolean equals(Object that)
+    shared actual
+    Boolean equals(Object that)
         =>  if (is MutableWhole that) then
                 (this.sign == that.sign &&
                  wordsEqual(this.wordsSize, this.words,
@@ -285,11 +319,12 @@ final class MutableWhole extends Object
             else
                 false;
 
-    shared void inPlaceLeftLogicalShift(Integer shift) {
-        inPlaceRightArithmeticShift(-shift);
-    }
+    shared
+    void inPlaceLeftLogicalShift(Integer shift)
+        =>  inPlaceRightArithmeticShift(-shift);
 
-    shared void inPlaceRightArithmeticShift(Integer shift) {
+    shared
+    void inPlaceRightArithmeticShift(Integer shift) {
         if (shift < 0) {
             words = leftShiftInPlace(wordsSize, words, -shift);
             wordsSize = realSize(words, -1);
@@ -303,13 +338,11 @@ final class MutableWhole extends Object
         }
     }
 
-    shared void inPlaceAdd(MutableWhole other) {
-        inPlaceAddSigned(other, other.sign);
-    }
+    shared void inPlaceAdd(MutableWhole other)
+        =>  inPlaceAddSigned(other, other.sign);
 
-    shared void inPlaceSubtract(MutableWhole other) {
-        inPlaceAddSigned(other, other.sign.negated);
-    }
+    shared void inPlaceSubtract(MutableWhole other)
+        =>  inPlaceAddSigned(other, other.sign.negated);
 
     shared void inPlaceDecrement() {
         if (zero) {
@@ -330,7 +363,8 @@ final class MutableWhole extends Object
         }
     }
 
-    shared void inPlaceIncrement() {
+    shared
+    void inPlaceIncrement() {
         if (zero) {
             signValue = 1;
             words = successorInPlace(wordsSize, words);
@@ -349,7 +383,8 @@ final class MutableWhole extends Object
         }
     }
 
-    shared Integer trailingZeroWords {
+    shared
+    Integer trailingZeroWords {
         for (i in 0:wordsSize) {
             if (getw(words, i) != 0) {
                 return i;
@@ -360,7 +395,8 @@ final class MutableWhole extends Object
         }
     }
 
-    shared Integer trailingZeros
+    shared
+    Integer trailingZeros
         =>  if (this.zero)
             then 0
             else (let (zeroWords = trailingZeroWords,
@@ -473,7 +509,8 @@ final class MutableWhole extends Object
         return result;
     }
 
-    shared Boolean safelyAddressable
+    shared
+    Boolean safelyAddressable
         // slightly underestimate for performance
         =>  wordsSize < 2 ||
             (wordsSize == 2 &&

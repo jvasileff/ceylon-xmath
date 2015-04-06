@@ -3,7 +3,8 @@ import com.vasileff.ceylon.xmath.integer {
 }
 
 "The greatest common divisor."
-shared Whole gcd(Whole first, Whole second) {
+shared
+Whole gcd(Whole first, Whole second) {
 
     function gcdInteger(Integer first, Integer second) {
         // assert first & second are within runtime.integerAddressableSize
@@ -48,7 +49,10 @@ shared Whole gcd(Whole first, Whole second) {
         return u.leftLogicalShift(zeroBits);
     }
 
-    function gcdPositive(variable WholeImpl first, variable WholeImpl second) {
+    function gcdPositive(
+            variable WholeImpl first,
+            variable WholeImpl second) {
+
         //assert (first.positive, second.positive);
 
         // Knuth 4.5.2 Algorithm A

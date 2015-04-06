@@ -1,16 +1,17 @@
 "The smaller of the two arguments."
-see(`function largest`)
-shared Integer smallest(Integer x, Integer y)
+shared see(`function largest`)
+Integer smallest(Integer x, Integer y)
     =>  if (x < y) then x else y;
 
 "The larger of the two arguments."
-see(`function smallest`)
-shared Integer largest(Integer x, Integer y)
+shared see(`function smallest`)
+Integer largest(Integer x, Integer y)
     =>  if (x > y) then x else y;
 
 "The sum of the given values, or `0` if there are no
  arguments."
-shared Integer sum(Integer* values) {
+shared
+Integer sum(Integer* values) {
     variable Integer sum=0;
     for (x in values) {
         sum+=x;
@@ -20,10 +21,11 @@ shared Integer sum(Integer* values) {
 
 "The product of the given values, or `1` if there are
  no arguments."
-shared Integer product(Integer* values) {
-    variable Integer sum=1;
+shared
+Integer product(Integer* values) {
+    variable Integer product=1;
     for (x in values) {
-        sum*=x;
+        product*=x;
     }
-    return sum;
+    return product;
 }

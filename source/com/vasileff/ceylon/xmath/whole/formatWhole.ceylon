@@ -1,4 +1,5 @@
-shared String formatWhole(Whole whole, Integer radix = 10) {
+shared
+String formatWhole(Whole whole, Integer radix = 10) {
     assert (minRadix <= radix <= maxRadix);
     assert (is WholeImpl whole);
 

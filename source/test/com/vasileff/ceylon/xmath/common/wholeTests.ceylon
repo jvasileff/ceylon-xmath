@@ -47,7 +47,8 @@ Whole parseWholeOrFail(String str) {
     throw AssertionError("``str`` didn't parse");
 }
 
-test shared void wholeInstantiationEqualityTests() {
+test shared
+void wholeInstantiationEqualityTests() {
     assertTrue(zero == zero, "zero==zero");
     assertTrue(one == one, "one==one");
     assertTrue(zero != one, "zero!=one");
@@ -62,7 +63,8 @@ test shared void wholeInstantiationEqualityTests() {
     assertTrue(wholeNumber(10000) == wholeNumber(10000), "10000==10000");
 }
 
-test shared void wholeFormatTests() {
+test shared
+void wholeFormatTests() {
     assertEquals("0", formatWhole(zero), "formatWhole(0)");
     assertEquals("1", formatWhole(one), "formatWhole(1)");
     assertEquals("-1", formatWhole(-one), "formatWhole(-1)");
@@ -82,7 +84,8 @@ test shared void wholeFormatTests() {
     }
 }
 
-test shared void wholeParseTests() {
+test shared
+void wholeParseTests() {
     assertTrue((parseWhole("-123") else 0)==wholeNumber(-123), "parseWhole(-123)");
 
     assertEquals(wholeNumber(1000), parseWhole("1000"), "parseWhole(1000)");
@@ -229,7 +232,8 @@ test shared void wholePlusTests() {
     test([0,0,0], null);
 }
 
-test shared void wholeMinusTests() {
+test shared
+void wholeMinusTests() {
     value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
 
     test([ 1,  2,  1], null);
@@ -250,12 +254,14 @@ test shared void wholeMinusTests() {
     test([0,0,0], "zeros");
 }
 
-test shared void wholeTimesTests() {
+test shared
+void wholeTimesTests() {
     assertTrue(wholeNumber(4) == wholeNumber(2).times(wholeNumber(2)), "2.times(2)");
     assertTrue(wholeNumber(4) == wholeNumber(2) * wholeNumber(2), "2*2");
 }
 
-test shared void wholeDividedTests() {
+test shared
+void wholeDividedTests() {
     assertTrue(wholeNumber(2) == wholeNumber(4).divided(wholeNumber(2)), "4.divided(2)");
     assertTrue(wholeNumber(2) == wholeNumber(4) / wholeNumber(2), "4/2");
     assertTrue(wholeNumber(1) == wholeNumber(4) / wholeNumber(3), "4/3");
@@ -266,19 +272,22 @@ test shared void wholeDividedTests() {
                  one.leftLogicalShift(32) - one);
 }
 
-test shared void wholeRemainderTests() {
+test shared
+void wholeRemainderTests() {
     assertEquals(wholeNumber(0), wholeNumber(4).remainder(wholeNumber(2)), "4.remainder(2)");
     assertEquals(wholeNumber(0), wholeNumber(4) % wholeNumber(2), "4%2");
     assertEquals(wholeNumber(1), wholeNumber(4) / wholeNumber(3), "4%3");
     assertEquals(wholeNumber(-2), wholeNumber(-5) % wholeNumber(3), "(-5)%3");
 }
 
-test shared void wholeModTests() {
+test shared
+void wholeModTests() {
     assertEquals(wholeNumber(5).mod(wholeNumber(3)), wholeNumber(2), "5.mod(2)");
     assertEquals(wholeNumber(-5).mod(wholeNumber(3)), wholeNumber(1), "(-5).mod(2)");
 }
 
-test shared void wholePowerTests() {
+test shared
+void wholePowerTests() {
     assertEquals(wholeNumber(4), wholeNumber(2).power(wholeNumber(2)), "2.power(2)");
     assertEquals(wholeNumber(4), wholeNumber(2) ^ wholeNumber(2), "2^2");
 
@@ -315,14 +324,16 @@ test shared void wholePowerTests() {
     } catch (Exception e){}
 }
 
-test shared void wholeComparisonTests() {
+test shared
+void wholeComparisonTests() {
     assertTrue(larger == wholeNumber(2).compare(wholeNumber(1)), "2.compare(1)");
     assertTrue(wholeNumber(2) > wholeNumber(1), "2>1");
     assertTrue(smaller == wholeNumber(1).compare(wholeNumber(2)), "1.compare(2)");
     assertTrue(wholeNumber(1) < wholeNumber(2), "1<2");
 }
 
-test shared void wholePredicatesTests() {
+test shared
+void wholePredicatesTests() {
     assertTrue(wholeNumber(2).positive, "2.positive");
     assertTrue(!wholeNumber(-2).positive, "-2.positive");
     assertTrue(!zero.positive, "zero.positive");
@@ -335,7 +346,8 @@ test shared void wholePredicatesTests() {
     assertTrue(!wholeNumber(0).unit, "0.unit");
 }
 
-test shared void wholeHashTests() {
+test shared
+void wholeHashTests() {
     assertEquals(0.hash, wholeNumber(0).hash, "0.hash");
     assertEquals(1.hash, wholeNumber(1).hash, "1.hash");
     assertEquals(2.hash, wholeNumber(2).hash, "2.hash");
@@ -343,7 +355,8 @@ test shared void wholeHashTests() {
     assertEquals((-2).hash, wholeNumber(-2).hash, "-2.hash");
 }
 
-test shared void wholeSuccessorTests() {
+test shared
+void wholeSuccessorTests() {
     assertEquals(wholeNumber(2), wholeNumber(1).successor, "1.successor");
     assertEquals(wholeNumber(0), wholeNumber(1).predecessor, "1.predecessor");
     variable Whole w = wholeNumber(0);
@@ -351,12 +364,14 @@ test shared void wholeSuccessorTests() {
     assertEquals(wholeNumber(0), --w, "--1");
 }
 
-test shared void wholeConversionTests() {
+test shared
+void wholeConversionTests() {
     assertEquals(2, wholeNumber(2).integer, "2.integer");
     assertEquals(2.0, wholeNumber(2).float, "2.float");
 }
 
-test shared void wholeMiscTests() {
+test shared
+void wholeMiscTests() {
     assertEquals(wholeNumber(-2), wholeNumber(2).negated, "2.negated");
     assertEquals(wholeNumber(0), wholeNumber(0).negated, "0.negated");
     assertEquals(wholeNumber(2), wholeNumber(2).magnitude, "2.magnitude");
@@ -408,8 +423,15 @@ Whole toWhole(Integer|String val)
         case (is Integer) wholeNumber(val)
         case (is String) parseWholeOrFail(val);
 
-[Out, Out] mapTuple2<In, Out>(Out(In) collecting)([In, In] tuple)
-    =>  [collecting(tuple[0]), collecting(tuple[1])];
+[Out, Out] mapTuple2<In, Out>
+        (Out(In) collecting)
+        ([In, In] tuple)
+    =>  [collecting(tuple[0]),
+         collecting(tuple[1])];
 
-[Out, Out, Out] mapTuple3<In, Out>(Out(In) collecting)([In, In, In] tuple)
-    =>  [collecting(tuple[0]), collecting(tuple[1]), collecting(tuple[2])];
+[Out, Out, Out] mapTuple3<In, Out>
+        (Out(In) collecting)
+        ([In, In, In] tuple)
+    =>  [collecting(tuple[0]),
+         collecting(tuple[1]),
+         collecting(tuple[2])];

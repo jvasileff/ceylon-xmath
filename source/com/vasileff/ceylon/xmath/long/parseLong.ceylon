@@ -27,9 +27,9 @@ Integer maxRadix = 36;
 throws (`class AssertionError`,
         "if [[radix]] is not between [[minRadix]] and
          [[maxRadix]]")
-//see (`function formatInteger`,
-//     `function parseFloat`)
-shared Long? parseLong(
+see (`function formatLong`)
+shared
+Long? parseLong(
             "The string representation to parse."
             String string,
             "The base, between [[minRadix]] and [[maxRadix]]
@@ -67,9 +67,9 @@ shared Long? parseLong(
         return null;
     }
 
-    Long limit = negative
-            then minLongValue
-            else -maxLongValue;
+    Long limit = if (negative)
+                 then minLongValue
+                 else -maxLongValue;
 
     Integer length = string.size;
     variable Long result = zero;

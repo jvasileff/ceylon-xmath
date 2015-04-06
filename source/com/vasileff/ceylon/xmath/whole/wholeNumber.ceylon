@@ -1,8 +1,9 @@
 "The given [[number]] converted to a [[Whole]]."
 throws (`class OverflowException`,
-    "if the number is greater than [[runtime.maxIntegerValue]]
-     or less than [[runtime.minIntegerValue]]")
-shared Whole wholeNumber(variable Integer number)
+        "if the number is greater than [[runtime.maxIntegerValue]]
+         or less than [[runtime.minIntegerValue]]")
+shared
+Whole wholeNumber(variable Integer number)
     =>   if (number == -1) then negativeOne
     else if (number == 0)  then zero
     else if (number == 1)  then one

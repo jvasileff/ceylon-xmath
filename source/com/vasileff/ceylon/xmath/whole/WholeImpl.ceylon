@@ -5,7 +5,8 @@ import com.vasileff.ceylon.xmath.long.internal {
     longNumberFromWhole
 }
 by("John Vasileff")
-final class WholeImpl satisfies Whole {
+final
+class WholeImpl satisfies Whole {
 
     shared Words words;
 
@@ -21,7 +22,8 @@ final class WholeImpl satisfies Whole {
 
     variable String? stringMemo = null;
 
-    shared new OfWords(Integer sign, Words words, Integer maxSize = -1) {
+    shared
+    new OfWords(Integer sign, Words words, Integer maxSize = -1) {
         // valid sign range
         assert (-1 <= sign <= 1);
 
@@ -41,7 +43,8 @@ final class WholeImpl satisfies Whole {
         }
     }
 
-    shared new CopyOfMutableWhole(MutableWhole mutableWhole) {
+    shared
+    new CopyOfMutableWhole(MutableWhole mutableWhole) {
         this.sign = mutableWhole.sign;
         this.wordsSize = mutableWhole.wordsSize;
         if (this.wordsSize == sizew(mutableWhole.words)) {
@@ -57,7 +60,8 @@ final class WholeImpl satisfies Whole {
     "Create whole from [[words]] in two's complement notation. This constructor
      *does not* always make a defensive copy of [[words]], and is designed for
      internal use only."
-    shared new OfBits(words) {
+    shared
+    new OfBits(words) {
         "words in two's complement"
         variable Words words;
 
@@ -81,7 +85,8 @@ final class WholeImpl satisfies Whole {
         }
     }
 
-    shared actual Boolean get(Integer index)
+    shared actual
+    Boolean get(Integer index)
         =>  if (index < 0 || zero) then
                 false
             else if (index > wordBits * wordsSize) then
@@ -91,7 +96,8 @@ final class WholeImpl satisfies Whole {
                 getBit(wordsSize, words, index,
                        negative then trailingZeroWords);
 
-    shared actual Whole set(Integer index, Boolean bit)
+    shared actual
+    Whole set(Integer index, Boolean bit)
         =>  if (index < 0) then
                 this
             else
@@ -100,7 +106,8 @@ final class WholeImpl satisfies Whole {
                                negative then trailingZeroWords,
                                index, bit));
 
-    shared actual Whole flip(Integer index)
+    shared actual
+    Whole flip(Integer index)
         =>  if (index < 0) then
                 this
             else
@@ -109,16 +116,20 @@ final class WholeImpl satisfies Whole {
                                negative then trailingZeroWords,
                                index));
 
-    shared actual Whole plus(Whole other)
+    shared actual
+    Whole plus(Whole other)
         =>  addSigned(this, other, other.sign);
 
-    shared actual Whole minus(Whole other)
+    shared actual
+    Whole minus(Whole other)
         =>  addSigned(this, other, other.sign.negated);
 
-    shared actual Whole plusInteger(Integer integer)
+    shared actual
+    Whole plusInteger(Integer integer)
         =>  plus(wholeNumber(integer));
 
-    shared actual Whole times(Whole other) {
+    shared actual
+    Whole times(Whole other) {
         assert (is WholeImpl other);
         return if (this.zero || other.zero) then
                 package.zero
@@ -136,7 +147,8 @@ final class WholeImpl satisfies Whole {
                                  other.wordsSize, other.words));
     }
 
-    shared actual Whole timesInteger(Integer integer)
+    shared actual
+    Whole timesInteger(Integer integer)
         =>  if (zero || integer == 0) then
                 package.zero
             else if (0 < integer < wordRadix) then
@@ -144,7 +156,8 @@ final class WholeImpl satisfies Whole {
             else
                 times(wholeNumber(integer));
 
-    shared actual [Whole, Whole] quotientAndRemainder(Whole other) {
+    shared actual
+    [Whole, Whole] quotientAndRemainder(Whole other) {
         assert(is WholeImpl other);
         if (other.zero) {
             throw Exception("Divide by zero");
@@ -175,7 +188,8 @@ final class WholeImpl satisfies Whole {
                   OfWords(sign, remainder)]));
     }
 
-    shared actual Whole divided(Whole other) {
+    shared actual
+    Whole divided(Whole other) {
         assert(is WholeImpl other);
         if (other.zero) {
             throw Exception("Divide by zero");
@@ -205,7 +219,8 @@ final class WholeImpl satisfies Whole {
                  OfWords(sign * other.sign, quotient)));
     }
 
-    shared actual Whole remainder(Whole other) {
+    shared actual
+    Whole remainder(Whole other) {
         assert(is WholeImpl other);
         if (other.zero) {
             throw Exception("Divide by zero");
@@ -231,27 +246,35 @@ final class WholeImpl satisfies Whole {
                  OfWords(sign, remainder)));
     }
 
-    shared actual Whole leftLogicalShift(Integer shift)
+    shared actual
+    Whole leftLogicalShift(Integer shift)
         =>  rightArithmeticShift(-shift);
 
-    shared actual Whole rightArithmeticShift(Integer shift)
+    shared actual
+    Whole rightArithmeticShift(Integer shift)
         =>  if (shift == 0) then
                 this
             else if (shift < 0) then
-                WholeImpl.OfWords(sign, leftShift(wordsSize, words, -shift))
+                WholeImpl.OfWords(sign,
+                    leftShift(wordsSize, words, -shift))
             else
-                WholeImpl.OfWords(sign, rightShift(negative, wordsSize, words, shift));
+                WholeImpl.OfWords(sign,
+                    rightShift(negative, wordsSize, words, shift));
 
-    shared actual Whole and(Whole other)
+    shared actual
+    Whole and(Whole other)
         =>  logicOperation(this, other, Integer.and);
 
-    shared actual Whole or(Whole other)
+    shared actual
+    Whole or(Whole other)
         =>  logicOperation(this, other, Integer.or);
 
-    shared actual Whole xor(Whole other)
+    shared actual
+    Whole xor(Whole other)
         =>  logicOperation(this, other, Integer.xor);
 
-    shared actual Whole power(Whole exponent) {
+    shared actual
+    Whole power(Whole exponent) {
         assert (is WholeImpl exponent);
         if (this.unit) {
             return this;
@@ -282,7 +305,8 @@ final class WholeImpl satisfies Whole {
         }
     }
 
-    shared actual Whole powerOfInteger(Integer exponent) {
+    shared actual
+    Whole powerOfInteger(Integer exponent) {
         if (this.unit) {
             return this;
         }
@@ -306,7 +330,8 @@ final class WholeImpl satisfies Whole {
         }
     }
 
-    shared actual Whole mod(Whole modulus) {
+    shared actual
+    Whole mod(Whole modulus) {
         if (!modulus.positive) {
             throw AssertionError("modulus must be positive");
         }
@@ -316,8 +341,8 @@ final class WholeImpl satisfies Whole {
                else result;
     }
 
-    shared actual Whole modPower(Whole exponent,
-                                 Whole modulus) {
+    shared actual
+    Whole modPower(Whole exponent, Whole modulus) {
         if (!modulus.positive) {
             throw Exception("Modulus must be positive.");
         }
@@ -344,7 +369,8 @@ final class WholeImpl satisfies Whole {
         return modPowerPositive(base, exponent.magnitude, modulus);
     }
 
-    shared actual Whole modInverse(Whole modulus) {
+    shared actual
+    Whole modInverse(Whole modulus) {
         if (!modulus.positive) {
             throw Exception("Modulus must be positive.");
         }
@@ -362,13 +388,15 @@ final class WholeImpl satisfies Whole {
                else inverse;
     }
 
-    shared actual Whole neighbour(Integer offset)
+    shared actual
+    Whole neighbour(Integer offset)
         => plusInteger(offset);
 
     "The distance between this whole and the other whole"
     throws(`class OverflowException`,
         "The numbers differ by an amount larger than can be represented as an `Integer`")
-    shared actual Integer offset(Whole other) {
+    shared actual
+    Integer offset(Whole other) {
         value diff = this - other;
         if (integerMin <= diff <= integerMax) {
             assert (is WholeImpl diff);
@@ -385,14 +413,17 @@ final class WholeImpl satisfies Whole {
     // JavaScript _almost_ supports 53 bits (1 negative number short),
     // but even so, 53 bits is not a convenient chunk to work with, and
     // is greater than the 32 bits supported for bitwise operations.
-    shared actual Integer integer
+    shared actual
+    Integer integer
         =>  integerMemo else (integerMemo =
                 integerForWords(wordsSize, words, negative));
 
-    shared actual Long long
+    shared actual
+    Long long
         =>  longNumberFromWhole(this);
 
-    shared actual Float float {
+    shared actual
+    Float float {
         if (zero) {
             return 0.0;
         }
@@ -410,7 +441,8 @@ final class WholeImpl satisfies Whole {
         }
     }
 
-    shared actual Whole not
+    shared actual
+    Whole not
         =>  if (zero) then
                 package.negativeOne
             else if (negativeOne) then
@@ -422,7 +454,8 @@ final class WholeImpl satisfies Whole {
                 // subtract one, flip sign
                 OfWords(1, package.predecessor(wordsSize, words));
 
-    shared actual Whole negated
+    shared actual
+    Whole negated
         =>  if (zero) then
                 package.zero
             else if (this.unit) then
@@ -431,25 +464,33 @@ final class WholeImpl satisfies Whole {
                 package.one
             else OfWords(sign.negated, words, wordsSize);
 
-    shared actual Whole wholePart => this;
+    shared actual
+    Whole wholePart => this;
 
-    shared actual Whole fractionalPart => package.zero;
+    shared actual
+    Whole fractionalPart => package.zero;
 
-    shared actual Boolean positive => sign == 1;
+    shared actual
+    Boolean positive => sign == 1;
 
-    shared actual Boolean negative => sign == -1;
+    shared actual
+    Boolean negative => sign == -1;
 
-    shared actual Boolean zero => sign == 0;
+    shared actual
+    Boolean zero => sign == 0;
 
     Boolean absUnit => wordsSize == 1 && getw(words, 0) == 1;
 
     Boolean negativeOne => negative && absUnit;
 
-    shared actual Boolean unit => positive && absUnit;
+    shared actual
+    Boolean unit => positive && absUnit;
 
-    shared actual Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
+    shared actual
+    Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
 
-    shared actual Integer hash {
+    shared actual
+    Integer hash {
         variable Integer result = 0;
         for (i in 0:wordsSize) {
             result = result * 31 + getw(words, i);
@@ -457,12 +498,14 @@ final class WholeImpl satisfies Whole {
         return sign * result;
     }
 
-    shared actual String string
+    shared actual
+    String string
         =>  if (exists memo = stringMemo)
             then memo
             else (stringMemo = formatWhole(this));
 
-    shared actual Comparison compare(Whole other) {
+    shared actual
+    Comparison compare(Whole other) {
         assert (is WholeImpl other);
         return if (sign != other.sign) then
                 sign.compare(other.sign)
@@ -476,7 +519,8 @@ final class WholeImpl satisfies Whole {
                                  this.wordsSize, this.words);
     }
 
-    shared actual Boolean equals(Object that)
+    shared actual
+    Boolean equals(Object that)
         =>  if (is WholeImpl that) then
                 (this.sign == that.sign &&
                  wordsEqual(this.wordsSize, this.words,
@@ -626,7 +670,8 @@ final class WholeImpl satisfies Whole {
                else u1;
     }
 
-    shared Boolean safelyAddressable
+    shared
+    Boolean safelyAddressable
         // slightly underestimate for performance
         =>  wordsSize < 2 ||
             (wordsSize == 2 &&

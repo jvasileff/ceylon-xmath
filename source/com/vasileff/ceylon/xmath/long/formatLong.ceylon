@@ -10,12 +10,14 @@ throws (`class AssertionError`,
         "if [[radix]] is not between [[minRadix]] and
          [[maxRadix]]")
 see (`function parseLong`)
-shared String formatLong(
-            "The Long value to format."
-            Long long,
-            "The base, between [[minRadix]] and [[maxRadix]]
-             inclusive."
-            Integer radix = 10) {
+shared
+String formatLong(
+        "The Long value to format."
+        Long long,
+        "The base, between [[minRadix]] and [[maxRadix]]
+         inclusive."
+        Integer radix = 10) {
+
     if (is LongImpl64 long) {
         return formatInteger(long.integer, radix);
     }
