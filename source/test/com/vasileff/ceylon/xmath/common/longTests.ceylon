@@ -23,6 +23,24 @@ void longTests() {
 }
 
 test
+void preciseIntegerPowersOfTwo() {
+    // even power's of two
+    for (p in 0..52) {
+        assertEquals(two.powerOfInteger(p).preciseInteger, 2^p);
+    }
+
+    // even power's of two - 1
+    for (p in 0..53) {
+        assertEquals(two.powerOfInteger(p).plusInteger(-1).preciseInteger, 2^p - 1);
+    }
+
+    // even power's of two + 1
+    for (p in 0..52) {
+        assertEquals(two.powerOfInteger(p).plusInteger(1).preciseInteger, 2^p + 1);
+    }
+}
+
+test
 void longPower() {
     // even power's of two
     assertEquals(two.powerOfInteger(0).string, "1");

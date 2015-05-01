@@ -17,9 +17,16 @@ Long integerMin = longNumber(runtime.minIntegerValue);
 
 shared
 class LongImpl16 satisfies Long {
+    "bits 48-63"
     shared Integer w3;
+
+    "bits 32-47"
     shared Integer w2;
+
+    "bits 16-31"
     shared Integer w1;
+
+    "bits 0-15"
     shared Integer w0;
 
     shared
@@ -517,7 +524,7 @@ class LongImpl16 satisfies Long {
     shared actual
     Integer impreciseInteger {
         // special case min int, which can't be negated
-        if (w0 == #8000 && w1 == 0 && w2 == 0 && w3 == 0) {
+        if (w3 == #8000 && w2 == 0 && w1 == 0 && w0 == 0) {
             return -9223372036854775808;
         }
         value mag = magnitude;
