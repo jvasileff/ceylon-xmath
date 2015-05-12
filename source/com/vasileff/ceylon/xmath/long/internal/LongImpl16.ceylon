@@ -56,7 +56,10 @@ class LongImpl16 satisfies Long {
     shared
     new OfInteger(variable Integer integer) {
         if (! runtime.minIntegerValue <= integer <= runtime.maxIntegerValue) {
-            throw OverflowException();
+            // FIXME throwing exceptions in constructors not supported ATM
+            // https://github.com/ceylon/ceylon-spec/issues/1288
+            //throw OverflowException();
+            assert(false);
         }
         else if (integer.zero) {
             this.w3 = 0;
