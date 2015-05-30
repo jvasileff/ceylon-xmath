@@ -153,7 +153,7 @@ Float tan(Float num) {
  * `sin(+infinity)` is `+infinity`,
  * `sin(undefined)` is `undefined`.
  "
-shared native
+shared native // TODO tests
 Float sinh(Float num);
 
 shared native("jvm")
@@ -434,15 +434,25 @@ Float hypot(Float x, Float y)
     =>  JVMMath.hypot(x, y);
 
 shared native("js")
-Float hypot(Float x, Float y)
-    =>  if (x.infinite || y.infinite) then
-            infinity
-        else if (x.undefined || y.undefined) then
-            undefined
-        else
-            // FIXME another example of dynamic interface type problems
-            //Math.sqrt(x^2 + y^2);
-            (x^2 + y^2) ^ (0.5);
+Float hypot(Float x, Float y) {
+    if (x.infinite || y.infinite) {
+        return infinity;
+    }
+    else if (x.undefined || y.undefined) {
+        return undefined;
+    }
+    else {
+        dynamic {
+            // Really help out the js compiler
+            // https://github.com/ceylon/ceylon-js/issues/576
+            Float x2 = Math.pow(x, 2);
+            Float y2 = Math.pow(y, 2);
+            Float x2y2 = x2 + y2;
+            Float result = Math.sqrt(x2y2);
+            return result;
+        }
+    }
+}
 
 "The positive square root of the given number. This
  method may be faster and/or more accurate than
