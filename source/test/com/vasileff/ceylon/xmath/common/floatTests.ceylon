@@ -403,6 +403,7 @@ test void testAtan2() {
         actual=atan2(1.0, -infinity);
         compare=exact;
     };
+    // FIXME this one fails
     assertEquals{
         expected=-pi;
         actual=atan2(-0.0, -1.0);
