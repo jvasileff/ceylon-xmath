@@ -147,31 +147,31 @@ test void testSin() {
     //    actual=sin(-0.0);
     //    compare=exact;
     //};
-    //assertEquals{
-    //    expected=0.0;
-    //    actual=sin(0.0);
-    //    compare=exact;
-    //};
-    //assertEquals{
-    //    expected=1.0;
-    //    actual=sin(pi/2);
-    //    compare=approx;
-    //};
-    //assertEquals{
-    //    expected=0.0;
-    //    actual=sin(pi);
-    //    compare=approx;
-    //};
-    //assertEquals{
-    //    expected=-1.0;
-    //    actual=sin(pi*1.5);
-    //    compare=approx;
-    //};
-    //assertEquals{
-    //    expected=0.0;
-    //    actual=sin(2*pi);
-    //    compare=approx;
-    //};
+    assertEquals{
+        expected=0.0;
+        actual=sin(0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=sin(pi/2);
+        compare=approx;
+    };
+    assertEquals{
+        expected=0.0;
+        actual=sin(pi);
+        compare=approx;
+    };
+    assertEquals{
+        expected=-1.0;
+        actual=sin(pi*1.5);
+        compare=approx;
+    };
+    assertEquals{
+        expected=0.0;
+        actual=sin(2*pi);
+        compare=approx;
+    };
     assertEquals{
         expected=undefined;
         actual=sin(+infinity);
@@ -190,31 +190,31 @@ test void testCos() {
         actual=cos(-infinity);
         compare=exact;
     };
-    //assertEquals{
-    //    expected=1.0;
-    //    actual=cos(0.0);
-    //    compare=approx;
-    //};
+    assertEquals{
+        expected=1.0;
+        actual=cos(0.0);
+        compare=approx;
+    };
     assertEquals{
         expected=0.0;
         actual=cos(pi/2);
         compare=approx;
     };
-    //assertEquals{
-    //    expected=-1.0;
-    //    actual=cos(pi);
-    //    compare=approx;
-    //};
+    assertEquals{
+        expected=-1.0;
+        actual=cos(pi);
+        compare=approx;
+    };
     assertEquals{
         expected=0.0;
         actual=cos(pi*1.5);
         compare=approx;
     };
-    //assertEquals{
-    //    expected=1.0;
-    //    actual=cos(2*pi);
-    //    compare=approx;
-    //};
+    assertEquals{
+        expected=1.0;
+        actual=cos(2*pi);
+        compare=approx;
+    };
     assertEquals{
         expected=undefined;
         actual=cos(+infinity);
@@ -238,11 +238,11 @@ test void testTan() {
     //    actual=tan(-0.0);
     //    compare=exact;
     //};
-    //assertEquals{
-    //    expected=0.0;
-    //    actual=tan(0.0);
-    //    compare=exact;
-    //};
+    assertEquals{
+        expected=0.0;
+        actual=tan(0.0);
+        compare=exact;
+    };
     assertEquals{
         expected=1.0;
         actual=tan(pi/4);
@@ -286,11 +286,11 @@ test void testAsin() {
     //    actual=asin(-0.0);
     //    compare=exact;
     //};
-    //assertEquals{
-    //    expected=+0.0;
-    //    actual=asin(+0.0);
-    //    compare=exact;
-    //};
+    assertEquals{
+        expected=+0.0;
+        actual=asin(+0.0);
+        compare=exact;
+    };
     assertEquals{
         expected=undefined;
         actual=asin(2.0);
@@ -347,11 +347,11 @@ test void testAtan() {
     //    actual=atan(-0.0);
     //    compare=exact;
     //};
-    //assertEquals{
-    //    expected=+0.0;
-    //    actual=atan(+0.0);
-    //    compare=exact;
-    //};
+    assertEquals{
+        expected=+0.0;
+        actual=atan(+0.0);
+        compare=exact;
+    };
     assertEquals{
         expected=undefined;
         actual=atan(undefined);
@@ -371,16 +371,16 @@ test void testAtan2() {
         compare=exact;
     };
 
-    //assertEquals{
-    //    expected=+0.0;
-    //    actual=atan2(+0.0, 1.0);
-    //    compare=exact;
-    //};
-    //assertEquals{
-    //    expected=+0.0;
-    //    actual=atan2(1.0, +infinity);
-    //    compare=exact;
-    //};
+    assertEquals{
+        expected=+0.0;
+        actual=atan2(+0.0, 1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=+0.0;
+        actual=atan2(1.0, +infinity);
+        compare=exact;
+    };
 
     //assertEquals{
     //    expected=-0.0;
@@ -403,11 +403,11 @@ test void testAtan2() {
         actual=atan2(1.0, -infinity);
         compare=exact;
     };
-    //assertEquals{
-    //    expected=-pi;
-    //    actual=atan2(-0.0, -1.0);
-    //    compare=exact;
-    //};
+    assertEquals{
+        expected=-pi;
+        actual=atan2(-0.0, -1.0);
+        compare=exact;
+    };
     assertEquals{
         expected=-pi;
         actual=atan2(-1.0, -infinity);
@@ -544,26 +544,26 @@ test void testSqrt() {
     //    actual=sqrt(-0.0);
     //    compare=exact;
     //};
-    //assertEquals{
-    //    expected=+0.0;
-    //    actual=sqrt(+0.0);
-    //    compare=exact;
-    //};
-    //assertEquals{
-    //    expected=1.0;
-    //    actual=sqrt(1.0);
-    //    compare=exact;
-    //};
-    //assertEquals{
-    //    expected=2.0;
-    //    actual=sqrt(4.0);
-    //    compare=approx;
-    //};
-    //assertEquals{
-    //    expected=infinity;
-    //    actual=sqrt(infinity);
-    //    compare=exact;
-    //};
+    assertEquals{
+        expected=+0.0;
+        actual=sqrt(+0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=sqrt(1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=2.0;
+        actual=sqrt(4.0);
+        compare=approx;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=sqrt(infinity);
+        compare=exact;
+    };
     assertEquals{
         expected=undefined;
         actual=sqrt(undefined);

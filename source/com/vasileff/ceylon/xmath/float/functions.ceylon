@@ -16,10 +16,6 @@ shared native("jvm")
 Float exp(Float num)
     =>  JVMMath.exp(num);
 
-// FIXME dynamic works, but dynamic interface truncates to Integer
-//shared native("js")
-//Float exp(Float num)
-//    =>  jsMath.exp(num);
 shared native("js")
 Float exp(Float num) {
     dynamic {
@@ -43,10 +39,6 @@ shared native("jvm")
 Float log(Float num)
     =>  JVMMath.log(num);
 
-// FIXME another dynamic example
-//shared native("js")
-//Float log(Float num)
-//    =>  jsMath.log(num);
 shared native("js")
 Float log(Float num) {
     dynamic {
@@ -70,8 +62,13 @@ Float log10(Float num)
     =>  JVMMath.log10(num);
 
 shared native("js")
-Float log10(Float num)
-    =>  jsMath.log(num) / jsMath.\iLN10;
+Float log10(Float num) {
+    dynamic {
+        Float n = Math.log(num);
+        Float d = Math.\iLN10;
+        return n / d;
+    }
+}
 
 "The given angle (in radians) converted to degrees."
 shared see(`function toRadians`)
@@ -99,8 +96,11 @@ Float sin(Float num)
     =>  JVMMath.sin(num);
 
 shared native("js")
-Float sin(Float num)
-    =>  jsMath.sin(num);
+Float sin(Float num) {
+    dynamic {
+        return \iMath.sin(num);
+    }
+}
 
 "The cosine of the given angle specified in radians.
 
@@ -111,13 +111,16 @@ Float sin(Float num)
 shared native
 Float cos(Float num);
 
-shared native("js")
-Float cos(Float num)
-    =>  jsMath.cos(num);
-
 shared native("jvm")
 Float cos(Float num)
     =>  JVMMath.cos(num);
+
+shared native("js")
+Float cos(Float num) {
+    dynamic {
+        return Math.cos(num);
+    }
+}
 
 "The tangent of the given angle specified in radians.
 
@@ -130,13 +133,16 @@ Float cos(Float num)
 shared native
 Float tan(Float num);
 
-shared native("js")
-Float tan(Float num)
-    =>  jsMath.tan(num);
-
 shared native("jvm")
 Float tan(Float num)
     =>  JVMMath.tan(num);
+
+shared native("js")
+Float tan(Float num) {
+    dynamic {
+        return Math.tan(num);
+    }
+}
 
 "The hyperbolic sine of the given angle specified in
  radians.
@@ -155,10 +161,13 @@ Float sinh(Float num)
     =>  JVMMath.sinh(num);
 
 shared native("js")
-Float sinh(Float num) // TODO tests
-    =>  let (Float pos = jsMath.exp(num),
-             Float neg = jsMath.exp(-num))
-        (pos - neg) / 2;
+Float sinh(Float num) {
+    dynamic {
+        Float pos = Math.exp(num);
+        Float neg = Math.exp(-num);
+        return (pos - neg) / 2;
+    }
+}
 
 "The hyperbolic cosine of the given angle specified in
  radians.
@@ -168,7 +177,7 @@ Float sinh(Float num) // TODO tests
  * `cosh(+infinity)` is `+infinity`,
  * `cosh(undefined)` is `undefined`.
  "
-shared native
+shared native // TODO tests
 Float cosh(Float num);
 
 shared native("jvm")
@@ -176,10 +185,13 @@ Float cosh(Float num)
     =>  JVMMath.cosh(num);
 
 shared native("js")
-Float cosh(Float num) // TODO tests
-    =>  let (Float pos = jsMath.exp(num),
-             Float neg = jsMath.exp(-num))
-        (pos + neg) / 2;
+Float cosh(Float num) {
+    dynamic {
+        Float pos = Math.exp(num);
+        Float neg = Math.exp(-num);
+        return (pos + neg) / 2;
+    }
+}
 
 "The hyperbolic tangent of the given angle specified in
  radians.
@@ -190,7 +202,7 @@ Float cosh(Float num) // TODO tests
  * `tanh(+0)` is `+0`,
  * `tanh(undefined)` is `undefined`.
  "
-shared native
+shared native // TODO tests
 Float tanh(Float num);
 
 shared native("jvm")
@@ -198,10 +210,13 @@ Float tanh(Float num)
     =>  JVMMath.tanh(num);
 
 shared native("js")
-Float tanh(Float num) // TODO tests
-    =>  let (Float pos = jsMath.exp(num),
-             Float neg = jsMath.exp(-num))
-        (pos - neg) / (pos + neg);
+Float tanh(Float num) {
+    dynamic {
+        Float pos = Math.exp(num);
+        Float neg = Math.exp(-num);
+        return (pos - neg) / (pos + neg);
+    }
+}
 
 "The arc sine of the given number.
 
@@ -214,13 +229,16 @@ Float tanh(Float num) // TODO tests
 shared native
 Float asin(Float num);
 
-shared native("js")
-Float asin(Float num)
-    =>  jsMath.asin(num);
-
 shared native("jvm")
 Float asin(Float num)
     =>  JVMMath.asin(num);
+
+shared native("js")
+Float asin(Float num) {
+    dynamic {
+        return Math.asin(num);
+    }
+}
 
 "The arc cosine of the given number.
 
@@ -231,13 +249,16 @@ Float asin(Float num)
 shared native
 Float acos(Float num);
 
-shared native("js")
-Float acos(Float num)
-    =>  jsMath.acos(num);
-
 shared native("jvm")
 Float acos(Float num)
     =>  JVMMath.acos(num);
+
+shared native("js")
+Float acos(Float num) {
+    dynamic {
+        return Math.acos(num);
+    }
+}
 
 "The arc tangent of the given number.
 
@@ -248,13 +269,16 @@ Float acos(Float num)
 shared native
 Float atan(Float num);
 
-shared native("js")
-Float atan(Float num)
-    =>  jsMath.atan(num);
-
 shared native("jvm")
 Float atan(Float num)
     =>  JVMMath.atan(num);
+
+shared native("js")
+Float atan(Float num) {
+    dynamic {
+        return Math.atan(num);
+    }
+}
 
 "The angle from converting rectangular coordinates
  `x` and `y` to polar coordinates.
@@ -386,8 +410,11 @@ Float atan2(Float y, Float x)
     =>  JVMMath.atan2(y, x);
 
 shared native("js")
-Float atan2(Float y, Float x)
-    =>  jsMath.atan2(y, x);
+Float atan2(Float y, Float x) {
+    dynamic {
+        return Math.atan2(y, x);
+    }
+}
 
 "Returns the length of the hypotenuse of a right angle
  triangle with other sides having lengths `x` and `y`.
@@ -414,7 +441,7 @@ Float hypot(Float x, Float y)
             undefined
         else
             // FIXME another example of dynamic interface type problems
-            //jsMath.sqrt(x^2 + y^2);
+            //Math.sqrt(x^2 + y^2);
             (x^2 + y^2) ^ (0.5);
 
 "The positive square root of the given number. This
@@ -435,8 +462,11 @@ Float sqrt(Float num)
     =>  JVMMath.sqrt(num);
 
 shared native("js")
-Float sqrt(Float num)
-    =>  jsMath.sqrt(num);
+Float sqrt(Float num) {
+    dynamic {
+        return Math.sqrt(num);
+    }
+}
 
 "The cube root of the given number. This method may be
  faster and/or more accurate than `num^(1.0/3.0)`.
@@ -474,8 +504,11 @@ Float random()
     =>  JVMMath.random();
 
 shared native("js")
-Float random()
-    =>  jsMath.random();
+Float random() {
+    dynamic {
+        return Math.random();
+    }
+}
 
 "The largest value that is less than or equal to the
  argument and equal to an integer.
