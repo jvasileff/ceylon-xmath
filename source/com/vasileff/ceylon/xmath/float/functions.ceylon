@@ -1,40 +1,63 @@
-// TODO see http://en.wikipedia.org/wiki/CORDIC for trig impls
+import java.lang {
+    JVMMath=Math
+}
 
-//"\{#0001D452} raised to the power of the argument.
-//
-// * `exp(-infinity)` is `+0`,
-// * `exp(+infinity)` is `+infinity`,
-// * `exp(undefined)` is `undefined`.
-// "
-//see (`function expm1`)
-//shared Float exp(Float num) {
-//    return Math.exp(num);
-//}
-//
-//"The natural logarithm (base \{#0001D452}) of the
-// argument.
-//
-// * `log(x)` for any x < 0 is `undefined`,
-// * `log(+0)` and `log(-0)` is `-infinity`,
-// * `log(+infinity)` is `+infinity`,
-// * `log(undefined)` is `undefined`.
-// "
-//see(`function log10`, `function log1p`)
-//shared Float log(Float num) {
-//    return Math.log(num);
-//}
-//
-//"The base 10 logarithm of the argument.
-//
-// * `log10(x)` for any x < 0 is `undefined`,
-// * `log10(-0)` and `log10(+0)` is `-infinity`,
-// * `log10(+infinity)` is `+infinity`,
-// * `log10(undefined)` is `undefined`.
-// "
-//see(`function log`)
-//shared Float log10(Float num) {
-//    return Math.log10(num);
-//}
+"\{#0001D452} raised to the power of the argument.
+
+ * `exp(-infinity)` is `+0`,
+ * `exp(+infinity)` is `+infinity`,
+ * `exp(undefined)` is `undefined`.
+ "
+//see (`function expm1`) // FIXME
+shared native
+Float exp(Float num);
+
+shared native("jvm")
+Float exp(Float num)
+    =>  JVMMath.exp(num);
+
+shared native("js")
+Float exp(Float num)
+    =>  jsMath.exp(num);
+
+"The natural logarithm (base \{#0001D452}) of the
+ argument.
+
+ * `log(x)` for any x < 0 is `undefined`,
+ * `log(+0)` and `log(-0)` is `-infinity`,
+ * `log(+infinity)` is `+infinity`,
+ * `log(undefined)` is `undefined`.
+ "
+//see(`function log10`, `function log1p`) // FIXME
+shared native
+Float log(Float num);
+
+shared native("jvm")
+Float log(Float num)
+    =>  JVMMath.log(num);
+
+shared native("js")
+Float log(Float num)
+    =>  jsMath.log(num);
+
+"The base 10 logarithm of the argument.
+
+ * `log10(x)` for any x < 0 is `undefined`,
+ * `log10(-0)` and `log10(+0)` is `-infinity`,
+ * `log10(+infinity)` is `+infinity`,
+ * `log10(undefined)` is `undefined`.
+ "
+see(`function log`)
+shared native
+Float log10(Float num);
+
+shared native("jvm")
+Float log10(Float num)
+    =>  JVMMath.log10(num);
+
+shared native("js")
+Float log10(Float num)
+    =>  jsMath.log(num) / jsMath.\iLN10;
 
 "The given angle (in radians) converted to degrees."
 shared see(`function toRadians`)
@@ -46,40 +69,61 @@ shared see(`function toDegrees`)
 Float toRadians(Float num)
     => num/180*pi;
 
-//"The sine of the given angle specified in radians.
-//
-// * `sin(-0)` is `-0`,
-// * `sin(+0)` is `+0`,
-// * `sin(-infinity)` is `undefined`,
-// * `sin(+infinity)` is `undefined`,
-// * `sin(undefined)` is `undefined`.
-// "
-//shared Float sin(Float num) {
-//    return Math.sin(num);
-//}
-//
-//"The cosine of the given angle specified in radians.
-//
-// * `cos(-infinity)` is `undefined`,
-// * `cos(+infinity)` is `undefined`,
-// * `cos(undefined)` is `undefined`.
-// "
-//shared Float cos(Float num) {
-//    return Math.cos(num);
-//}
-//
-//"The tangent of the given angle specified in radians.
-//
-// * `tan(-infinity)` is `undefined`,
-// * `tan(-0)` is `-0`,
-// * `tan(+0)` is `+0`,
-// * `tan(+infinity)` is `undefined`,
-// * `tan(undefined)` is `undefined`.
-// "
-//shared Float tan(Float num) {
-//    return Math.tan(num);
-//}
-//
+"The sine of the given angle specified in radians.
+
+ * `sin(-0)` is `-0`,
+ * `sin(+0)` is `+0`,
+ * `sin(-infinity)` is `undefined`,
+ * `sin(+infinity)` is `undefined`,
+ * `sin(undefined)` is `undefined`.
+ "
+shared native
+Float sin(Float num);
+
+shared native("js")
+Float sin(Float num)
+    =>  jsMath.sin(num);
+
+shared native("jvm")
+Float sin(Float num)
+    =>  JVMMath.sin(num);
+
+"The cosine of the given angle specified in radians.
+
+ * `cos(-infinity)` is `undefined`,
+ * `cos(+infinity)` is `undefined`,
+ * `cos(undefined)` is `undefined`.
+ "
+shared native
+Float cos(Float num);
+
+shared native("js")
+Float cos(Float num)
+    =>  jsMath.cos(num);
+
+shared native("jvm")
+Float cos(Float num)
+    =>  JVMMath.cos(num);
+
+"The tangent of the given angle specified in radians.
+
+ * `tan(-infinity)` is `undefined`,
+ * `tan(-0)` is `-0`,
+ * `tan(+0)` is `+0`,
+ * `tan(+infinity)` is `undefined`,
+ * `tan(undefined)` is `undefined`.
+ "
+shared native
+Float tan(Float num);
+
+shared native("js")
+Float tan(Float num)
+    =>  jsMath.tan(num);
+
+shared native("jvm")
+Float tan(Float num)
+    =>  JVMMath.tan(num);
+
 //"The hyperbolic sine of the given angle specified in
 // radians.
 //
@@ -104,52 +148,82 @@ Float toRadians(Float num)
 //shared Float cosh(Float num) {
 //    return Math.cosh(num);
 //}
-//
-//"The hyperbolic tangent of the given angle specified in
-// radians.
-//
-// * `tanh(+infinity)` is `+1`,
-// * `tanh(-infinity)` is `-1`,
-// * `tanh(-0)` is `-0`,
-// * `tanh(+0)` is `+0`,
-// * `tanh(undefined)` is `undefined`.
-// "
-//shared Float tanh(Float num) {
-//    return Math.tanh(num);
-//}
-//
-//"The arc sine of the given number.
-//
-// * `asin(x)` for any x < -1 is `undefined`,
-// * `asin(-0)` is `-0`,
-// * `asin(+0)` is `+0`,
-// * `asin(x)` for any x > 1 is `undefined`,
-// * `asin(undefined) is `undefined`.
-// "
-//shared Float asin(Float num) {
-//    return Math.asin(num);
-//}
-//
-//"The arc cosine of the given number.
-//
-// * `acos(x)` for any x < -1 is `undefined`,
-// * `acos(x)` for any x > 1 is `undefined`,
-// * `acos(undefined) is `undefined`.
-// "
-//shared Float acos(Float num) {
-//    return Math.acos(num);
-//}
-//
-//"The arc tangent of the given number.
-//
-// * `atan(-0)` is `-0`,
-// * `atan(+0)` is `+0`,
-// * `atan(undefined)` is `undefined`.
-// "
-//shared Float atan(Float num) {
-//    return Math.atan(num);
-//}
-//
+
+"The hyperbolic tangent of the given angle specified in
+ radians.
+
+ * `tanh(+infinity)` is `+1`,
+ * `tanh(-infinity)` is `-1`,
+ * `tanh(-0)` is `-0`,
+ * `tanh(+0)` is `+0`,
+ * `tanh(undefined)` is `undefined`.
+ "
+shared native
+Float tanh(Float num);
+
+shared native("jvm")
+Float tanh(Float num)
+    =>  JVMMath.tanh(num);
+
+shared native("js")
+Float tanh(Float num) // TODO special cases
+    =>  let (Float pos = jsMath.exp(num),
+             Float neg = jsMath.exp(-num))
+        (pos - neg) / (pos + neg);
+
+"The arc sine of the given number.
+
+ * `asin(x)` for any x < -1 is `undefined`,
+ * `asin(-0)` is `-0`,
+ * `asin(+0)` is `+0`,
+ * `asin(x)` for any x > 1 is `undefined`,
+ * `asin(undefined) is `undefined`.
+ "
+shared native
+Float asin(Float num);
+
+shared native("js")
+Float asin(Float num)
+    =>  jsMath.asin(num);
+
+shared native("jvm")
+Float asin(Float num)
+    =>  JVMMath.asin(num);
+
+"The arc cosine of the given number.
+
+ * `acos(x)` for any x < -1 is `undefined`,
+ * `acos(x)` for any x > 1 is `undefined`,
+ * `acos(undefined) is `undefined`.
+ "
+shared native
+Float acos(Float num);
+
+shared native("js")
+Float acos(Float num)
+    =>  jsMath.acos(num);
+
+shared native("jvm")
+Float acos(Float num)
+    =>  JVMMath.acos(num);
+
+"The arc tangent of the given number.
+
+ * `atan(-0)` is `-0`,
+ * `atan(+0)` is `+0`,
+ * `atan(undefined)` is `undefined`.
+ "
+shared native
+Float atan(Float num);
+
+shared native("js")
+Float atan(Float num)
+    =>  jsMath.atan(num);
+
+shared native("jvm")
+Float atan(Float num)
+    =>  JVMMath.atan(num);
+
 //"The angle from converting rectangular coordinates
 // `x` and `y` to polar coordinates.
 //
@@ -363,7 +437,8 @@ Float ceiling(Float num)
                 num.fractionalPart == 0.0) then
             num
         else if (num.negative) then
-            num.wholePart
+            // TODO https://github.com/ceylon/ceylon.language/issues/700
+            -num.wholePart.magnitude
         else
             num.wholePart + 1.0;
 
@@ -385,7 +460,7 @@ Float halfEven(Float num) {
             num.fractionalPart == 0.0) {
         return num;
     } else {
-        value twoFiftyTwo = 1.leftLogicalShift(52).float;
+        value twoFiftyTwo = (2^52).float;
         variable value result = num.magnitude;
         if (result >= twoFiftyTwo) {
             return num;
@@ -461,21 +536,3 @@ Float product(Float* values) {
     }
     return product;
 }
-
-//"The value of `x \{#00D7} 2\{#207F}`, calculated exactly
-// for reasonable values of `n`."
-//shared Float scalb(Float x, Integer n) {
-//    return Math.scalb(x, n);
-//}
-//
-//"A more accurate computation of `log(1.0+x)` for `x` near
-// zero."
-//shared Float log1p(Float num) {
-//    return Math.log1p(num);
-//}
-//
-//"A more accurate computation of `exp(x)-1.0` for `x` near
-// zero."
-//shared Float expm1(Float num) {
-//    return Math.expm1(num);
-//}
