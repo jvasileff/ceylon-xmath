@@ -45,7 +45,6 @@ Boolean exact(Anything expect, Anything got) {
 }
 
 test void testExp() {
-    print("Float.exp");
     assertEquals{
         expected=1.0;
         actual=exp(0.0);
@@ -72,7 +71,6 @@ test void testExp() {
 }
 
 test void testLog() {
-    print("Float.log");
     assertEquals{
         expected=undefined;
         actual=log(-1.0);
@@ -106,7 +104,6 @@ test void testLog() {
 }
 
 test void testLog10() {
-    print("Float.log10");
     assertEquals{
         expected=undefined;
         actual=log10(-1.0);
@@ -140,7 +137,6 @@ test void testLog10() {
 }
 
 test void testSin() {
-    print("Float.sin");
     assertEquals{
         expected=undefined;
         actual=sin(-infinity);
@@ -189,7 +185,6 @@ test void testSin() {
 }
 
 test void testCos() {
-    print("Float.cos");
     assertEquals{
         expected=undefined;
         actual=cos(-infinity);
@@ -233,7 +228,6 @@ test void testCos() {
 }
 
 test void testTan() {
-    print("Float.tan");
     assertEquals{
         expected=undefined;
         actual=tan(-infinity);
@@ -277,7 +271,6 @@ test void testTan() {
 }
 
 test void testAsin() {
-    print("Float.asin");
     assertEquals{
         expected=undefined;
         actual=asin(-infinity);
@@ -316,7 +309,6 @@ test void testAsin() {
 }
 
 test void testAcos() {
-    print("Float.acos");
     assertEquals{
         expected=undefined;
         actual=acos(-infinity);
@@ -350,7 +342,6 @@ test void testAcos() {
 }
 
 test void testAtan() {
-    print("Float.atan");
     assertEquals{
         expected=-0.0;
         actual=atan(-0.0);
@@ -368,276 +359,270 @@ test void testAtan() {
     };
 }
 
-//test void testAtan2() {
-//    print("Float.atan2");
-//    assertEquals{
-//        expected=undefined;
-//        actual=atan2(undefined, 0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=undefined;
-//        actual=atan2(0.0, undefined);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=+0.0;
-//        actual=atan2(+0.0, 1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=+0.0;
-//        actual=atan2(1.0, +infinity);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=-0.0;
-//        actual=atan2(-0.0, 1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-0.0;
-//        actual=atan2(-1.0, +infinity);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=pi;
-//        actual=atan2(+0.0, -1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=pi;
-//        actual=atan2(1.0, -infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-pi;
-//        actual=atan2(-0.0, -1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-pi;
-//        actual=atan2(-1.0, -infinity);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=pi/2;
-//        actual=atan2(1.0, +0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=pi/2;
-//        actual=atan2(1.0, -0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=pi/2;
-//        actual=atan2(infinity, 1.0);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=-pi/2;
-//        actual=atan2(-1.0, +0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-pi/2;
-//        actual=atan2(-1.0, -0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-pi/2;
-//        actual=atan2(-infinity, 1.0);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=pi/4;
-//        actual=atan2(+infinity, +infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=3*pi/4;
-//        actual=atan2(+infinity, -infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-pi/4;
-//        actual=atan2(-infinity, +infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-3*pi/4;
-//        actual=atan2(-infinity, -infinity);
-//        compare=exact;
-//    };
-//}
-//
-//test void testHypot() {
-//    print("Float.hypot");
-//    assertEquals{
-//        expected=0.0;
-//        actual=hypot(0.0, 0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(0.0, infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(0.0, -infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(infinity, 0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(-infinity, 0.0);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(undefined, infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(undefined, -infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(infinity, undefined);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=hypot(-infinity, undefined);
-//        compare=exact;
-//    };
-//
-//    assertEquals{
-//        expected=undefined;
-//        actual=hypot(0.0, undefined);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=undefined;
-//        actual=hypot(undefined, 0.0);
-//        compare=exact;
-//    };
-//}
-//
-//test void testSqrt() {
-//    print("Float.sqrt");
-//    assertEquals{
-//        expected=undefined;
-//        actual=sqrt(-infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=undefined;
-//        actual=sqrt(-1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-0.0;
-//        actual=sqrt(-0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=+0.0;
-//        actual=sqrt(+0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=1.0;
-//        actual=sqrt(1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=2.0;
-//        actual=sqrt(4.0);
-//        compare=approx;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=sqrt(infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=undefined;
-//        actual=sqrt(undefined);
-//        compare=exact;
-//    };
-//}
-//
-//test void testCbrt() {
-//    print("Float.cbrt");
-//    assertEquals{
-//        expected=-infinity;
-//        actual=cbrt(-infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-1.0;
-//        actual=cbrt(-1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=-0.0;
-//        actual=cbrt(-0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=+0.0;
-//        actual=cbrt(+0.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=1.0;
-//        actual=cbrt(1.0);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=2.0;
-//        actual=cbrt(8.0);
-//        compare=approx;
-//    };
-//    assertEquals{
-//        expected=infinity;
-//        actual=cbrt(infinity);
-//        compare=exact;
-//    };
-//    assertEquals{
-//        expected=undefined;
-//        actual=cbrt(undefined);
-//        compare=exact;
-//    };
-//}
-//
-//test void testRandom() {
-//    print("Float.cbrt");
-//    for (Integer ii in 0..1000) {
-//        Float r = random();
-//        assertTrue(r >= +0.0, "random() returned ``r`` (must be >= +0)");
-//        assertTrue(r < 1.0,  "random() returned ``r`` (must be < 1)");
-//    }
-//}
+test void testAtan2() {
+    assertEquals{
+        expected=undefined;
+        actual=atan2(undefined, 0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=atan2(0.0, undefined);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=+0.0;
+        actual=atan2(+0.0, 1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=+0.0;
+        actual=atan2(1.0, +infinity);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=-0.0;
+        actual=atan2(-0.0, 1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-0.0;
+        actual=atan2(-1.0, +infinity);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=pi;
+        actual=atan2(+0.0, -1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=pi;
+        actual=atan2(1.0, -infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-pi;
+        actual=atan2(-0.0, -1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-pi;
+        actual=atan2(-1.0, -infinity);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=pi/2;
+        actual=atan2(1.0, +0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=pi/2;
+        actual=atan2(1.0, -0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=pi/2;
+        actual=atan2(infinity, 1.0);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=-pi/2;
+        actual=atan2(-1.0, +0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-pi/2;
+        actual=atan2(-1.0, -0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-pi/2;
+        actual=atan2(-infinity, 1.0);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=pi/4;
+        actual=atan2(+infinity, +infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=3*pi/4;
+        actual=atan2(+infinity, -infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-pi/4;
+        actual=atan2(-infinity, +infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-3*pi/4;
+        actual=atan2(-infinity, -infinity);
+        compare=exact;
+    };
+}
+
+test void testHypot() {
+    assertEquals{
+        expected=0.0;
+        actual=hypot(0.0, 0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(0.0, infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(0.0, -infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(infinity, 0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(-infinity, 0.0);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=infinity;
+        actual=hypot(undefined, infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(undefined, -infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(infinity, undefined);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=hypot(-infinity, undefined);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=undefined;
+        actual=hypot(0.0, undefined);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=hypot(undefined, 0.0);
+        compare=exact;
+    };
+}
+
+test void testSqrt() {
+    assertEquals{
+        expected=undefined;
+        actual=sqrt(-infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=sqrt(-1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-0.0;
+        actual=sqrt(-0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=+0.0;
+        actual=sqrt(+0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=sqrt(1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=2.0;
+        actual=sqrt(4.0);
+        compare=approx;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=sqrt(infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=sqrt(undefined);
+        compare=exact;
+    };
+}
+
+test void testCbrt() {
+    assertEquals{
+        expected=-infinity;
+        actual=cbrt(-infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-1.0;
+        actual=cbrt(-1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-0.0;
+        actual=cbrt(-0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=+0.0;
+        actual=cbrt(+0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=cbrt(1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=2.0;
+        actual=cbrt(8.0);
+        compare=approx;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=cbrt(infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=cbrt(undefined);
+        compare=exact;
+    };
+}
+
+test void testRandom() {
+    for (Integer ii in 0..1000) {
+        Float r = random();
+        assertTrue(r >= +0.0, "random() returned ``r`` (must be >= +0)");
+        assertTrue(r < 1.0,  "random() returned ``r`` (must be < 1)");
+    }
+}
 
 test void testFloor() {
-    print("Float.floor");
     assertEquals{
         expected=-infinity;
         actual=floor(-infinity);
@@ -714,7 +699,6 @@ test void testFloor() {
 }
 
 test void testCeiling() {
-    print("Float.ceiling");
     assertEquals{
         expected=-infinity;
         actual=ceiling(-infinity);
@@ -796,7 +780,6 @@ test void testCeiling() {
 }
 
 test void testHalfEven() {
-    print("Float.halfEven");
     assertEquals{
         expected=-infinity;
         actual=halfEven(-infinity);
@@ -878,7 +861,6 @@ test void testHalfEven() {
 }
 
 test void testSumProduct() {
-    print("Float.sum");
     assertEquals {
         expected = 0.0;
         actual=sum();
@@ -889,7 +871,6 @@ test void testSumProduct() {
         actual=sum(1.0, 2.0, 3.0);
         compare = exact;
     };
-    print("Float.product");
     assertEquals {
         expected = 1.0;
         actual=product();

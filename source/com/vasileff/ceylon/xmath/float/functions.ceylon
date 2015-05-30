@@ -124,30 +124,48 @@ shared native("jvm")
 Float tan(Float num)
     =>  JVMMath.tan(num);
 
-//"The hyperbolic sine of the given angle specified in
-// radians.
-//
-// * `sinh(-0)` is `-0`,
-// * `sinh(+0)` is `+0`,
-// * `sin(-infinity)` is `-infinity`,
-// * `sin(+infinity)` is `+infinity`,
-// * `sin(undefined)` is `undefined`.
-// "
-//shared Float sinh(Float num) {
-//    return Math.sinh(num);
-//}
-//
-//"The hyperbolic cosine of the given angle specified in
-// radians.
-//
-// * `cosh(0)` is `1`.
-// * `cosh(-infinity)` is `+infinity`,
-// * `cosh(+infinity)` is `+infinity`,
-// * `cosh(undefined)` is `undefined`.
-// "
-//shared Float cosh(Float num) {
-//    return Math.cosh(num);
-//}
+"The hyperbolic sine of the given angle specified in
+ radians.
+
+ * `sinh(-0)` is `-0`,
+ * `sinh(+0)` is `+0`,
+ * `sin(-infinity)` is `-infinity`,
+ * `sin(+infinity)` is `+infinity`,
+ * `sin(undefined)` is `undefined`.
+ "
+shared native
+Float sinh(Float num);
+
+shared native("jvm")
+Float sinh(Float num)
+    =>  JVMMath.sinh(num);
+
+shared native("js")
+Float sinh(Float num) // TODO tests
+    =>  let (Float pos = jsMath.exp(num),
+             Float neg = jsMath.exp(-num))
+        (pos - neg) / 2;
+
+"The hyperbolic cosine of the given angle specified in
+ radians.
+
+ * `cosh(0)` is `1`.
+ * `cosh(-infinity)` is `+infinity`,
+ * `cosh(+infinity)` is `+infinity`,
+ * `cosh(undefined)` is `undefined`.
+ "
+shared native
+Float cosh(Float num);
+
+shared native("jvm")
+Float cosh(Float num)
+    =>  JVMMath.cosh(num);
+
+shared native("js")
+Float cosh(Float num) // TODO tests
+    =>  let (Float pos = jsMath.exp(num),
+             Float neg = jsMath.exp(-num))
+        (pos + neg) / 2;
 
 "The hyperbolic tangent of the given angle specified in
  radians.
@@ -166,7 +184,7 @@ Float tanh(Float num)
     =>  JVMMath.tanh(num);
 
 shared native("js")
-Float tanh(Float num) // TODO special cases
+Float tanh(Float num) // TODO tests
     =>  let (Float pos = jsMath.exp(num),
              Float neg = jsMath.exp(-num))
         (pos - neg) / (pos + neg);
@@ -224,179 +242,219 @@ shared native("jvm")
 Float atan(Float num)
     =>  JVMMath.atan(num);
 
-//"The angle from converting rectangular coordinates
-// `x` and `y` to polar coordinates.
-//
-// Special cases:
-//
-// <table>
-// <tbody>
-// <tr>
-// <th><code>y</code></th>
-// <th><code>x</code></th>
-// <th><code>atan2(y,x)</code></th>
-// </tr>
-//
-// <tr>
-// <td><code>undefined</code></td>
-// <td>any value</td>
-// <td><code>undefined</code></td>
-// </tr>
-//
-// <tr>
-// <td>any value</td>
-// <td><code>undefined</code></td>
-// <td><code>undefined</code></td>
-// </tr>
-//
-// <tr><td><code>+0</code></td>
-// <td><code>&gt; 0</code></td>
-// <td><code>+0</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>&gt; 0</code> and not <code>+infinity</code></td>
-// <td><code>+infinity</code></td>
-// <td><code>+0</code></td></tr>
-//
-// <tr>
-// <td><code>-0</code></td>
-// <td><code>&gt; 0</code></td>
-// <td><code>-0</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>&lt; 0</code> and not <code>-infinity</code></td>
-// <td><code>+infinity</code></td>
-// <td><code>-0</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>+0</code></td>
-// <td><code>&lt; 0</code></td>
-// <td><code>\{#03C0}</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>&gt; 0</code> and not <code>+infinity</code></td>
-// <td><code>-infinity</code></td>
-// <td><code>\{#03C0}</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>-0</code></td>
-// <td><code>&lt; 0</code></td>
-// <td><code>-\{#03C0}</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>&lt; 0</code> and not <code>-infinity</code></td>
-// <td><code>-infinity</code></td>
-// <td><code>-\{#03C0}</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>&gt; 0</code></td>
-// <td><code>+0 or -0</code></td>
-// <td><code>\{#03C0}/2</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>+infinity</code></td>
-// <td>not <code>+infinity</code> or <code>-infinity</code></td>
-// <td><code>\{#03C0}/2</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>&lt; 0</code></td>
-// <td><code>+0 or -0</code></td>
-// <td><code>-\{#03C0}/2</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>-infinity</code></td>
-// <td>not <code>+infinity</code> or <code>-infinity</code></td>
-// <td><code>-\{#03C0}/2</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>+infinity</code></td>
-// <td><code>+infinity</code></td>
-// <td><code>\{#03C0}/4</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>+infinity</code></td>
-// <td><code>-infinity</code></td>
-// <td><code>3\{#03C0}/4</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>-infinity</code></td>
-// <td><code>+infinity</code></td>
-// <td><code>-\{#03C0}/4</code></td>
-// </tr>
-//
-// <tr>
-// <td><code>-infinity</code></td>
-// <td><code>-infinity</code></td>
-// <td><code>-3\{#03C0}/4</code></td>
-// </tr>
-//
-// </tbody>
-// </table>
-// "
-//shared Float atan2(Float y, Float x) {
-//    return Math.atan2(y, x);
-//}
-//
-//"Returns the length of the hypotenuse of a right angle
-// triangle with other sides having lengths `x` and `y`.
-// This method may be more accurate than computing
-// `sqrt(x^2 + x^2)` directly.
-//
-// * `hypot(x,y)` where `x` and/or `y` is `+infinity` or
-//   `-infinity`, is `+infinity`,
-// * `hypot(x,y)`, where `x` and/or `y` is `undefined`,
-//   is `undefined`.
-// "
-//shared Float hypot(Float x, Float y) {
-//    return Math.hypot(x, y);
-//}
-//
-//"The positive square root of the given number. This
-// method may be faster and/or more accurate than
-// `num^0.5`.
-//
-// * `sqrt(x)` for any x < 0 is `undefined`,
-// * `sqrt(-0)` is `-0`,
-// * `sqrt(+0) is `+0`,
-// * `sqrt(+infinity)` is `+infinity`,
-// * `sqrt(undefined)` is `undefined`.
-// "
-//shared Float sqrt(Float num) {
-//    return Math.sqrt(num);
-//}
-//
-//"The cube root of the given number. This method may be
-// faster and/or more accurate than `num^(1.0/3.0)`.
-//
-// * `cbrt(-infinity)` is `-infinity`,
-// * `cbrt(-0)` is `-0`,
-// * `cbrt(+0)` is `+0`,
-// * `cbrt(+infinity)` is `+infinity`,
-// * `cbrt(undefined)` is `undefined`.
-// "
-//shared Float cbrt(Float num) {
-//    return Math.cbrt(num);
-//}
-//
-//"A number greater than or equal to positive zero and less
-// than `1.0`, chosen pseudorandomly and (approximately)
-// uniformly distributed."
-//shared Float random() {
-//    return Math.random();
-//}
+"The angle from converting rectangular coordinates
+ `x` and `y` to polar coordinates.
+
+ Special cases:
+
+ <table>
+ <tbody>
+ <tr>
+ <th><code>y</code></th>
+ <th><code>x</code></th>
+ <th><code>atan2(y,x)</code></th>
+ </tr>
+
+ <tr>
+ <td><code>undefined</code></td>
+ <td>any value</td>
+ <td><code>undefined</code></td>
+ </tr>
+
+ <tr>
+ <td>any value</td>
+ <td><code>undefined</code></td>
+ <td><code>undefined</code></td>
+ </tr>
+
+ <tr><td><code>+0</code></td>
+ <td><code>&gt; 0</code></td>
+ <td><code>+0</code></td>
+ </tr>
+
+ <tr>
+ <td><code>&gt; 0</code> and not <code>+infinity</code></td>
+ <td><code>+infinity</code></td>
+ <td><code>+0</code></td></tr>
+
+ <tr>
+ <td><code>-0</code></td>
+ <td><code>&gt; 0</code></td>
+ <td><code>-0</code></td>
+ </tr>
+
+ <tr>
+ <td><code>&lt; 0</code> and not <code>-infinity</code></td>
+ <td><code>+infinity</code></td>
+ <td><code>-0</code></td>
+ </tr>
+
+ <tr>
+ <td><code>+0</code></td>
+ <td><code>&lt; 0</code></td>
+ <td><code>\{#03C0}</code></td>
+ </tr>
+
+ <tr>
+ <td><code>&gt; 0</code> and not <code>+infinity</code></td>
+ <td><code>-infinity</code></td>
+ <td><code>\{#03C0}</code></td>
+ </tr>
+
+ <tr>
+ <td><code>-0</code></td>
+ <td><code>&lt; 0</code></td>
+ <td><code>-\{#03C0}</code></td>
+ </tr>
+
+ <tr>
+ <td><code>&lt; 0</code> and not <code>-infinity</code></td>
+ <td><code>-infinity</code></td>
+ <td><code>-\{#03C0}</code></td>
+ </tr>
+
+ <tr>
+ <td><code>&gt; 0</code></td>
+ <td><code>+0 or -0</code></td>
+ <td><code>\{#03C0}/2</code></td>
+ </tr>
+
+ <tr>
+ <td><code>+infinity</code></td>
+ <td>not <code>+infinity</code> or <code>-infinity</code></td>
+ <td><code>\{#03C0}/2</code></td>
+ </tr>
+
+ <tr>
+ <td><code>&lt; 0</code></td>
+ <td><code>+0 or -0</code></td>
+ <td><code>-\{#03C0}/2</code></td>
+ </tr>
+
+ <tr>
+ <td><code>-infinity</code></td>
+ <td>not <code>+infinity</code> or <code>-infinity</code></td>
+ <td><code>-\{#03C0}/2</code></td>
+ </tr>
+
+ <tr>
+ <td><code>+infinity</code></td>
+ <td><code>+infinity</code></td>
+ <td><code>\{#03C0}/4</code></td>
+ </tr>
+
+ <tr>
+ <td><code>+infinity</code></td>
+ <td><code>-infinity</code></td>
+ <td><code>3\{#03C0}/4</code></td>
+ </tr>
+
+ <tr>
+ <td><code>-infinity</code></td>
+ <td><code>+infinity</code></td>
+ <td><code>-\{#03C0}/4</code></td>
+ </tr>
+
+ <tr>
+ <td><code>-infinity</code></td>
+ <td><code>-infinity</code></td>
+ <td><code>-3\{#03C0}/4</code></td>
+ </tr>
+
+ </tbody>
+ </table>
+ "
+shared native
+Float atan2(Float y, Float x);
+
+shared native("jvm")
+Float atan2(Float y, Float x)
+    =>  JVMMath.atan2(y, x);
+
+shared native("js")
+Float atan2(Float y, Float x)
+    =>  jsMath.atan2(y, x);
+
+"Returns the length of the hypotenuse of a right angle
+ triangle with other sides having lengths `x` and `y`.
+ This method may be more accurate than computing
+ `sqrt(x^2 + x^2)` directly.
+
+ * `hypot(x,y)` where `x` and/or `y` is `+infinity` or
+   `-infinity`, is `+infinity`,
+ * `hypot(x,y)`, where `x` and/or `y` is `undefined`,
+   is `undefined`.
+ "
+shared native
+Float hypot(Float x, Float y);
+
+shared native("jvm")
+Float hypot(Float x, Float y)
+    =>  JVMMath.hypot(x, y);
+
+shared native("js")
+Float hypot(Float x, Float y)
+    =>  if (x.infinite || y.infinite) then
+            infinity
+        else if (x.undefined || y.undefined) then
+            undefined
+        else
+            jsMath.sqrt(x^2 + y^2);
+
+"The positive square root of the given number. This
+ method may be faster and/or more accurate than
+ `num^0.5`.
+
+ * `sqrt(x)` for any x < 0 is `undefined`,
+ * `sqrt(-0)` is `-0`,
+ * `sqrt(+0) is `+0`,
+ * `sqrt(+infinity)` is `+infinity`,
+ * `sqrt(undefined)` is `undefined`.
+ "
+shared native
+Float sqrt(Float num);
+
+shared native("jvm")
+Float sqrt(Float num)
+    =>  JVMMath.sqrt(num);
+
+shared native("js")
+Float sqrt(Float num)
+    =>  jsMath.sqrt(num);
+
+"The cube root of the given number. This method may be
+ faster and/or more accurate than `num^(1.0/3.0)`.
+
+ * `cbrt(-infinity)` is `-infinity`,
+ * `cbrt(-0)` is `-0`,
+ * `cbrt(+0)` is `+0`,
+ * `cbrt(+infinity)` is `+infinity`,
+ * `cbrt(undefined)` is `undefined`.
+ "
+shared native
+Float cbrt(Float num);
+
+shared native("jvm")
+Float cbrt(Float num)
+    =>  JVMMath.cbrt(num);
+
+shared native("js")
+Float cbrt(Float num)
+    =>  jsMath.pow(num, 1.0/3.0);
+
+"A number greater than or equal to positive zero and less
+ than `1.0`, chosen pseudorandomly and (approximately)
+ uniformly distributed."
+shared native
+Float random();
+
+shared native("jvm")
+Float random()
+    =>  JVMMath.random();
+
+shared native("js")
+Float random()
+    =>  jsMath.random();
 
 "The largest value that is less than or equal to the
  argument and equal to an integer.
@@ -488,7 +546,7 @@ Float smallest(Float x, Float y)
         else if (x.strictlyPositive && y.strictlyNegative) then
             y
         else if (x.undefined || y.undefined) then
-            0.0/0.0
+            undefined
         else if (x.smallerThan(y)) then
             x
         else
@@ -509,7 +567,7 @@ Float largest(Float x, Float y)
         else if (x.strictlyPositive && y.strictlyNegative) then
             x
         else if (x.undefined || y.undefined) then
-            0.0/0.0
+            undefined
         else if (x.largerThan(y)) then
             x
         else

@@ -9,3 +9,5 @@ shared Float e = 2.7182818284590452354;
  of the circumference of a circle to its
  diameter."
 shared Float pi =3.14159265358979323846;
+
+Float undefined = 0.0/0.0;
