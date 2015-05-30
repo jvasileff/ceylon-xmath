@@ -16,9 +16,16 @@ shared native("jvm")
 Float exp(Float num)
     =>  JVMMath.exp(num);
 
+// FIXME dynamic works, but dynamic interface truncates to Integer
+//shared native("js")
+//Float exp(Float num)
+//    =>  jsMath.exp(num);
 shared native("js")
-Float exp(Float num)
-    =>  jsMath.exp(num);
+Float exp(Float num) {
+    dynamic {
+        return Math.exp(num);
+    }
+}
 
 "The natural logarithm (base \{#0001D452}) of the
  argument.
@@ -36,9 +43,16 @@ shared native("jvm")
 Float log(Float num)
     =>  JVMMath.log(num);
 
+// FIXME another dynamic example
+//shared native("js")
+//Float log(Float num)
+//    =>  jsMath.log(num);
 shared native("js")
-Float log(Float num)
-    =>  jsMath.log(num);
+Float log(Float num) {
+    dynamic {
+        return Math.log(num);
+    }
+}
 
 "The base 10 logarithm of the argument.
 
@@ -80,13 +94,13 @@ Float toRadians(Float num)
 shared native
 Float sin(Float num);
 
-shared native("js")
-Float sin(Float num)
-    =>  jsMath.sin(num);
-
 shared native("jvm")
 Float sin(Float num)
     =>  JVMMath.sin(num);
+
+shared native("js")
+Float sin(Float num)
+    =>  jsMath.sin(num);
 
 "The cosine of the given angle specified in radians.
 
@@ -399,7 +413,9 @@ Float hypot(Float x, Float y)
         else if (x.undefined || y.undefined) then
             undefined
         else
-            jsMath.sqrt(x^2 + y^2);
+            // FIXME another example of dynamic interface type problems
+            //jsMath.sqrt(x^2 + y^2);
+            (x^2 + y^2) ^ (0.5);
 
 "The positive square root of the given number. This
  method may be faster and/or more accurate than
@@ -440,7 +456,12 @@ Float cbrt(Float num)
 
 shared native("js")
 Float cbrt(Float num)
-    =>  jsMath.pow(num, 1.0/3.0);
+    =>  if (num.negative) then
+            -(num.negated ^ (1.0/3.0))
+        else if (num == 0.0) then
+            num // positive or negative zero
+        else
+            num ^ (1.0/3.0);
 
 "A number greater than or equal to positive zero and less
  than `1.0`, chosen pseudorandomly and (approximately)
@@ -496,7 +517,7 @@ Float ceiling(Float num)
             num
         else if (num.negative) then
             // TODO https://github.com/ceylon/ceylon.language/issues/700
-            -num.wholePart.magnitude
+            -num.negated.wholePart
         else
             num.wholePart + 1.0;
 
