@@ -212,9 +212,11 @@ test shared void wholeStringTests() {
     assertEquals("1000000000000000000000000000000000000", parseWholeOrFail("1000000000000000000000000000000000000").string, ".string");
 }
 
-ignore("Broke with JavaScript bugs introduced on 5/29")
+
 test shared void wholePlusTests() {
-    value test = runTest("-", uncurry(Whole.plus), mapTuple3(toWhole));
+    // FIXME https://github.com/ceylon/ceylon.language/issues/699
+    //value test = runTest("-", uncurry(Whole.plus), mapTuple3(toWhole));
+    value test = runTest("-", (Whole x, Whole y) => x + y, mapTuple3(toWhole));
 
     test([ 2,  1,  1], null);
     test([ 0,  0,  0], null);
@@ -234,10 +236,11 @@ test shared void wholePlusTests() {
     test([0,0,0], null);
 }
 
-ignore("Broke with JavaScript bugs introduced on 5/29")
 test shared
 void wholeMinusTests() {
-    value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
+    // FIXME https://github.com/ceylon/ceylon.language/issues/699
+    //value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
+    value test = runTest("-", (Whole x, Whole y) => x - y, mapTuple3(toWhole));
 
     test([ 1,  2,  1], null);
     test([ 0,  0,  0], null);
