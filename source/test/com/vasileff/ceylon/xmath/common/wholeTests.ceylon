@@ -214,9 +214,7 @@ test shared void wholeStringTests() {
 
 
 test shared void wholePlusTests() {
-    // FIXME https://github.com/ceylon/ceylon.language/issues/699
-    //value test = runTest("-", uncurry(Whole.plus), mapTuple3(toWhole));
-    value test = runTest("-", (Whole x, Whole y) => x + y, mapTuple3(toWhole));
+    value test = runTest("-", uncurry(Whole.plus), mapTuple3(toWhole));
 
     test([ 2,  1,  1], null);
     test([ 0,  0,  0], null);
@@ -238,9 +236,7 @@ test shared void wholePlusTests() {
 
 test shared
 void wholeMinusTests() {
-    // FIXME https://github.com/ceylon/ceylon.language/issues/699
-    //value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
-    value test = runTest("-", (Whole x, Whole y) => x - y, mapTuple3(toWhole));
+    value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
 
     test([ 1,  2,  1], null);
     test([ 0,  0,  0], null);
