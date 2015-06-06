@@ -1,6 +1,12 @@
 import com.vasileff.ceylon.xmath.integer {
     smallest
 }
+import java.lang {
+    LongArray
+}
+import ceylon.interop.java {
+    createJavaLongArray
+}
 
 native Words wordsOfSize(Integer size);
 
@@ -94,20 +100,21 @@ interface Words satisfies Identifiable {
 }
 
 native("jvm") class WordsJVM satisfies Words {
-    Array<Integer> storage;
+    LongArray storage;
 
-    new Of(Array<Integer> storage) {
+    new Of(LongArray storage) {
         this.storage = storage;
     }
 
     shared
     new OfSize(Integer size) {
-        storage = arrayOfSize(size, 0);
+        storage = LongArray(size, 0);
+
     }
 
     shared
     new OfOne(Integer word) {
-        storage = Array<Integer> { word };
+        storage = createJavaLongArray { word };
     }
 
     shared
@@ -139,11 +146,8 @@ native("jvm") class WordsJVM satisfies Words {
         =>  storage.set(index, word);
 
     shared actual
-    Integer getw(Integer index) {
-        assert (exists result =
-                storage.getFromFirst(index));
-        return result;
-    }
+    Integer getw(Integer index)
+        =>  storage.get(index);
 
     shared actual
     Words clone()
