@@ -16,28 +16,6 @@ native("jvm") Words wordsOfSize(Integer size)
 native("js") Words wordsOfSize(Integer size)
     =>  WordsJS.OfSize(size);
 
-Integer getw(Words words, Integer index)
-    =>  words.get(index);
-
-void setw(Words words, Integer index, Integer word)
-    =>  words.set(index, word);
-
-Integer sizew(Words words)
-    =>  words.size;
-
-void copyWords(
-        Words source,
-        Words destination,
-        Integer sourcePosition = 0,
-        Integer destinationPosition = 0,
-        Integer length = sizew(source) - sourcePosition) {
-    source.copyTo(destination, sourcePosition,
-          destinationPosition, length);
-}
-
-Words clonew(Words source)
-    =>  source.clone();
-
 native Words wordsOfOne(Integer word);
 
 native("jvm") Words wordsOfOne(Integer word)
@@ -62,7 +40,7 @@ Boolean wordsEqual(Integer firstSize, Words first,
         return true;
     } else {
         for (i in 0:firstSize) {
-            if (getw(first, i) != getw(second, i)) {
+            if (first.get(i) != second.get(i)) {
                 return false;
             }
         }

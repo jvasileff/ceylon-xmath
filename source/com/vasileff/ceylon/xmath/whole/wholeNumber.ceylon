@@ -45,7 +45,7 @@ Words wordsUnsignedInteger(variable Integer integer) {
             // avoid boxing w/word.magnitude
             word = -word;
         }
-        setw(words, i, word);
+        words.set(i, word);
         integer /= wRadix;
     }
     return words;

@@ -18,10 +18,10 @@ Integer realSize(words, maxSize) {
 
     variable value lastIndex =
             if (maxSize >= 0)
-            then smallest(sizew(words), maxSize) - 1
-            else sizew(words) - 1;
+            then smallest(words.size, maxSize) - 1
+            else words.size - 1;
 
-    while (lastIndex >= 0, getw(words, lastIndex) == 0) {
+    while (lastIndex >= 0, words.get(lastIndex) == 0) {
         lastIndex--;
     }
     return lastIndex + 1;
@@ -49,7 +49,7 @@ Integer calculateBitLength(wordsSize, words, trailingZeroWords) {
         return 0;
     }
     variable Integer length;
-    value highWord = getw(words, wordsSize - 1);
+    value highWord = words.get(wordsSize - 1);
     length = (wordsSize - 1) * wordBits;
     if (exists trailingZeroWords, wordsSize - 1 == trailingZeroWords) {
         // one bit shorter for negative numbers that are
@@ -103,16 +103,16 @@ Words logicOperation(
     value count = largest(firstBitLength / wordBits + 1,
                           secondBitLength / wordBits + 1);
 
-    Words result = if (exists rWords, sizew(rWords) >= count)
+    Words result = if (exists rWords, rWords.size >= count)
                    then rWords
                    else wordsOfSize(count);
 
-    for (i in 0:sizew(result)) {
+    for (i in 0:result.size) {
         // iterate all elements of the result in order to fully
         // extend the sign bit
         value a = getWordInTwos(firstSize, firstWords, i, firstTrailingZeroWords);
         value b = getWordInTwos(secondSize, secondWords, i, secondTrailingZeroWords);
-        setw(result, i, op(a)(b));
+        result.set(i, op(a)(b));
     }
     return result;
 }
@@ -143,19 +143,19 @@ Words setBit(Integer wordsSize, Words words,
     value newLength = largest(wordsBitLength / wordBits + 1,
                               (index + 1) / wordBits + 1);
 
-    value result = if (exists rWords, sizew(rWords) >= newLength)
+    value result = if (exists rWords, rWords.size >= newLength)
                    then rWords
                    else wordsOfSize(newLength);
 
     // copy into the result, translating to two's complement
-    for (rIndex in 0:sizew(result)) {
-        setw(result, rIndex, getWordInTwos(wordsSize, words, rIndex, trailingZeroWords));
+    for (rIndex in 0:result.size) {
+        result.set(rIndex, getWordInTwos(wordsSize, words, rIndex, trailingZeroWords));
     }
 
     // set the bit
     value wordNum = index / wordBits;
     value bitNum = index % wordBits;
-    setw(result, wordNum, getw(result, wordNum).set(bitNum, bit));
+    result.set(wordNum, result.get(wordNum).set(bitNum, bit));
 
     // convert to unsigned and return
     return if (exists trailingZeroWords) // if negative
@@ -189,19 +189,19 @@ Words flipBit(Integer wordsSize, Words words,
     value newLength = largest(wordsBitLength / wordBits + 1,
                               (index + 1) / wordBits + 1);
 
-    value result = if (exists rWords, sizew(rWords) >= newLength)
+    value result = if (exists rWords, rWords.size >= newLength)
                    then rWords
                    else wordsOfSize(newLength);
 
     // copy into the result, translating to two's complement
-    for (rIndex in 0:sizew(result)) {
-        setw(result, rIndex, getWordInTwos(wordsSize, words, rIndex, trailingZeroWords));
+    for (rIndex in 0:result.size) {
+        result.set(rIndex, getWordInTwos(wordsSize, words, rIndex, trailingZeroWords));
     }
 
     // flip the bit
     value wordNum = index / wordBits;
     value bitNum = index % wordBits;
-    setw(result, wordNum, getw(result, wordNum).flip(bitNum));
+    result.set(wordNum, result.get(wordNum).flip(bitNum));
 
     // convert to unsigned and return
     return if (exists trailingZeroWords) // if negative
@@ -238,7 +238,7 @@ see(`function getWordInTwos`)
 Integer getWordInTwosPositive(Integer wordsSize, Words words, Integer wordIndex)
     =>  if (!(0 <= wordIndex < wordsSize))
         then 0
-        else getw(words, wordIndex);
+        else words.get(wordIndex);
 
 see(`function getWordInTwos`)
 Integer getWordInTwosNegative(Integer wordsSize, Words words, Integer wordIndex,
@@ -249,7 +249,7 @@ Integer getWordInTwosNegative(Integer wordsSize, Words words, Integer wordIndex,
         else if (wordIndex >= wordsSize) then
             wMask
         else
-           let (rawWord = getw(words, wordIndex))
+           let (rawWord = words.get(wordIndex))
            if (wordIndex == trailingZeroWords)
            then rawWord.negated.and(wMask) // first non-zero word
            else rawWord.not.and(wMask); // wordNum > zeros
@@ -290,7 +290,7 @@ see(`function getBit`)
 Boolean getBitNegative(Integer wordsSize, Words words, Integer index,
                        Integer trailingZeroWords)
     =>  if (index == 0) then
-            getw(words, 0).get(0)
+            words.get(0).get(0)
         else
             let (wBits = wordBits,
                  mask = 1.leftLogicalShift(index % wBits),
@@ -346,36 +346,36 @@ Words add(Integer firstSize, Words first,
     variable value carry = 0;
 
     while (i < vSize) {
-        value sum =   getw(u, i)
-                    + getw(v, i)
+        value sum =   u.get(i)
+                    + v.get(i)
                     + carry;
-        setw(r, i, sum.and(wMask));
+        r.set(i, sum.and(wMask));
         carry = sum.rightLogicalShift(wBits);
         i++;
     }
 
     while (i < uSize && carry != 0) {
-        value sum =   getw(u, i)
+        value sum =   u.get(i)
                     + carry;
-        setw(r, i, sum.and(wMask));
+        r.set(i, sum.and(wMask));
         carry = sum.rightLogicalShift(wBits);
         i++;
     }
 
     if (i < uSize) {
         if (!(u === r)) {
-            copyWords(u, r, i, i, uSize - i);
+            u.copyTo(r, i, i, uSize - i);
         }
         i = uSize;
     }
 
     if (carry != 0) {
-        setw(r, i++, carry);
+        r.set(i++, carry);
     }
 
     // zero out remaining words of provided array
     while (i < rSize) {
-        setw(r, i++, 0);
+        r.set(i++, 0);
     }
 
     return r;
@@ -410,19 +410,19 @@ Words subtract(Integer uSize, Words u,
 
     // subtract v from u
     while (i < vSize) {
-        value difference =   getw(u, i)
-                           - getw(v, i)
+        value difference =   u.get(i)
+                           - v.get(i)
                            + borrow;
-        setw(r, i, difference.and(wMask));
+        r.set(i, difference.and(wMask));
         borrow = difference.rightArithmeticShift(wBits);
         i++;
     }
 
     // continue unit there is no borrow
     while (i < uSize && borrow != 0) {
-        value difference =   getw(u, i)
+        value difference =   u.get(i)
                            + borrow;
-        setw(r, i, difference.and(wMask));
+        r.set(i, difference.and(wMask));
         borrow = difference.rightArithmeticShift(wBits);
         i++;
     }
@@ -430,14 +430,14 @@ Words subtract(Integer uSize, Words u,
     // simply copy any remaining words from u
     if (i < uSize) {
         if (!(u === r)) {
-            copyWords(u, r, i, i, uSize - i);
+            u.copyTo(r, i, i, uSize - i);
         }
         i = uSize;
     }
 
     // zero out remaining words of provided array
     while (i < rSize) {
-        setw(r, i++, 0);
+        r.set(i++, 0);
     }
 
     return r;
@@ -459,10 +459,10 @@ Words multiply(Integer uSize, Words u,
     Words r;
 
     if (uSize == 1) {
-        return multiplyWord(vSize, v, getw(u, 0), rSize, r);
+        return multiplyWord(vSize, v, u.get(0), rSize, r);
     }
     else if (vSize == 1) {
-        return multiplyWord(uSize, u, getw(v, 0), rSize, r);
+        return multiplyWord(uSize, u, v.get(0), rSize, r);
     }
 
     // Knuth 4.3.1 Algorithm M
@@ -472,40 +472,40 @@ Words multiply(Integer uSize, Words u,
     // result is all zeros the first time through
     variable value carry = 0;
     variable value vIndex = 0;
-    value uLow = getw(u, 0);
+    value uLow = u.get(0);
     while (vIndex < vSize) {
         value product =   uLow
-                        * getw(v, vIndex)
+                        * v.get(vIndex)
                         + carry;
-        setw(r, vIndex, product.and(wMask));
+        r.set(vIndex, product.and(wMask));
         carry = product.rightLogicalShift(wBits);
         vIndex++;
     }
-    setw(r, vSize, carry);
+    r.set(vSize, carry);
 
     // we already did the first one
     variable value uIndex = 1;
     while (uIndex < uSize) {
-        value uValue = getw(u, uIndex);
+        value uValue = u.get(uIndex);
         carry = 0;
         vIndex = 0;
         while (vIndex < vSize) {
             value rIndex = uIndex + vIndex;
             value product =   uValue
-                            * getw(v, vIndex)
-                            + getw(r, rIndex)
+                            * v.get(vIndex)
+                            + r.get(rIndex)
                             + carry;
-            setw(r, rIndex, product.and(wMask));
+            r.set(rIndex, product.and(wMask));
             carry = product.rightLogicalShift(wBits);
             vIndex++;
         }
-        setw(r, vSize + uIndex, carry);
+        r.set(vSize + uIndex, carry);
         uIndex++;
     }
 
     // zero out remaining words of provided array
     for (i in (uSize + vSize):(rSize - uSize - vSize)) {
-        setw(r, i, 0);
+        r.set(i, 0);
     }
 
     return r;
@@ -536,21 +536,21 @@ Words multiplyWord(Integer uSize, Words u, Integer v,
 
     // multiply
     while (i < uSize) {
-        value product = getw(u, i) * v + carry;
-        setw(r, i, product.and(wMask));
+        value product = u.get(i) * v + carry;
+        r.set(i, product.and(wMask));
         carry = product.rightLogicalShift(wBits);
         i++;
     }
 
     // only set the carry if we need to
     if (!carry == 0) {
-        setw(r, i, carry);
+        r.set(i, carry);
         i++;
     }
 
     // zero out remaining words of provided array
     while (i < rSize) {
-        setw(r, i, 0);
+        r.set(i, 0);
         i++;
     }
 
@@ -572,11 +572,11 @@ Integer multiplyAndSubtract(Words u, Integer vSize, Words v, Integer q, Integer 
     variable value vIndex = 0;
     while (vIndex < vSize) {
         value uIndex = vIndex + offset;
-        value product = q * getw(v, vIndex);
-        value difference =    getw(u, uIndex)
+        value product = q * v.get(vIndex);
+        value difference =    u.get(uIndex)
                             - product.and(wMask)
                             - borrow;
-        setw(u, uIndex, difference.and(wMask));
+        u.set(uIndex, difference.and(wMask));
         borrow =   product.rightLogicalShift(wBits)
                  - difference.rightArithmeticShift(wBits);
         vIndex++;
@@ -600,10 +600,10 @@ void addBack(Words u, Integer vSize, Words v, Integer j) {
     variable value vIndex = 0;
     while (vIndex < vSize) {
         value uIndex = vIndex + offset;
-        value sum =   getw(u, uIndex)
-                    + getw(v, vIndex)
+        value sum =   u.get(uIndex)
+                    + v.get(vIndex)
                     + carry;
-        setw(u, uIndex, sum.and(wMask));
+        u.set(uIndex, sum.and(wMask));
         carry = sum.rightLogicalShift(wBits);
         vIndex++;
     }
@@ -626,7 +626,7 @@ Words|Absent divide<Absent=Null>(
     Words? quotient;
 
     if (divisorSize < 2) {
-        value first = getw(divisor, 0);
+        value first = divisor.get(0);
         return divideWord<Absent>(dividendSize, dividend, first, quotient);
     }
 
@@ -637,7 +637,7 @@ Words|Absent divide<Absent=Null>(
 
     // D1. Normalize (v's highest bit must be set)
     value b = wordRadix;
-    value shift = let (highWord = getw(divisor, divisorSize - 1),
+    value shift = let (highWord = divisor.get(divisorSize - 1),
                        highBit = unsignedHighestNonZeroBit(highWord))
                   wBits - 1 - highBit;
     Words u;
@@ -652,14 +652,14 @@ Words|Absent divide<Absent=Null>(
         u = leftShift(dividendSize, dividend, shift, dividendSize + 1);
         v = leftShift(divisorSize, divisor, shift);
     }
-    value v0 = getw(v, vSize - 1); // most significant, can't be 0
-    value v1 = getw(v, vSize - 2); // second most significant must exist
+    value v0 = v.get(vSize - 1); // most significant, can't be 0
+    value v1 = v.get(vSize - 2); // second most significant must exist
 
     // D2. Initialize j
     variable value j = uSize - 1;
     while (j >= vSize) {
         // D3. Compute qj
-        value uj0 = getw(u, j);
+        value uj0 = u.get(j);
 
         variable Integer qj;
         if (uj0 == v0) {
@@ -675,8 +675,8 @@ Words|Absent divide<Absent=Null>(
             // wSize/2 for the quotient.
             // (a decimal example would be 899/90)
             variable Integer rj;
-            value uj1 = getw(u, j-1);
-            value uj2 = getw(u, j-2);
+            value uj1 = u.get(j-1);
+            value uj2 = u.get(j-2);
             value uj01 = uj0.leftLogicalShift(wBits) + uj1;
 
             if (uj01 >= 0) {
@@ -708,9 +708,9 @@ Words|Absent divide<Absent=Null>(
                 qj -= 1;
                 addBack(u, vSize, v, j);
             }
-            setw(u, j, 0);
+            u.set(j, 0);
             if (exists quotient) {
-                setw(quotient, j - vSize, qj);
+                quotient.set(j - vSize, qj);
             }
         }
         // D7. Loop
@@ -749,11 +749,11 @@ Words|Absent divideWord<Absent=Null>(Integer uSize, Words u,
     variable value r = 0;
     variable value uIndex = uSize - 1;
     while (uIndex >= 0) {
-        value x = r.leftLogicalShift(wBits) + getw(u, uIndex);
+        value x = r.leftLogicalShift(wBits) + u.get(uIndex);
         if (x >= 0) {
             r = x % v;
             if (exists quotient) {
-                setw(quotient, uIndex, x / v);
+                quotient.set(uIndex, x / v);
             }
         } else {
             // resultant q will never be larger than one word,
@@ -761,7 +761,7 @@ Words|Absent divideWord<Absent=Null>(Integer uSize, Words u,
             value qr = unsignedDivide(x, v);
             r = qr.and(wMask);
             if (exists quotient) {
-                setw(quotient, uIndex, qr.rightLogicalShift(wBits));
+                quotient.set(uIndex, qr.rightLogicalShift(wBits));
             }
         }
         uIndex--;
@@ -798,22 +798,22 @@ Words predecessor(Integer wordsSize, Words words,
     value wMask = wordMask;
     variable value rIndex = 0;
     while (rIndex < wordsSize) {
-        value wi = getw(words, rIndex);
+        value wi = words.get(rIndex);
         if (wi == 0) {
-            setw(r, rIndex, wMask);
+            r.set(rIndex, wMask);
         }
         else {
-            setw(r, rIndex, wi - 1);
+            r.set(rIndex, wi - 1);
             if (!(words === r)) {
                 // copy remaining words
                 rIndex++;
                 if (rIndex < wordsSize) {
-                    copyWords(words, r, rIndex, rIndex, wordsSize - rIndex);
+                    words.copyTo(r, rIndex, rIndex, wordsSize - rIndex);
                     rIndex = wordsSize;
                 }
                 // clear remaining parts of r
                 while (rIndex < rSize) {
-                    setw(r, rIndex, 0);
+                    r.set(rIndex, 0);
                     rIndex++;
                 }
             }
@@ -835,19 +835,19 @@ Words successorInPlace(Integer wordsSize, Words words) {
     variable value previous = 0;
     variable value i = -1;
     while (++i < wordsSize && previous == 0) {
-        previous = (getw(words, i) + 1).and(wMask);
-        setw(words, i, previous);
+        previous = (words.get(i) + 1).and(wMask);
+        words.set(i, previous);
     }
 
     if (previous == 0) { // w was all ones
-        if (sizew(words) > wordsSize) {
+        if (words.size > wordsSize) {
             // there's extra room in 'words', use it
-            setw(words, wordsSize, 1);
+            words.set(wordsSize, 1);
             return words;
         }
         else {
             value result = wordsOfSize(wordsSize + 1);
-            setw(result, wordsSize, 1);
+            result.set(wordsSize, 1);
             return result;
         }
     }
@@ -860,7 +860,7 @@ Words successorInPlace(Integer wordsSize, Words words) {
  by one. It is explicitly allowed for `words[size-1]` to be zero. All values
  are unsigned."
 Words successor(Integer wordsSize, Words words)
-    =>  successorInPlace(wordsSize, clonew(words));
+    =>  successorInPlace(wordsSize, words.clone());
 
 "Used by [[rightShiftImpl]] to help with two's complement concerns. Returns
  true if any `one` bits are present in the given shift range."
@@ -869,14 +869,14 @@ Boolean nonZeroBitsDropped(Words u,
                            Integer shiftBits) {
     variable value i = 0;
     while (i < shiftWords) {
-        if (getw(u, i) != 0) {
+        if (u.get(i) != 0) {
             return true;
         }
         i++;
     }
 
     return (shiftBits > 0) &&
-            getw(u, shiftWords)
+            u.get(shiftWords)
             .leftLogicalShift(wordBits - shiftBits)
             .and(wordMask) != 0;
 }
@@ -907,7 +907,7 @@ Words rightShift(Boolean negative, Integer uSize, Words u, Integer shift) {
     }
     else {
         // anticipate size
-        value highWord = getw(u, uSize - 1)
+        value highWord = u.get(uSize - 1)
                          .rightLogicalShift(shiftBits);
         value saveWord = if (highWord == 0) then 1 else 0;
         rSize = uSize - shiftWords - saveWord;
@@ -953,36 +953,36 @@ Words rightShiftImpl(Boolean negative,
 
     if (shiftBits == 0 || uSize == 0) {
         if (shiftWords < uSize) {
-            copyWords(u, r, shiftWords, 0, uSize - shiftWords);
+            u.copyTo(r, shiftWords, 0, uSize - shiftWords);
         }
         // clear remaining high words of r
         variable value rIndex = uSize - shiftWords;
         while (rIndex < rSize) {
-            setw(r, rIndex++, 0);
+            r.set(rIndex++, 0);
         }
     }
     else {
         value shiftBitsLeft = wBits - shiftBits;
         variable value rIndex = 0;
         variable value uIndex = shiftWords;
-        variable value corrWord = getw(u, uIndex);
+        variable value corrWord = u.get(uIndex);
         while (++uIndex < uSize) {
-            value higherWord = getw(u, uIndex);
+            value higherWord = u.get(uIndex);
             value l = corrWord.rightLogicalShift(shiftBits);
             value h = higherWord.leftLogicalShift(shiftBitsLeft).and(wMask);
-            setw(r, rIndex, l + h);
+            r.set(rIndex, l + h);
             corrWord = higherWord;
             rIndex++;
         }
         // process last word only if non-zero
         value highWord = corrWord.rightLogicalShift(shiftBits);
         if (highWord != 0) {
-            setw(r, rIndex, highWord);
+            r.set(rIndex, highWord);
             rIndex++;
         }
         // clear remaining high words of r
         while (rIndex < rSize) {
-            setw(r, rIndex++, 0);
+            r.set(rIndex++, 0);
         }
     }
 
@@ -1050,7 +1050,7 @@ Words leftShiftInPlace(Integer uSize, Words u, Integer shift) {
     value requiredSize = leftShiftAnticipateSize(
             uSize, u, shiftWords, shiftBits);
 
-    if (sizew(u) >= requiredSize) {
+    if (u.size >= requiredSize) {
         rSize = uSize;
         r = u;
     } else {
@@ -1069,16 +1069,16 @@ Words leftShiftImpl(Integer uSize, Words u,
     value wMask = wordMask;
 
     if (shiftBits == 0 || uSize == 0) {
-        copyWords(u, r, 0, shiftWords, uSize);
+        u.copyTo(r, 0, shiftWords, uSize);
         // clear low words of r
         variable value rIndex = 0;
         while (rIndex < shiftWords && rIndex < rSize) {
-            setw(r, rIndex++, 0);
+            r.set(rIndex++, 0);
         }
         // clear remaining high words of r
         rIndex = uSize + shiftWords;
         while (rIndex < rSize) {
-            setw(r, rIndex++, 0);
+            r.set(rIndex++, 0);
         }
     }
     else {
@@ -1087,10 +1087,10 @@ Words leftShiftImpl(Integer uSize, Words u,
         variable value uIndex = 0;
         variable value lowerWord = 0;
         while (uIndex < uSize) {
-            value corrWord = getw(u, uIndex);
+            value corrWord = u.get(uIndex);
             value l = corrWord.leftLogicalShift(shiftBits).and(wMask);
             value h = lowerWord.rightLogicalShift(shiftBitsRight);
-            setw(r, rIndex, l + h);
+            r.set(rIndex, l + h);
             lowerWord = corrWord;
             rIndex++;
             uIndex++;
@@ -1098,17 +1098,17 @@ Words leftShiftImpl(Integer uSize, Words u,
         // process last word only if non-zero
         value highWord = lowerWord.rightLogicalShift(shiftBitsRight);
         if (highWord != 0) {
-            setw(r, rIndex, highWord);
+            r.set(rIndex, highWord);
             rIndex++;
         }
         // clear remaining high words of r
         while (rIndex < rSize) {
-            setw(r, rIndex++, 0);
+            r.set(rIndex++, 0);
         }
         // clear low words of r
         rIndex = 0;
         while (rIndex < shiftWords) {
-            setw(r, rIndex++, 0);
+            r.set(rIndex++, 0);
         }
     }
     return r;
@@ -1123,7 +1123,7 @@ Integer leftShiftAnticipateSize(
         else if (shiftBits == 0) then
             uSize + shiftWords
         else
-            let (highWord = getw(u, uSize - 1)
+            let (highWord = u.get(uSize - 1)
                     .rightLogicalShift(wordBits - shiftBits),
                 addWord = if (highWord == 0) then 0 else 1)
             uSize + shiftWords + addWord;
@@ -1138,20 +1138,20 @@ Integer leftShiftAnticipateSize(
  arguments being provided in unsigned form; [[words]] is
  interpreted in two's complement."
 Words twosToUnsigned(Words words,
-                     r = wordsOfSize(sizew(words))) {
+                     r = wordsOfSize(words.size)) {
 
     "The *proposed* result object, which *may* be the same as [[words]].
      This method will zero-out unused portions of [[r]]."
     Words r;
 
-    value wordsSize = sizew(words);
-    if (!getw(words, wordsSize - 1).get(wordBits - 1)) {
+    value wordsSize = words.size;
+    if (!words.get(wordsSize - 1).get(wordBits - 1)) {
         // words are positive, we shouldn't have been called...
         if (!words === r) {
-            copyWords(words, r);
+            words.copyTo(r);
             // clear potentially oversized 'r'
-            for (i in wordsSize..sizew(r) - 1) {
-                setw(r, i, 0);
+            for (i in wordsSize..r.size - 1) {
+                r.set(i, 0);
             }
         }
         return r;
@@ -1180,23 +1180,23 @@ Words twosToUnsigned(Words words,
  *Note:* This method further breaks from convention by returning
  a value of [[Words]] in two's complement notation."
 Words twosNot(Words words,
-              Words r = wordsOfSize(sizew(words))) {
+              Words r = wordsOfSize(words.size)) {
     value wMask = wordMask;
     variable value rIndex = 0;
-    value wordsSize = sizew(words);
+    value wordsSize = words.size;
     while (rIndex < wordsSize) {
-        setw(r, rIndex, getw(words, rIndex).not.and(wMask));
+        r.set(rIndex, words.get(rIndex).not.and(wMask));
         rIndex++;
     }
-    value rSize = sizew(r);
+    value rSize = r.size;
     if (rIndex < rSize) {
         // extend sign
         value signWord =
-                if (getw(r, rIndex - 1).get(wordBits - 1))
+                if (r.get(rIndex - 1).get(wordBits - 1))
                 then wMask // negative
                 else 0; // positive or zero
         while (rIndex < rSize) {
-            setw(r, rIndex, signWord);
+            r.set(rIndex, signWord);
             rIndex++;
         }
     }
@@ -1218,8 +1218,8 @@ Comparison compareMagnitude(Integer xSize, Words x,
     else {
         variable value i = xSize;
         while (--i >= 0) {
-            value xi = getw(x, i);
-            value yi = getw(y, i);
+            value xi = x.get(i);
+            value yi = y.get(i);
             if (xi != yi) {
                 return if (xi < yi)
                 then smaller
@@ -1238,7 +1238,7 @@ Integer integerForWords(Integer wordsSize, Words words, Boolean negative) {
     if (wordsSize == 0) {
         return 0;
     } else if (wordsSize == 1) {
-        value magnitude = getw(words, 0);
+        value magnitude = words.get(0);
         return if (negative) then -magnitude else magnitude;
     }
 
@@ -1263,16 +1263,16 @@ Integer integerForWords(Integer wordsSize, Words words, Boolean negative) {
             if (negative) {
                 if (!nonZeroSeen) {
                     // negate the least significant non-zero word
-                    x = getw(words, i).negated;
+                    x = words.get(i).negated;
                     nonZeroSeen = x != 0;
                 }
                 else {
                     // flip the rest
-                    x = getw(words, i).not;
+                    x = words.get(i).not;
                 }
             }
             else {
-                x = getw(words, i);
+                x = words.get(i);
             }
         }
         else {
@@ -1291,14 +1291,14 @@ Integer integerForWordsNaive(Integer wordsSize, Words words) {
     if (wordsSize == 0) {
         return 0;
     } else if (wordsSize == 1) {
-        return getw(words, 0);
+        return words.get(0);
     }
 
     value wRadix = wordRadix;
     variable value factor = 1;
     variable value result = 0;
     for (i in 0:wordsSize) {
-        result += getw(words, i) * factor;
+        result += words.get(i) * factor;
         factor *= wRadix;
     }
     return result;

@@ -33,10 +33,10 @@ class WholeImpl satisfies Whole {
 
         this.sign = if (this.wordsSize == 0) then 0 else sign;
 
-        if (sizew(words) > this.wordsSize + 3) {
+        if (words.size > this.wordsSize + 3) {
             // avoid excessive waste
             this.words = wordsOfSize(this.wordsSize);
-            copyWords(words, this.words, 0, 0, this.wordsSize);
+            words.copyTo(this.words, 0, 0, this.wordsSize);
         }
         else {
             this.words = words;
@@ -47,12 +47,12 @@ class WholeImpl satisfies Whole {
     new CopyOfMutableWhole(MutableWhole mutableWhole) {
         this.sign = mutableWhole.sign;
         this.wordsSize = mutableWhole.wordsSize;
-        if (this.wordsSize == sizew(mutableWhole.words)) {
-            this.words = clonew(mutableWhole.words);
+        if (this.wordsSize == mutableWhole.words.size) {
+            this.words = mutableWhole.words.clone();
         }
         else {
             this.words = wordsOfSize(this.wordsSize);
-            copyWords(mutableWhole.words, this.words,
+            mutableWhole.words.copyTo(this.words,
                       0, 0, this.wordsSize);
         }
     }
@@ -65,13 +65,13 @@ class WholeImpl satisfies Whole {
         "words in two's complement"
         variable Words words;
 
-        if (sizew(words) == 0) {
+        if (words.size == 0) {
             this.words = words;
             this.wordsSize = 0;
             this.sign = 0;
         }
         else {
-            value negative = getw(words, sizew(words) - 1).get(wordBits - 1);
+            value negative = words.get(words.size - 1).get(wordBits - 1);
             if (!negative) {
                 this.words = words;
                 this.wordsSize = realSize(words, -1);
@@ -479,7 +479,7 @@ class WholeImpl satisfies Whole {
     shared actual
     Boolean zero => sign == 0;
 
-    Boolean absUnit => wordsSize == 1 && getw(words, 0) == 1;
+    Boolean absUnit => wordsSize == 1 && words.get(0) == 1;
 
     Boolean negativeOne => negative && absUnit;
 
@@ -487,13 +487,13 @@ class WholeImpl satisfies Whole {
     Boolean unit => positive && absUnit;
 
     shared actual
-    Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
+    Boolean even => wordsSize > 0 && words.get(0).and(1) == 0;
 
     shared actual
     Integer hash {
         variable Integer result = 0;
         for (i in 0:wordsSize) {
-            result = result * 31 + getw(words, i);
+            result = result * 31 + words.get(i);
         }
         return sign * result;
     }
@@ -532,7 +532,7 @@ class WholeImpl satisfies Whole {
     //    =>  if (this.zero)
     //        then 0
     //        else (let (zeroWords = trailingZeroWords,
-    //                   word = getw(words, zeroWords))
+    //                   word = words.get(zeroWords))
     //              zeroWords * wordBits + numberOfTrailingZeros(word));
 
     Integer trailingZeroWords
@@ -556,7 +556,7 @@ class WholeImpl satisfies Whole {
 
     Integer calculateTrailingZeroWords() {
         for (i in 0:wordsSize) {
-            if (getw(words, i) != 0) {
+            if (words.get(i) != 0) {
                 return i;
             }
         } else {
@@ -675,7 +675,7 @@ class WholeImpl satisfies Whole {
         // slightly underestimate for performance
         =>  wordsSize < 2 ||
             (wordsSize == 2 &&
-             getw(words, 1)
+             words.get(1)
                  .rightLogicalShift(wordBits-1) == 0);
 
 }

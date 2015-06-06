@@ -28,7 +28,7 @@ class MutableWhole extends Object
             extends Object() {
         assert (-1 <= sign <= 1);
         this.wordsSize = realSize(words, size);
-        this.words = clonew(words);
+        this.words = words.clone();
         this.signValue = if (this.wordsSize == 0) then 0 else sign;
     }
 
@@ -36,7 +36,7 @@ class MutableWhole extends Object
     new CopyOfWhole(Whole whole) extends Object() {
         assert (is WholeImpl whole);
         this.wordsSize = realSize(whole.words, whole.wordsSize);
-        this.words = clonew(whole.words);
+        this.words = whole.words.clone();
         this.signValue = whole.sign;
     }
 
@@ -256,7 +256,7 @@ class MutableWhole extends Object
     shared actual
     Boolean zero => sign == 0;
 
-    Boolean absUnit => wordsSize == 1 && getw(words, 0) == 1;
+    Boolean absUnit => wordsSize == 1 && words.get(0) == 1;
 
     Boolean negativeOne => negative && absUnit;
 
@@ -264,7 +264,7 @@ class MutableWhole extends Object
     Boolean unit => positive && absUnit;
 
     shared
-    Boolean even => wordsSize > 0 && getw(words, 0).and(1) == 0;
+    Boolean even => wordsSize > 0 && words.get(0).and(1) == 0;
 
     shared actual
     Integer sign => signValue;
@@ -273,7 +273,7 @@ class MutableWhole extends Object
     Integer hash {
         variable Integer result = 0;
         for (i in 0:wordsSize) {
-            result = result * 31 + getw(words, i);
+            result = result * 31 + words.get(i);
         }
         return sign * result;
     }
@@ -386,7 +386,7 @@ class MutableWhole extends Object
     shared
     Integer trailingZeroWords {
         for (i in 0:wordsSize) {
-            if (getw(words, i) != 0) {
+            if (words.get(i) != 0) {
                 return i;
             }
         } else {
@@ -400,7 +400,7 @@ class MutableWhole extends Object
         =>  if (this.zero)
             then 0
             else (let (zeroWords = trailingZeroWords,
-                       word = getw(words, zeroWords))
+                       word = words.get(zeroWords))
                   zeroWords * wordBits + numberOfTrailingZeros(word));
 
     MutableWhole addSigned(MutableWhole first,
@@ -446,7 +446,7 @@ class MutableWhole extends Object
                 this.signValue = 0;
                 while (wordsSize > 0) {
                     wordsSize--;
-                    setw(words, wordsSize, 0);
+                    words.set(wordsSize, 0);
                 }
             }
             case (larger) {
@@ -456,7 +456,7 @@ class MutableWhole extends Object
                 wordsSize = realSize(words, wordsSize);
             }
             case (smaller) {
-                if (sizew(words) >= other.wordsSize) {
+                if (words.size >= other.wordsSize) {
                     // inPlace can be done
                     subtract(other.wordsSize, other.words,
                              this.wordsSize, this.words,
@@ -482,7 +482,7 @@ class MutableWhole extends Object
                     else 1 + largest(this.wordsSize,
                                      other.wordsSize);
 
-        if (sizew(words) >= rSize) {
+        if (words.size >= rSize) {
             add(this.wordsSize, this.words,
                 other.wordsSize, other.words,
                 rSize, this.words);
@@ -514,6 +514,6 @@ class MutableWhole extends Object
         // slightly underestimate for performance
         =>  wordsSize < 2 ||
             (wordsSize == 2 &&
-             getw(words, 1)
+             words.get(1)
                  .rightLogicalShift(wordBits-1) == 0);
 }
