@@ -17,10 +17,10 @@ native("js") Words wordsOfSize(Integer size)
     =>  WordsJS.OfSize(size);
 
 Integer getw(Words words, Integer index)
-    =>  words.getw(index);
+    =>  words.get(index);
 
 void setw(Words words, Integer index, Integer word)
-    =>  words.setw(index, word);
+    =>  words.set(index, word);
 
 Integer sizew(Words words)
     =>  words.size;
@@ -90,10 +90,10 @@ interface Words satisfies Identifiable {
     Integer size;
 
     shared formal
-    void setw(Integer index, Integer word);
+    void set(Integer index, Integer word);
 
     shared formal
-    Integer getw(Integer index);
+    Integer get(Integer index);
 
     shared formal
     Words clone();
@@ -142,11 +142,11 @@ native("jvm") class WordsJVM satisfies Words {
     Integer size => storage.size;
 
     shared actual
-    void setw(Integer index, Integer word)
+    void set(Integer index, Integer word)
         =>  storage.set(index, word);
 
     shared actual
-    Integer getw(Integer index)
+    Integer get(Integer index)
         =>  storage.get(index);
 
     shared actual
@@ -196,11 +196,11 @@ native("js") class WordsJS satisfies Words {
     Integer size => storage.size;
 
     shared actual
-    void setw(Integer index, Integer word)
+    void set(Integer index, Integer word)
         =>  storage.set(index, word);
 
     shared actual
-    Integer getw(Integer index) {
+    Integer get(Integer index) {
         assert (exists result =
                 storage.getFromFirst(index));
         return result;
