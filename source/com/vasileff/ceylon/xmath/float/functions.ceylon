@@ -715,9 +715,10 @@ shared native("jvm")
 Float scalb(Float x, Integer n)
     =>  JVMMath.scalb(x, n);
 
-// TODO better JS impl
 shared native("js")
 Float scalb(Float x, Integer n) {
+    // faster than other options per
+    // http://jsperf.com/scale-pow2/5
     dynamic {
         return x * Math.pow(2, n);
     }
