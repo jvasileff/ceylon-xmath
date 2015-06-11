@@ -8,7 +8,7 @@ import java.lang {
  * `exp(+infinity)` is `+infinity`,
  * `exp(undefined)` is `undefined`.
  "
-//see (`function expm1`) // FIXME
+see (`function expm1`)
 shared native
 Float exp(Float num);
 
@@ -23,6 +23,16 @@ Float exp(Float num) {
     }
 }
 
+"A more accurate computation of `exp(x)-1.0` for `x` near
+ zero."
+native shared Float expm1(Float num);
+
+native("jvm") shared Float expm1(Float num)
+    =>  JVMMath.expm1(num);
+
+native("js") shared Float expm1(Float num)
+    =>  exp(num) - 1.0;
+
 "The natural logarithm (base \{#0001D452}) of the
  argument.
 
@@ -31,7 +41,7 @@ Float exp(Float num) {
  * `log(+infinity)` is `+infinity`,
  * `log(undefined)` is `undefined`.
  "
-//see(`function log10`, `function log1p`) // FIXME
+see(`function log10`, `function log1p`)
 shared native
 Float log(Float num);
 
@@ -45,6 +55,19 @@ Float log(Float num) {
         return Math.log(num);
     }
 }
+
+"A more accurate computation of `log(1.0+x)` for `x` near
+ zero."
+native shared
+Float log1p(Float num);
+
+native("jvm") shared
+Float log1p(Float num)
+    =>  JVMMath.log1p(num);
+
+native("js") shared
+Float log1p(Float num)
+    =>  log(num + 1.0);
 
 "The base 10 logarithm of the argument.
 

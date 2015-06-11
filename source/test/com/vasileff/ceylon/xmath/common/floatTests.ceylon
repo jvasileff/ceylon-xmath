@@ -70,6 +70,32 @@ test void testExp() {
     };
 }
 
+test void testExpm1() {
+    assertEquals{
+        expected=0.0;
+        actual=expm1(0.0);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=-1.0;
+        actual=expm1(-infinity);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=infinity;
+        actual=expm1(infinity);
+        compare=exact;
+    };
+
+    assertEquals{
+        expected=undefined;
+        actual=expm1(undefined);
+        compare=exact;
+    };
+}
+
 test void testLog() {
     assertEquals{
         expected=undefined;
@@ -99,6 +125,34 @@ test void testLog() {
     assertEquals{
         expected=undefined;
         actual=log(undefined);
+        compare=exact;
+    };
+}
+
+test void testLog1p() {
+    assertEquals{
+        expected=undefined;
+        actual=log1p(-2.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-infinity;
+        actual=log1p(-1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=log1p(e - 1.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=infinity;
+        actual=log1p(infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=log1p(undefined);
         compare=exact;
     };
 }
