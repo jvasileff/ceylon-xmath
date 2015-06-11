@@ -97,6 +97,9 @@ Float sin(Float num)
 
 shared native("js")
 Float sin(Float num) {
+    if (num == 0.0 && num.strictlyNegative) {
+        return -0.0;
+    }
     dynamic {
         return \iMath.sin(num);
     }
@@ -139,6 +142,9 @@ Float tan(Float num)
 
 shared native("js")
 Float tan(Float num) {
+    if (num == 0.0 && num.strictlyNegative) {
+        return -0.0;
+    }
     dynamic {
         return Math.tan(num);
     }
@@ -235,6 +241,9 @@ Float asin(Float num)
 
 shared native("js")
 Float asin(Float num) {
+    if (num == 0.0 && num.strictlyNegative) {
+        return -0.0;
+    }
     dynamic {
         return Math.asin(num);
     }
@@ -275,6 +284,9 @@ Float atan(Float num)
 
 shared native("js")
 Float atan(Float num) {
+    if (num == 0.0 && num.strictlyNegative) {
+        return -0.0;
+    }
     dynamic {
         return Math.atan(num);
     }
@@ -411,6 +423,17 @@ Float atan2(Float y, Float x)
 
 shared native("js")
 Float atan2(Float y, Float x) {
+    if (y == 0.0 && y.strictlyNegative) {
+        if (x.positive) {
+            return -0.0;
+        }
+        else if (x.negative) {
+            return -pi;
+        }
+        else {
+            return undefined;
+        }
+    }
     dynamic {
         return Math.atan2(y, x);
     }
@@ -443,12 +466,10 @@ Float hypot(Float x, Float y) {
     }
     else {
         dynamic {
-            // Really help out the js compiler
+            // assign to Float to coerce correctly
             // https://github.com/ceylon/ceylon-js/issues/576
-            Float x2 = Math.pow(x, 2);
-            Float y2 = Math.pow(y, 2);
-            Float x2y2 = x2 + y2;
-            Float result = Math.sqrt(x2y2);
+            Float result = Math.sqrt(
+                    Math.pow(x, 2) + Math.pow(y, 2));
             return result;
         }
     }
@@ -473,6 +494,9 @@ Float sqrt(Float num)
 
 shared native("js")
 Float sqrt(Float num) {
+    if (num == 0.0 && num.strictlyNegative) {
+        return -0.0;
+    }
     dynamic {
         return Math.sqrt(num);
     }
