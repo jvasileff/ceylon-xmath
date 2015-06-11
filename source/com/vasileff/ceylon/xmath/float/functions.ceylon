@@ -705,3 +705,20 @@ Float product(Float* values) {
     }
     return product;
 }
+
+"The value of `x \{#00D7} 2\{#207F}`, calculated exactly
+ for reasonable values of `n` on JVM."
+shared native
+Float scalb(Float x, Integer n);
+
+shared native("jvm")
+Float scalb(Float x, Integer n)
+    =>  JVMMath.scalb(x, n);
+
+// TODO better JS impl
+shared native("js")
+Float scalb(Float x, Integer n) {
+    dynamic {
+        return x * Math.pow(2, n);
+    }
+}

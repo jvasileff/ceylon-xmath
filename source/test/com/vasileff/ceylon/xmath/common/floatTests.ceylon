@@ -942,6 +942,65 @@ test void testSumProduct() {
     };
 }
 
+test void testScalb() {
+    // TODO scalb(-0.0, x) is -0.0 on JVM, +0.0 on JS
+    assertEquals {
+        expected = 0.0;
+        actual=scalb(0.0, 0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.0;
+        actual=scalb(0.0, 2);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.0;
+        actual=scalb(0.0, -2);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 4.0;
+        actual=scalb(1.0, 2);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.25;
+        actual=scalb(1.0, -2);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -4.0;
+        actual=scalb(-1.0, 2);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -0.25;
+        actual=scalb(-1.0, -2);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 24.0;
+        actual=scalb(3.0, 3);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.375;
+        actual=scalb(3.0, -3);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -24.0;
+        actual=scalb(-3.0, 3);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -0.375;
+        actual=scalb(-3.0, -3);
+        compare = exact;
+    };
+}
+
 test void floatTests() {
     assertFalse(exact(0.0, -0.0), "Oops! Test is broken because we can't distinguish 0.0 and -0.0");
 }
