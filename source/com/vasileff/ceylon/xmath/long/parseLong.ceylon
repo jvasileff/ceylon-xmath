@@ -38,7 +38,7 @@ Long? parseLong(
 
     if (is LongImpl64 zero) {
         return if (exists integer = parseInteger(string, radix))
-        then LongImpl64.OfInteger(integer)
+        then LongImpl64.ofInteger(integer)
         else null;
     }
 

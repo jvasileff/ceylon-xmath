@@ -9,11 +9,11 @@ Whole wholeNumber(variable Integer number)
     else if (number == 1)  then one
     else if (number == 2)  then two
     else if (number == 10) then ten
-    else WholeImpl.OfWords(number.sign,
+    else WholeImpl.ofWords(number.sign,
                         wordsUnsignedInteger(number));
 
 MutableWhole mutableWholeNumber(variable Integer number)
-    =>  MutableWhole.CopyOfWords(number.sign,
+    =>  MutableWhole.copyOfWords(number.sign,
                 wordsUnsignedInteger(number));
 
 Words wordsUnsignedInteger(variable Integer integer) {

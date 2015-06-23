@@ -15,7 +15,7 @@ class MutableWhole extends Object
     shared variable Integer wordsSize;
 
     shared
-    new OfWords(Integer sign, Words words, Integer size = -1)
+    new ofWords(Integer sign, Words words, Integer size = -1)
             extends Object() {
         assert (-1 <= sign <= 1);
         this.wordsSize = realSize(words, size);
@@ -24,7 +24,7 @@ class MutableWhole extends Object
     }
 
     shared
-    new CopyOfWords(Integer sign, Words words, Integer size = -1)
+    new copyOfWords(Integer sign, Words words, Integer size = -1)
             extends Object() {
         assert (-1 <= sign <= 1);
         this.wordsSize = realSize(words, size);
@@ -33,7 +33,7 @@ class MutableWhole extends Object
     }
 
     shared
-    new CopyOfWhole(Whole whole) extends Object() {
+    new copyOfWhole(Whole whole) extends Object() {
         assert (is WholeImpl whole);
         this.wordsSize = realSize(whole.words, whole.wordsSize);
         this.words = whole.words.clone();
@@ -65,7 +65,7 @@ class MutableWhole extends Object
             else if (other.negativeOne) then
                 this.negated
             else
-                OfWords(this.sign * other.sign,
+                ofWords(this.sign * other.sign,
                         multiply(this.wordsSize, this.words,
                                  other.wordsSize, other.words));
 
@@ -74,7 +74,7 @@ class MutableWhole extends Object
         =>  if (zero || integer == 0) then
                 mutableZero()
             else if (0 < integer < wordRadix) then
-                OfWords(sign, multiplyWord(wordsSize, words, integer))
+                ofWords(sign, multiplyWord(wordsSize, words, integer))
             else
                 times(mutableWholeNumber(integer));
 
@@ -105,7 +105,7 @@ class MutableWhole extends Object
                                         (this.wordsSize, this.words,
                                          other.wordsSize, other.words,
                                          quotient))
-                 OfWords(sign * other.sign, quotient)));
+                 ofWords(sign * other.sign, quotient)));
     }
 
     shared actual
@@ -129,7 +129,7 @@ class MutableWhole extends Object
                 (let (remainder = divide<Nothing>
                                         (this.wordsSize, this.words,
                                          other.wordsSize, other.words))
-                 OfWords(sign, remainder)));
+                 ofWords(sign, remainder)));
     }
 
     shared
@@ -141,9 +141,9 @@ class MutableWhole extends Object
         =>  if (shift == 0) then
                 copy()
             else if (shift < 0) then
-                OfWords(sign, leftShift(wordsSize, words, -shift))
+                ofWords(sign, leftShift(wordsSize, words, -shift))
             else
-                OfWords(sign, rightShift(negative, wordsSize, words, shift));
+                ofWords(sign, rightShift(negative, wordsSize, words, shift));
 
     throws(`class Exception`, "If passed a negative exponent")
     throws(`class OverflowException`, "If passed an exponent > runtime.maxIntegerValue")
@@ -211,7 +211,7 @@ class MutableWhole extends Object
 
     shared actual
     Integer offset(MutableWhole other) {
-        value diff = WholeImpl.CopyOfMutableWhole(this - other);
+        value diff = WholeImpl.copyOfMutableWhole(this - other);
         if (integerMin <= diff <= integerMax) {
             return diff.integer;
         }
@@ -233,13 +233,13 @@ class MutableWhole extends Object
             else if (negativeOne) then
                 mutableOne()
             else
-                CopyOfWords(sign.negated, words, wordsSize);
+                copyOfWords(sign.negated, words, wordsSize);
 
     shared
-    MutableWhole copy() => CopyOfWords(sign, words, wordsSize);
+    MutableWhole copy() => copyOfWords(sign, words, wordsSize);
 
     shared
-    Whole whole => WholeImpl.CopyOfMutableWhole(this);
+    Whole whole => WholeImpl.copyOfMutableWhole(this);
 
     shared actual
     MutableWhole wholePart => copy();
@@ -413,7 +413,7 @@ class MutableWhole extends Object
             else if (second.zero) then
                 first.copy()
             else if (first.sign == secondSign) then
-                OfWords(first.sign,
+                ofWords(first.sign,
                         add(first.wordsSize, first.words,
                             second.wordsSize, second.words))
             else
@@ -423,11 +423,11 @@ class MutableWhole extends Object
                  case (equal)
                     mutableZero()
                  case (larger)
-                    OfWords(first.sign,
+                    ofWords(first.sign,
                             subtract(first.wordsSize, first.words,
                                      second.wordsSize, second.words))
                  case (smaller)
-                    OfWords(secondSign,
+                    ofWords(secondSign,
                             subtract(second.wordsSize, second.words,
                                      first.wordsSize, first.words)));
 

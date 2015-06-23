@@ -5,5 +5,5 @@ import com.vasileff.ceylon.xmath.long.internal {
 shared
 Long longNumber(Integer number)
     =>  if (realInts)
-        then LongImpl64.OfInteger(number)
-        else LongImpl16.OfInteger(number);
+        then LongImpl64.ofInteger(number)
+        else LongImpl16.ofInteger(number);

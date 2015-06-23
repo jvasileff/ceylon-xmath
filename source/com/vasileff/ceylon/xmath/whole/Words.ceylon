@@ -11,26 +11,26 @@ import ceylon.interop.java {
 native Words wordsOfSize(Integer size);
 
 native("jvm") Words wordsOfSize(Integer size)
-    =>  WordsJVM.OfSize(size);
+    =>  WordsJVM.ofSize(size);
 
 native("js") Words wordsOfSize(Integer size)
-    =>  WordsJS.OfSize(size);
+    =>  WordsJS.ofSize(size);
 
 native Words wordsOfOne(Integer word);
 
 native("jvm") Words wordsOfOne(Integer word)
-    =>  WordsJVM.OfOne(word);
+    =>  WordsJVM.ofOne(word);
 
 native("js") Words wordsOfOne(Integer word)
-    =>  WordsJS.OfOne(word);
+    =>  WordsJS.ofOne(word);
 
 native Words copyAppend(Integer wordsSize, Words words, Integer other);
 
 native("jvm") Words copyAppend(Integer wordsSize, Words words, Integer other)
-    =>  WordsJVM.CopyAppend(wordsSize, words, other);
+    =>  WordsJVM.copyAppend(wordsSize, words, other);
 
 native("js") Words copyAppend(Integer wordsSize, Words words, Integer other)
-    =>  WordsJS.CopyAppend(wordsSize, words, other);
+    =>  WordsJS.copyAppend(wordsSize, words, other);
 
 Boolean wordsEqual(Integer firstSize, Words first,
                    Integer secondSize, Words second) {
@@ -80,25 +80,25 @@ interface Words satisfies Identifiable {
 native("jvm") class WordsJVM satisfies Words {
     LongArray storage;
 
-    new Of(LongArray storage) {
+    new using(LongArray storage) {
         this.storage = storage;
     }
 
     shared
-    new OfSize(Integer size) {
+    new ofSize(Integer size) {
         storage = LongArray(size, 0);
 
     }
 
     shared
-    new OfOne(Integer word) {
+    new ofOne(Integer word) {
         storage = createJavaLongArray { word };
     }
 
     shared
-    new CopyAppend(
+    new copyAppend(
             Integer wordsSize, Words words, Integer other)
-            extends OfSize(wordsSize + 1) {
+            extends ofSize(wordsSize + 1) {
         assert (is WordsJVM words);
         words.storage.copyTo(storage, 0, 0, wordsSize);
         storage.set(wordsSize, other);
@@ -129,30 +129,30 @@ native("jvm") class WordsJVM satisfies Words {
 
     shared actual
     Words clone()
-        =>  Of(storage.clone());
+        =>  using(storage.clone());
 }
 
 native("js") class WordsJS satisfies Words {
     Array<Integer> storage;
 
-    new Of(Array<Integer> storage) {
+    new using(Array<Integer> storage) {
         this.storage = storage;
     }
 
     shared
-    new OfSize(Integer size) {
+    new ofSize(Integer size) {
         storage = arrayOfSize(size, 0);
     }
 
     shared
-    new OfOne(Integer word) {
+    new ofOne(Integer word) {
         storage = Array<Integer> { word };
     }
 
     shared
-    new CopyAppend(
+    new copyAppend(
             Integer wordsSize, Words words, Integer other)
-            extends OfSize(wordsSize + 1) {
+            extends ofSize(wordsSize + 1) {
         assert (is WordsJS words);
         words.storage.copyTo(storage, 0, 0, wordsSize);
         storage.set(wordsSize, other);
@@ -186,5 +186,5 @@ native("js") class WordsJS satisfies Words {
 
     shared actual
     Words clone()
-        =>  Of(storage.clone());
+        =>  using(storage.clone());
 }

@@ -74,8 +74,8 @@ Whole gcd(Whole first, Whole second) {
                                         second.integer));
         }
 
-        variable value u = MutableWhole.CopyOfWhole(first);
-        variable value v = MutableWhole.CopyOfWhole(second);
+        variable value u = MutableWhole.copyOfWhole(first);
+        variable value v = MutableWhole.copyOfWhole(second);
 
         // Knuth 4.5.2 Algorithm B
         // (Binary method to find the gcd)
@@ -121,7 +121,7 @@ Whole gcd(Whole first, Whole second) {
         }
 
         u.inPlaceLeftLogicalShift(zeroBits);
-        return WholeImpl.OfWords(1, u.words, u.wordsSize); // helps a little
+        return WholeImpl.ofWords(1, u.words, u.wordsSize); // helps a little
         //return Whole.CopyOfMutableWhole(u);
     }
 

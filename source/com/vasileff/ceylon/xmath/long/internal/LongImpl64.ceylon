@@ -14,12 +14,12 @@ class LongImpl64 satisfies Long {
     Integer integer;
 
     shared
-    new OfInteger(Integer integer) {
+    new ofInteger(Integer integer) {
         this.integer = integer;
     }
 
     shared
-    new OfWords(Integer w3, Integer w2, Integer w1, Integer w0) {
+    new ofWords(Integer w3, Integer w2, Integer w1, Integer w0) {
         integer = w0.or(w1.leftLogicalShift(16))
                     .or(w2.leftLogicalShift(32))
                     .or(w3.leftLogicalShift(48));
@@ -28,7 +28,7 @@ class LongImpl64 satisfies Long {
     shared actual
     Long and(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.and(other.integer));
+        return ofInteger(integer.and(other.integer));
     }
 
     shared actual
@@ -40,12 +40,12 @@ class LongImpl64 satisfies Long {
     shared actual
     Long divided(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.divided(other.integer));
+        return ofInteger(integer.divided(other.integer));
     }
 
     shared actual
     Long flip(Integer index)
-        =>  OfInteger(integer.flip(index));
+        =>  ofInteger(integer.flip(index));
 
     shared actual
     Boolean get(Integer index)
@@ -53,11 +53,11 @@ class LongImpl64 satisfies Long {
 
     shared actual
     Long leftLogicalShift(Integer shift)
-        =>  OfInteger(integer.leftLogicalShift(shift));
+        =>  ofInteger(integer.leftLogicalShift(shift));
 
     shared actual
     Long neighbour(Integer offset)
-        =>  OfInteger(integer.neighbour(offset));
+        =>  ofInteger(integer.neighbour(offset));
 
     shared actual
     Integer offset(Long other) {
@@ -68,61 +68,61 @@ class LongImpl64 satisfies Long {
     shared actual
     Long or(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.or(other.integer));
+        return ofInteger(integer.or(other.integer));
     }
 
     shared actual
     Long plus(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.plus(other.integer));
+        return ofInteger(integer.plus(other.integer));
     }
 
     shared actual
     Long plusInteger(Integer integer)
-        =>  OfInteger(this.integer.plusInteger(integer));
+        =>  ofInteger(this.integer.plusInteger(integer));
 
     shared actual
     Long power(Long exponent) {
         assert(is LongImpl64 exponent);
-        return OfInteger(integer.power(exponent.integer));
+        return ofInteger(integer.power(exponent.integer));
     }
 
     shared actual
     Long powerOfInteger(Integer exponent)
-        =>  OfInteger(integer.powerOfInteger(exponent));
+        =>  ofInteger(integer.powerOfInteger(exponent));
 
     shared actual
     Long remainder(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.remainder(other.integer));
+        return ofInteger(integer.remainder(other.integer));
     }
 
     shared actual
     Long rightArithmeticShift(Integer shift)
-        =>  OfInteger(integer.rightArithmeticShift(shift));
+        =>  ofInteger(integer.rightArithmeticShift(shift));
 
     shared actual
     Long rightLogicalShift(Integer shift)
-        =>  OfInteger(integer.rightLogicalShift(shift));
+        =>  ofInteger(integer.rightLogicalShift(shift));
 
     shared actual
     Long set(Integer index, Boolean bit)
-        =>  OfInteger(integer.set(index, bit));
+        =>  ofInteger(integer.set(index, bit));
 
     shared actual
     Long times(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.times(other.integer));
+        return ofInteger(integer.times(other.integer));
     }
 
     shared actual
     Long timesInteger(Integer integer)
-        =>  OfInteger(this.integer.timesInteger(integer));
+        =>  ofInteger(this.integer.timesInteger(integer));
 
     shared actual
     Long xor(Long other) {
         assert(is LongImpl64 other);
-        return OfInteger(integer.xor(other.integer));
+        return ofInteger(integer.xor(other.integer));
     }
 
     shared actual
@@ -159,10 +159,10 @@ class LongImpl64 satisfies Long {
     Whole whole => wholeNumber(integer);
 
     shared actual
-    Long negated => OfInteger(integer.negated);
+    Long negated => ofInteger(integer.negated);
 
     shared actual
-    Long not => OfInteger(integer.not);
+    Long not => ofInteger(integer.not);
 
     shared actual
     Boolean negative => integer.negative;

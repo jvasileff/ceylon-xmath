@@ -23,7 +23,7 @@ class WholeImpl satisfies Whole {
     variable String? stringMemo = null;
 
     shared
-    new OfWords(Integer sign, Words words, Integer maxSize = -1) {
+    new ofWords(Integer sign, Words words, Integer maxSize = -1) {
         // valid sign range
         assert (-1 <= sign <= 1);
 
@@ -44,7 +44,7 @@ class WholeImpl satisfies Whole {
     }
 
     shared
-    new CopyOfMutableWhole(MutableWhole mutableWhole) {
+    new copyOfMutableWhole(MutableWhole mutableWhole) {
         this.sign = mutableWhole.sign;
         this.wordsSize = mutableWhole.wordsSize;
         if (this.wordsSize == mutableWhole.words.size) {
@@ -61,7 +61,7 @@ class WholeImpl satisfies Whole {
      *does not* always make a defensive copy of [[words]], and is designed for
      internal use only."
     shared
-    new OfBits(words) {
+    new ofBits(words) {
         "words in two's complement"
         variable Words words;
 
@@ -101,7 +101,7 @@ class WholeImpl satisfies Whole {
         =>  if (index < 0) then
                 this
             else
-                OfWords(if(zero) then 1 else sign,
+                ofWords(if(zero) then 1 else sign,
                         setBit(wordsSize, words, bitLength,
                                negative then trailingZeroWords,
                                index, bit));
@@ -111,7 +111,7 @@ class WholeImpl satisfies Whole {
         =>  if (index < 0) then
                 this
             else
-                OfWords(if(zero) then 1 else sign,
+                ofWords(if(zero) then 1 else sign,
                         flipBit(wordsSize, words, bitLength,
                                negative then trailingZeroWords,
                                index));
@@ -142,7 +142,7 @@ class WholeImpl satisfies Whole {
             else if (other.negativeOne) then
                 this.negated
             else
-                OfWords(this.sign * other.sign,
+                ofWords(this.sign * other.sign,
                         multiply(this.wordsSize, this.words,
                                  other.wordsSize, other.words));
     }
@@ -152,7 +152,7 @@ class WholeImpl satisfies Whole {
         =>  if (zero || integer == 0) then
                 package.zero
             else if (0 < integer < wordRadix) then
-                OfWords(sign, multiplyWord(wordsSize, words, integer))
+                ofWords(sign, multiplyWord(wordsSize, words, integer))
             else
                 times(wholeNumber(integer));
 
@@ -184,8 +184,8 @@ class WholeImpl satisfies Whole {
                                         (this.wordsSize, this.words,
                                          other.wordsSize, other.words,
                                          quotient))
-                 [OfWords(sign * other.sign, quotient),
-                  OfWords(sign, remainder)]));
+                 [ofWords(sign * other.sign, quotient),
+                  ofWords(sign, remainder)]));
     }
 
     shared actual
@@ -216,7 +216,7 @@ class WholeImpl satisfies Whole {
                                         (this.wordsSize, this.words,
                                          other.wordsSize, other.words,
                                          quotient))
-                 OfWords(sign * other.sign, quotient)));
+                 ofWords(sign * other.sign, quotient)));
     }
 
     shared actual
@@ -243,7 +243,7 @@ class WholeImpl satisfies Whole {
                 (let (remainder = divide<Nothing>
                                          (this.wordsSize, this.words,
                                          other.wordsSize, other.words))
-                 OfWords(sign, remainder)));
+                 ofWords(sign, remainder)));
     }
 
     shared actual
@@ -255,10 +255,10 @@ class WholeImpl satisfies Whole {
         =>  if (shift == 0) then
                 this
             else if (shift < 0) then
-                WholeImpl.OfWords(sign,
+                WholeImpl.ofWords(sign,
                     leftShift(wordsSize, words, -shift))
             else
-                WholeImpl.OfWords(sign,
+                WholeImpl.ofWords(sign,
                     rightShift(negative, wordsSize, words, shift));
 
     shared actual
@@ -449,10 +449,10 @@ class WholeImpl satisfies Whole {
                 package.zero
             else if (positive) then
                 // add one, flip sign
-                OfWords(-1, package.successor(wordsSize, words))
+                ofWords(-1, package.successor(wordsSize, words))
             else
                 // subtract one, flip sign
-                OfWords(1, package.predecessor(wordsSize, words));
+                ofWords(1, package.predecessor(wordsSize, words));
 
     shared actual
     Whole negated
@@ -462,7 +462,7 @@ class WholeImpl satisfies Whole {
                 package.negativeOne
             else if (this.negativeOne) then
                 package.one
-            else OfWords(sign.negated, words, wordsSize);
+            else ofWords(sign.negated, words, wordsSize);
 
     shared actual
     Whole wholePart => this;
@@ -574,7 +574,7 @@ class WholeImpl satisfies Whole {
             else if (second.zero) then
                 first
             else if (first.sign == secondSign) then
-                OfWords(first.sign,
+                ofWords(first.sign,
                          add(first.wordsSize, first.words,
                              second.wordsSize, second.words))
             else
@@ -584,11 +584,11 @@ class WholeImpl satisfies Whole {
                 case (equal)
                     package.zero
                 case (larger)
-                    OfWords(first.sign,
+                    ofWords(first.sign,
                             subtract(first.wordsSize, first.words,
                                      second.wordsSize, second.words))
                 case (smaller)
-                    OfWords(secondSign,
+                    ofWords(secondSign,
                             subtract(second.wordsSize, second.words,
                                      first.wordsSize, first.words)));
     }
@@ -601,7 +601,7 @@ class WholeImpl satisfies Whole {
             second.wordsSize, second.words, second.bitLength,
             second.negative then second.trailingZeroWords,
             op);
-        return OfBits(bits);
+        return ofBits(bits);
     }
 
     Whole powerBySquaringInteger(variable Integer exponent) {
@@ -627,7 +627,7 @@ class WholeImpl satisfies Whole {
 
         // http://en.wikipedia.org/wiki/Modular_exponentiation
         // based on Applied Cryptography by Bruce Schneier
-        value exp = MutableWhole.CopyOfWhole(exponent);
+        value exp = MutableWhole.copyOfWhole(exponent);
         variable value result = package.one;
         base = base % modulus; // is this redundant?
         while (!exp.zero) {

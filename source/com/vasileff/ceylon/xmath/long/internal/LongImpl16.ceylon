@@ -30,7 +30,7 @@ class LongImpl16 satisfies Long {
     shared Integer w0;
 
     shared
-    new OfWords(Integer w3, Integer w2, Integer w1, Integer w0) {
+    new ofWords(Integer w3, Integer w2, Integer w1, Integer w0) {
         this.w3 = w3;
         this.w2 = w2;
         this.w1 = w1;
@@ -38,7 +38,7 @@ class LongImpl16 satisfies Long {
     }
 
     shared
-    new OfWhole(Whole whole) {
+    new ofWhole(Whole whole) {
         if (whole.zero) {
             this.w0 = 0;
             this.w1 = 0;
@@ -54,7 +54,7 @@ class LongImpl16 satisfies Long {
     }
 
     shared
-    new OfInteger(variable Integer integer) {
+    new ofInteger(variable Integer integer) {
         if (! runtime.minIntegerValue <= integer <= runtime.maxIntegerValue) {
             // FIXME throwing exceptions in constructors not supported ATM
             // https://github.com/ceylon/ceylon-spec/issues/1288
@@ -137,12 +137,12 @@ class LongImpl16 satisfies Long {
         sum = a.w3 + b.w3 + sum.rightLogicalShift(16);
         c3 = sum.and(#ffff);
 
-        return OfWords(c3, c2, c1, c0);
+        return ofWords(c3, c2, c1, c0);
     }
 
     shared actual
     Long plusInteger(Integer integer)
-        =>  this + OfInteger(integer);
+        =>  this + ofInteger(integer);
 
     shared actual
     LongImpl16 minus(Long other) {
@@ -164,7 +164,7 @@ class LongImpl16 satisfies Long {
         diff = a.w3 - b.w3 + diff.rightArithmeticShift(16);
         c3 = diff.and(#ffff);
 
-        return OfWords(c3, c2, c1, c0);
+        return ofWords(c3, c2, c1, c0);
     }
 
     shared actual
@@ -219,12 +219,12 @@ class LongImpl16 satisfies Long {
             c3 = prod.and(#ffff);
         }
 
-        return OfWords(c3, c2, c1, c0);
+        return ofWords(c3, c2, c1, c0);
     }
 
     shared actual
     Long timesInteger(Integer integer)
-        =>  this * OfInteger(integer);
+        =>  this * ofInteger(integer);
 
     shared actual
     Long divided(Long other) {
@@ -239,9 +239,9 @@ class LongImpl16 satisfies Long {
         else if (other.negativeOne) then
             this.negated
         else if (safelyAddressable && other.safelyAddressable) then
-            OfInteger(this.integer / other.integer)
+            ofInteger(this.integer / other.integer)
         else
-            OfWhole(this.whole / other.whole);
+            ofWhole(this.whole / other.whole);
     }
 
     shared actual
@@ -257,9 +257,9 @@ class LongImpl16 satisfies Long {
         else if (other.negativeOne) then
             lzero
         else if (safelyAddressable && other.safelyAddressable) then
-            OfInteger(this.integer % other.integer)
+            ofInteger(this.integer % other.integer)
         else
-            OfWhole(this.whole % other.whole);
+            ofWhole(this.whole % other.whole);
     }
 
     shared actual
@@ -289,13 +289,13 @@ class LongImpl16 satisfies Long {
 
     shared actual
     Long powerOfInteger(Integer exponent)
-        =>  power(OfInteger(exponent));
+        =>  power(ofInteger(exponent));
 
     shared actual
     Long and(Long other) {
         value a = this;
         assert(is LongImpl16 b = other);
-        return OfWords(
+        return ofWords(
             a.w3.and(b.w3),
             a.w2.and(b.w2),
             a.w1.and(b.w1),
@@ -306,7 +306,7 @@ class LongImpl16 satisfies Long {
     Long or(Long other) {
         value a = this;
         assert(is LongImpl16 b = other);
-        return OfWords(
+        return ofWords(
             a.w3.or(b.w3),
             a.w2.or(b.w2),
             a.w1.or(b.w1),
@@ -317,7 +317,7 @@ class LongImpl16 satisfies Long {
     Long xor(Long other) {
         value a = this;
         assert(is LongImpl16 b = other);
-        return OfWords(
+        return ofWords(
             a.w3.xor(b.w3),
             a.w2.xor(b.w2),
             a.w1.xor(b.w1),
@@ -329,7 +329,7 @@ class LongImpl16 satisfies Long {
         =>  if (0 <= index <= 63) then
                 let(word = index / 16)
                 let(bit = index % 16)
-                OfWords(
+                ofWords(
                     if (word == 3) then w3.flip(bit) else w3,
                     if (word == 2) then w2.flip(bit) else w2,
                     if (word == 1) then w1.flip(bit) else w1,
@@ -353,7 +353,7 @@ class LongImpl16 satisfies Long {
         =>  if (0 <= index <= 63) then
                 let(word = index / 16)
                 let(bit = index % 16)
-                OfWords(
+                ofWords(
                     if (word == 3) then w3.set(bit, val) else w3,
                     if (word == 2) then w2.set(bit, val) else w2,
                     if (word == 1) then w1.set(bit, val) else w1,
@@ -373,32 +373,32 @@ class LongImpl16 satisfies Long {
 
         if (bits == 0) {
             return switch(words)
-            case (1) OfWords(w2, w1, w0, 0)
-            case (2) OfWords(w1, w0,  0, 0)
-            else     OfWords(w0,  0,  0, 0);
+            case (1) ofWords(w2, w1, w0, 0)
+            case (2) ofWords(w1, w0,  0, 0)
+            else     ofWords(w0,  0,  0, 0);
         }
 
         value right = 16 - bits;
         return switch(words)
         case (0)
-            OfWords(
+            ofWords(
                 w3.leftLogicalShift(bits).or(w2.rightLogicalShift(right)).and(#ffff),
                 w2.leftLogicalShift(bits).or(w1.rightLogicalShift(right)).and(#ffff),
                 w1.leftLogicalShift(bits).or(w0.rightLogicalShift(right)).and(#ffff),
                 w0.leftLogicalShift(bits).and(#ffff))
         case (1)
-            OfWords(
+            ofWords(
                 w2.leftLogicalShift(bits).or(w1.rightLogicalShift(right)).and(#ffff),
                 w1.leftLogicalShift(bits).or(w0.rightLogicalShift(right)).and(#ffff),
                 w0.leftLogicalShift(bits).and(#ffff),
                 0)
         case (2)
-            OfWords(
+            ofWords(
                 w1.leftLogicalShift(bits).or(w0.rightLogicalShift(right)).and(#ffff),
                 w0.leftLogicalShift(bits).and(#ffff),
                 0, 0)
         else
-            OfWords(
+            ofWords(
                 w0.leftLogicalShift(bits).and(#ffff),
                 0, 0, 0);
     }
@@ -416,32 +416,32 @@ class LongImpl16 satisfies Long {
 
         if (bits == 0) {
             return switch(words)
-            case (1) OfWords(0, w3, w2, w1)
-            case (2) OfWords(0,  0, w3, w2)
-            else     OfWords(0,  0,  0, w3);
+            case (1) ofWords(0, w3, w2, w1)
+            case (2) ofWords(0,  0, w3, w2)
+            else     ofWords(0,  0,  0, w3);
         }
 
         value left = 16 - bits;
         return switch(words)
         case (0)
-            OfWords(
+            ofWords(
                 w3.rightLogicalShift(bits).and(#ffff),
                 w2.rightLogicalShift(bits).or(w3.leftLogicalShift(left)).and(#ffff),
                 w1.rightLogicalShift(bits).or(w2.leftLogicalShift(left)).and(#ffff),
                 w0.rightLogicalShift(bits).or(w1.leftLogicalShift(left)).and(#ffff))
         case (1)
-            OfWords(
+            ofWords(
                 0,
                 w3.rightLogicalShift(bits).and(#ffff),
                 w2.rightLogicalShift(bits).or(w3.leftLogicalShift(left)).and(#ffff),
                 w1.rightLogicalShift(bits).or(w2.leftLogicalShift(left)).and(#ffff))
         case (2)
-            OfWords(
+            ofWords(
                 0, 0,
                 w3.rightLogicalShift(bits).and(#ffff),
                 w2.rightLogicalShift(bits).or(w3.leftLogicalShift(left)).and(#ffff))
         else
-            OfWords(
+            ofWords(
                 0, 0, 0,
                 w3.rightLogicalShift(bits).and(#ffff));
     }
@@ -463,16 +463,16 @@ class LongImpl16 satisfies Long {
 
             if (bits == 0) {
                 return switch(words)
-                case (1) OfWords(#ffff, l.w3, l.w2, l.w1)
-                case (2) OfWords(#ffff, #ffff, l.w3, l.w2)
-                else     OfWords(#ffff, #ffff, #ffff, l.w3);
+                case (1) ofWords(#ffff, l.w3, l.w2, l.w1)
+                case (2) ofWords(#ffff, #ffff, l.w3, l.w2)
+                else     ofWords(#ffff, #ffff, #ffff, l.w3);
             } else {
                 value ones = (-1).leftLogicalShift(16 - bits).and(#ffff);
                 return switch(words)
-                case (0) OfWords(l.w3.or(ones), l.w2, l.w1, l.w0)
-                case (1) OfWords(#ffff, l.w3.or(ones), l.w2, l.w1)
-                case (2) OfWords(#ffff, #ffff, l.w3.or(ones), l.w2)
-                else     OfWords(#ffff, #ffff, #ffff, l.w3.or(ones));
+                case (0) ofWords(l.w3.or(ones), l.w2, l.w1, l.w0)
+                case (1) ofWords(#ffff, l.w3.or(ones), l.w2, l.w1)
+                case (2) ofWords(#ffff, #ffff, l.w3.or(ones), l.w2)
+                else     ofWords(#ffff, #ffff, #ffff, l.w3.or(ones));
             }
         }
     }
@@ -494,7 +494,7 @@ class LongImpl16 satisfies Long {
 
     shared actual
     LongImpl16 not
-        =>  OfWords(
+        =>  ofWords(
                 w3.not.and(#ffff),
                 w2.not.and(#ffff),
                 w1.not.and(#ffff),
