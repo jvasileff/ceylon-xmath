@@ -37,9 +37,16 @@ Long? parseLong(
             Integer radix = 10) {
 
     if (is LongImpl64 zero) {
-        return if (exists integer = parseInteger(string, radix))
-        then LongImpl64.ofInteger(integer)
-        else null;
+        // TODO https://github.com/ceylon/ceylon-compiler/issues/2273
+        //return if (exists integer = parseInteger(string, radix))
+        //then LongImpl64.ofInteger(integer)
+        //else null;
+        if (exists integer = parseInteger(string, radix)) {
+            return LongImpl64.ofInteger(integer);
+        }
+        else {
+            return null;
+        }
     }
 
     assert (minRadix <= radix <= maxRadix);
