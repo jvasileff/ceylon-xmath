@@ -519,7 +519,7 @@ class LongImpl16 satisfies Long {
         value result = impreciseInteger;
         if (! runtime.minIntegerValue <= result <= runtime.maxIntegerValue) {
             throw OverflowException(
-                "Cannot convert to Integer without loss of precision.");
+                "Cannot represent value without loss of precision.");
         }
         return result;
     }
@@ -658,4 +658,20 @@ class LongImpl16 satisfies Long {
         }
         return result;
     }
+
+    shared actual
+    Byte byte
+        =>  Byte(w0.and(#ff));
+
+    shared actual
+    Character character {
+        if (!safelyAddressable) {
+            throw OverflowException();
+        }
+        return integer.character;
+    }
+
+    shared actual
+    Float float
+        =>  preciseInteger.float;
 }

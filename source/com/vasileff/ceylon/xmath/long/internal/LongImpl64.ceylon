@@ -172,4 +172,13 @@ class LongImpl64 satisfies Long {
 
     shared actual
     Boolean even => integer.even;
+
+    shared actual
+    Byte byte => integer.byte;
+
+    shared actual
+    Character character => integer.character;
+
+    shared actual
+    Float float => integer.float;
 }

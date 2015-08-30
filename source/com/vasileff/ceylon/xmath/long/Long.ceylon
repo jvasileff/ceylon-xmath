@@ -45,4 +45,22 @@ interface Long
     "The number, as a [[Whole]]."
     shared formal
     Whole whole;
+
+    "The UTF-32 character with this UCS code point."
+    throws (`class OverflowException`,
+            "if this integer is not in the range
+             `0..#10FFFF` of legal Unicode code points")
+    shared formal Character character;
+
+    "The number, represented as a [[Float]], if such a
+     representation is possible."
+    throws (`class OverflowException`,
+        "if the number cannot be represented as a `Float`
+         without loss of precision")
+    shared formal Float float;
+
+    "A [[Byte]] whose [[signed|Byte.signed]] and
+     [[unsigned|Byte.unsigned]] interpretations are
+     congruent modulo 256 to this integer."
+    shared formal Byte byte;
 }

@@ -1,6 +1,7 @@
 import ceylon.test {
     test,
-    assertEquals
+    assertEquals,
+    assertThatException
 }
 
 import com.vasileff.ceylon.xmath.long {
@@ -11,7 +12,7 @@ import com.vasileff.ceylon.xmath.long {
     zero
 }
 
-test
+shared test
 void longTests() {
     assertEquals(zero - one, longNumber(-1));
     assertEquals(zero - two, longNumber(-2));
@@ -22,7 +23,7 @@ void longTests() {
     assertEquals(ten - zero, longNumber(10));
 }
 
-test
+shared test
 void preciseIntegerPowersOfTwo() {
     // even power's of two
     for (p in 0..52) {
@@ -40,7 +41,7 @@ void preciseIntegerPowersOfTwo() {
     }
 }
 
-test
+shared test
 void longPower() {
     // even power's of two
     assertEquals(two.powerOfInteger(0).string, "1");
@@ -239,4 +240,35 @@ void longPower() {
     assertEquals((two.powerOfInteger(61) + one).string, "2305843009213693953");
     assertEquals((two.powerOfInteger(62) + one).string, "4611686018427387905");
     assertEquals((two.powerOfInteger(63) + one).string, "-9223372036854775807");
+}
+
+shared test
+void longToFloat() {
+    assertEquals(longNumber(2).float, 2.0);
+    assertEquals(longNumber(-2).float, -2.0);
+
+    assertEquals(longNumber(9007199254740991).float, 9007199254740991.0);
+    assertEquals(longNumber(-9007199254740991).float, -9007199254740991.0);
+
+    assertThatException(() => longNumber(9007199254740991).successor.float);
+    assertThatException(() => longNumber(-9007199254740991).predecessor.float);
+}
+
+shared test
+void longToCharacter() {
+    assertEquals(longNumber(97).character, 'a');
+
+    assertThatException(() => longNumber(-1).character);
+    assertThatException(() => longNumber(#110000).character);
+}
+
+shared test
+void longToByte() {
+    assertEquals(longNumber(-256).byte, 0.byte);
+    assertEquals(longNumber(-255).byte, 1.byte);
+    assertEquals(longNumber(-1).byte, 255.byte);
+    assertEquals(longNumber(0).byte, 0.byte);
+    assertEquals(longNumber(1).byte, 1.byte);
+    assertEquals(longNumber(255).byte, 255.byte);
+    assertEquals(longNumber(256).byte, 0.byte);
 }
