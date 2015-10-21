@@ -2,8 +2,7 @@ import ceylon.test {
     assertTrue,
     assertEquals,
     fail,
-    test,
-    ignore
+    test
 }
 
 import com.vasileff.ceylon.xmath.whole {
@@ -214,7 +213,8 @@ test shared void wholeStringTests() {
 
 
 test shared void wholePlusTests() {
-    value test = runTest("-", uncurry(Whole.plus), mapTuple3(toWhole));
+    // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+    value test = runTest("-", (Whole a, Whole b) => a + b, mapTuple3(toWhole));
 
     test([ 2,  1,  1], null);
     test([ 0,  0,  0], null);
@@ -236,7 +236,8 @@ test shared void wholePlusTests() {
 
 test shared
 void wholeMinusTests() {
-    value test = runTest("-", uncurry(Whole.minus), mapTuple3(toWhole));
+    // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+    value test = runTest("-", (Whole a, Whole b) => a - b, mapTuple3(toWhole));
 
     test([ 1,  2,  1], null);
     test([ 0,  0,  0], null);

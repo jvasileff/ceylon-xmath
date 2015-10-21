@@ -39,7 +39,7 @@ void doBenches(
         Boolean allowNegativeRhs = true) {
 
     for (lhsBitCount in lhsBits) {
-        for (rhsBitCount in rhsBits) { 
+        for (rhsBitCount in rhsBits) {
             bench1 {
                 label = label;
                 lhsBits = lhsBitCount;
@@ -109,7 +109,7 @@ void bench({[String, Object()]+} tests) {
         Integer start = system.nanoseconds;
         value actualResult = test[1]();
         assert(expectedResult == actualResult);
-        value time = (system.nanoseconds - start) / 10^6; 
+        value time = (system.nanoseconds - start) / 10^6;
         print ("``time`` | ``test[0]``");
     }
 }
@@ -121,7 +121,8 @@ shared void doBench() {
         lhsBits = {64};
         rhsBits = {64, 64};
         iterations = iterations;
-        ceylonOp = Whole.plus;
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        ceylonOp = (Whole a)(Whole b) => a + b;
         javaOp = BigInteger.add;
         allowNegativeLhs = false;
         allowNegativeRhs = false;
@@ -131,7 +132,8 @@ shared void doBench() {
         lhsBits = {64};
         rhsBits = {64, 64};
         iterations = iterations;
-        ceylonOp = Whole.minus;
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        ceylonOp = (Whole a)(Whole b) => a - b;
         javaOp = BigInteger.subtract;
         allowNegativeLhs = false;
         allowNegativeRhs = false;
@@ -141,7 +143,8 @@ shared void doBench() {
         lhsBits = {64};
         rhsBits = {64, 64};
         iterations = iterations;
-        ceylonOp = Whole.times;
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        ceylonOp = (Whole a)(Whole b) => a * b;
         javaOp = BigInteger.multiply;
     };
     doBenches {
@@ -149,7 +152,8 @@ shared void doBench() {
         lhsBits = {64};
         rhsBits = {32, 32};
         iterations = iterations;
-        ceylonOp = Whole.divided;
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        ceylonOp = (Whole a)(Whole b) => a / b;
         javaOp = BigInteger.divide;
         allowZeroRhs = false;
     };
@@ -158,7 +162,8 @@ shared void doBench() {
         lhsBits = {64};
         rhsBits = {32, 32};
         iterations = iterations;
-        ceylonOp = Whole.remainder;
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        ceylonOp = (Whole a)(Whole b) => a % b;
         javaOp = BigInteger.remainder;
         allowZeroRhs = false;
     };

@@ -24,7 +24,8 @@ Integer bits = 256;
 test shared void wholeTortureAddition() {
     runTests {
         label = "+";
-        actual = basicWW(Whole.plus);
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        actual = basicWW((Whole a)(Whole b) => a + b);
         expected = basicBB(BigInteger.add);
         tests = {[
             generateWhole(bits),
@@ -36,7 +37,8 @@ test shared void wholeTortureAddition() {
 test shared void wholeTortureSubtraction() {
     runTests {
         label = "-";
-        actual = basicWW(Whole.minus);
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        actual = basicWW((Whole a)(Whole b) => a - b);
         expected = basicBB(BigInteger.subtract);
         tests = {[
             generateWhole(bits),
@@ -48,7 +50,8 @@ test shared void wholeTortureSubtraction() {
 test shared void wholeTortureMultiplication() {
     runTests {
         label = "*";
-        actual = basicWW(Whole.times);
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        actual = basicWW((Whole a)(Whole b) => a * b);
         expected = basicBB(BigInteger.multiply);
         tests = {[
             generateWhole(bits),
@@ -60,7 +63,8 @@ test shared void wholeTortureMultiplication() {
 test shared void wholeTortureDivision() {
     runTests {
         label = "÷";
-        actual = basicWW(Whole.divided);
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        actual = basicWW((Whole a)(Whole b) => a / b);
         expected = basicBB(BigInteger.divide);
         tests = {[
             generateWhole(bits),
@@ -72,7 +76,8 @@ test shared void wholeTortureDivision() {
 test shared void wholeTortureRemainder() {
     runTests {
         label = "%";
-        actual = basicWW(Whole.remainder);
+        // Workaround https://github.com/ceylon/ceylon-compiler/issues/2378
+        actual = basicWW((Whole a)(Whole b) => a % b);
         expected = basicBB(BigInteger.remainder);
         tests = {[
             generateWhole(bits),
