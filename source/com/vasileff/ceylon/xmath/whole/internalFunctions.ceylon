@@ -612,13 +612,13 @@ void addBack(Words u, Integer vSize, Words v, Integer j) {
 "Divides [[dividend]] by [[divisor]], possibly returning the remainder, and
  storing the quotient in [[quotient]], if provided. All values are unsigned.
 
- The remainder will be returned if [[Absent]] is [[Nothing]]. If a remainder is
- not desired, [[Absent]] should be [[Null]]."
-Words|Absent divide<Absent=Null>(
+ The remainder will be returned if [[calculateRemainder]] is true. Otherwise,
+ a unusable dummy value will be returned."
+Words divide(
             Integer dividendSize, Words dividend,
             Integer divisorSize, Words divisor,
-            quotient = null)
-            given Absent satisfies Null {
+            Boolean calculateRemainder,
+            quotient = null) {
 
     "The object to hold the quotient, or null if the quotient is not needed.
      This *may not* be the same as [[dividend]] or [[divisor]], and *must*
@@ -627,7 +627,7 @@ Words|Absent divide<Absent=Null>(
 
     if (divisorSize < 2) {
         value first = divisor.get(0);
-        return divideWord<Absent>(dividendSize, dividend, first, quotient);
+        return divideWord(dividendSize, dividend, first, calculateRemainder, quotient);
     }
 
     // Knuth 4.3.1 Algorithm D
@@ -718,22 +718,21 @@ Words|Absent divide<Absent=Null>(
     }
 
     // D8. Unnormalize Remainder Due to Step D1
-    if (is Absent null) {
-        return null;
+    if (calculateRemainder) {
+        return rightShiftInPlace(false, realSize(u, uSize), u, shift);
     }
     else {
-        return rightShiftInPlace(false, realSize(u, uSize), u, shift);
+        return dummyWords;
     }
 }
 
 "Divides [[u]] by [[v]], possibly returning the remainder, and
  storing the quotient in [[quotient]], if provided. All values are unsigned.
 
- The remainder will be returned if [[Absent]] is [[Nothing]]. If a remainder is
- not desired, [[Absent]] should be [[Null]]."
-Words|Absent divideWord<Absent=Null>(Integer uSize, Words u,
-                                Integer v, quotient = null)
-                                given Absent satisfies Null {
+ The remainder will be returned if [[calculateRemainder]] is true. Otherwise,
+ a unusable dummy value will be returned."
+Words divideWord(Integer uSize, Words u, Integer v,
+        Boolean calculateRemainder, quotient = null) {
 
     "The object to hold the quotient, or null if the quotient is not needed.
      This *may not* be the same as [[u]], and *must* be at least [[uSize]]
@@ -766,13 +765,13 @@ Words|Absent divideWord<Absent=Null>(Integer uSize, Words u,
         }
         uIndex--;
     }
-    if (is Absent null) {
-        return null;
-    }
-    else {
+    if (calculateRemainder) {
         return if (r.zero)
                then wordsOfSize(0)
                else wordsOfOne(r);
+    }
+    else {
+        return dummyWords;
     }
 }
 

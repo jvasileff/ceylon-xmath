@@ -29,3 +29,28 @@ Integer maxAddressableInteger = minAddressableInteger.not;
 MutableWhole mutableZero() => MutableWhole.ofWords(0, wordsOfSize(0));
 MutableWhole mutableOne() => MutableWhole.ofWords(1, wordsOfOne(1));
 MutableWhole mutableNegativeOne() => MutableWhole.ofWords(-1, wordsOfOne(1));
+
+object dummyWords satisfies Words {
+    shared actual
+    Words clone() {
+        throw AssertionError("Misuse of internal object.");
+    }
+
+    shared actual
+    void copyTo(Words destination, Integer sourcePosition, Integer destinationPosition,
+            Integer length) {
+        throw AssertionError("Misuse of internal object.");
+    }
+
+    shared actual Integer get(Integer index) {
+        throw AssertionError("Misuse of internal object.");
+    }
+
+    shared actual void set(Integer index, Integer word) {
+        throw AssertionError("Misuse of internal object.");
+    }
+
+    shared actual Integer size {
+        throw AssertionError("Misuse of internal object.");
+    }
+}

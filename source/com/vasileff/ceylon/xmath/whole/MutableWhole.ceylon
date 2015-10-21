@@ -101,10 +101,9 @@ class MutableWhole extends Object
                 mutableZero()
             case (larger)
                 (let (quotient = wordsOfSize(this.wordsSize),
-                      remainder = divide<Null>
-                                        (this.wordsSize, this.words,
-                                         other.wordsSize, other.words,
-                                         quotient))
+                      _ = divide(this.wordsSize, this.words,
+                                 other.wordsSize, other.words,
+                                 false, quotient))
                  ofWords(sign * other.sign, quotient)));
     }
 
@@ -126,9 +125,8 @@ class MutableWhole extends Object
             case (smaller)
                 copy()
             case (larger)
-                (let (remainder = divide<Nothing>
-                                        (this.wordsSize, this.words,
-                                         other.wordsSize, other.words))
+                (let (remainder = divide(this.wordsSize, this.words,
+                                         other.wordsSize, other.words, true))
                  ofWords(sign, remainder)));
     }
 

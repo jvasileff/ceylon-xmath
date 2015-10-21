@@ -180,10 +180,9 @@ class WholeImpl satisfies Whole {
                 [package.zero, this]
             case (larger)
                 (let (quotient = wordsOfSize(this.wordsSize),
-                      remainder = divide<Nothing>
-                                        (this.wordsSize, this.words,
+                      remainder = divide(this.wordsSize, this.words,
                                          other.wordsSize, other.words,
-                                         quotient))
+                                         true, quotient))
                  [ofWords(sign * other.sign, quotient),
                   ofWords(sign, remainder)]));
     }
@@ -212,10 +211,9 @@ class WholeImpl satisfies Whole {
                 package.zero
             case (larger)
                 (let (quotient = wordsOfSize(this.wordsSize),
-                      remainder = divide<Null>
-                                        (this.wordsSize, this.words,
-                                         other.wordsSize, other.words,
-                                         quotient))
+                      _ = divide(this.wordsSize, this.words,
+                                 other.wordsSize, other.words,
+                                 false, quotient))
                  ofWords(sign * other.sign, quotient)));
     }
 
@@ -240,9 +238,8 @@ class WholeImpl satisfies Whole {
             case (smaller)
                 this
             case (larger)
-                (let (remainder = divide<Nothing>
-                                         (this.wordsSize, this.words,
-                                         other.wordsSize, other.words))
+                (let (remainder = divide(this.wordsSize, this.words,
+                                         other.wordsSize, other.words, true))
                  ofWords(sign, remainder)));
     }
 
