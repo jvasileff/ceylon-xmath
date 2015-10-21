@@ -89,7 +89,7 @@ test shared void wholeTortureRemainder() {
 test shared void wholeTortureMod() {
     runTests {
         label = "mod";
-        actual = basicWW(Whole.mod);
+        actual = basicWW(Whole.modulo);
         expected = basicBB(BigInteger.mod);
         tests = {[
             generateWhole(bits),
@@ -176,7 +176,7 @@ test shared void wholeTortureGcd() {
 test shared void wholeTortureModInverse() {
     runTests {
         label = "modInverse";
-        actual = basicWW(Whole.modInverse);
+        actual = basicWW(Whole.moduloInverse);
         expected = basicBB(BigInteger.modInverse);
         tests = {[
             generateWhole(bits),
@@ -189,7 +189,7 @@ test shared void wholeTortureModPower() {
     runTests {
         label = "modPower";
         actual = (Whole a, Whole b, Whole c)
-            =>  a.modPower(b, c).string;
+            =>  a.moduloPower(b, c).string;
         expected = (Whole a, Whole b, Whole c)
             =>  let (a2 = toBigInteger(a),
                      b2 = toBigInteger(b),

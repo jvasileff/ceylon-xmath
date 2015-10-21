@@ -285,8 +285,8 @@ void wholeRemainderTests() {
 
 test shared
 void wholeModTests() {
-    assertEquals(wholeNumber(5).mod(wholeNumber(3)), wholeNumber(2), "5.mod(2)");
-    assertEquals(wholeNumber(-5).mod(wholeNumber(3)), wholeNumber(1), "(-5).mod(2)");
+    assertEquals(wholeNumber(5).modulo(wholeNumber(3)), wholeNumber(2), "5.mod(2)");
+    assertEquals(wholeNumber(-5).modulo(wholeNumber(3)), wholeNumber(1), "(-5).mod(2)");
 }
 
 test shared

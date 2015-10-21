@@ -331,7 +331,7 @@ class WholeImpl satisfies Whole {
     }
 
     shared actual
-    Whole mod(Whole modulus) {
+    Whole modulo(Whole modulus) {
         if (!modulus.positive) {
             throw AssertionError("modulus must be positive");
         }
@@ -342,7 +342,7 @@ class WholeImpl satisfies Whole {
     }
 
     shared actual
-    Whole modPower(Whole exponent, Whole modulus) {
+    Whole moduloPower(Whole exponent, Whole modulus) {
         if (!modulus.positive) {
             throw Exception("Modulus must be positive.");
         }
@@ -360,17 +360,17 @@ class WholeImpl satisfies Whole {
         variable Whole base = this;
 
         if (exponent.negative) {
-            base = modInverse(modulus);
+            base = moduloInverse(modulus);
         }
         else if (base.negative || base >= modulus) {
-            base = base.mod(modulus);
+            base = base.modulo(modulus);
         }
 
         return modPowerPositive(base, exponent.magnitude, modulus);
     }
 
     shared actual
-    Whole modInverse(Whole modulus) {
+    Whole moduloInverse(Whole modulus) {
         if (!modulus.positive) {
             throw Exception("Modulus must be positive.");
         }
@@ -382,7 +382,7 @@ class WholeImpl satisfies Whole {
         }
         //assert (modulus > package.one);
 
-        return let (inverse = modInversePositive(this.magnitude, modulus))
+        return let (inverse = moduloInversePositive(this.magnitude, modulus))
                if (this.negative)
                then modulus - inverse
                else inverse;
@@ -640,7 +640,7 @@ class WholeImpl satisfies Whole {
         return result;
     }
 
-    Whole modInversePositive("base" Whole u, "modulus" Whole v) {
+    Whole moduloInversePositive("base" Whole u, "modulus" Whole v) {
         // Knuth 4.5.2 Algorithm X
         // http://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
 

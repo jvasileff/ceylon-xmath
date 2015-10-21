@@ -27,17 +27,17 @@ interface Whole
     shared formal actual
     Whole power(Whole exponent);
 
-    deprecated("Renamed to [[modPower]].")
-    see(`function modPower`)
+    deprecated("Renamed to [[moduloPower]].")
+    see(`function moduloPower`)
     throws(`class Exception`, "If passed a negative modulus")
     shared
     Whole powerRemainder(Whole exponent, Whole modulus)
-        =>  modPower(exponent, modulus);
+        =>  moduloPower(exponent, modulus);
 
     "The result of `(this**exponent) mod modulus`."
     throws(`class Exception`, "If passed a negative modulus")
     shared formal
-    Whole modPower(Whole exponent, Whole modulus);
+    Whole moduloPower(Whole exponent, Whole modulus);
 
     "The number, as an [[Long]] composed of the
      64 least significant bits of the two's complement
@@ -64,7 +64,7 @@ interface Whole
 
     "The distance between this whole and the other whole"
     throws(`class OverflowException`,
-           "The numbers differ by an amount larger than 
+           "The numbers differ by an amount larger than
             can be represented as an `Integer`")
     shared actual formal
     Integer offset(Whole other);
@@ -135,12 +135,12 @@ interface Whole
 
     "The result of (this<sup>-1</sup> mod m)"
     shared formal
-    Whole modInverse(Whole modulus);
+    Whole moduloInverse(Whole modulus);
 
     "The result of `this mod modulus`, differing from [[remainder]] in that
      the returned value will always be positive."
-    shared formal
-    Whole mod(Whole modulus);
+    shared formal actual
+    Whole modulo(Whole modulus);
 
     "The binary complement of this sequence of bits. The returned value
      will have the opposite sign of the orignal value."
