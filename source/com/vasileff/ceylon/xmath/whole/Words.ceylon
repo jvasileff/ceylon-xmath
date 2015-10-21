@@ -141,7 +141,7 @@ native("js") class WordsJS satisfies Words {
 
     shared
     new ofSize(Integer size) {
-        storage = arrayOfSize(size, 0);
+        storage = Array.ofSize(size, 0);
     }
 
     shared
