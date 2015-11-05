@@ -14,13 +14,13 @@
     <property name="out.repo" location="${basedir}/modules"/>
     <property name="ceylon.repo.dir" location="${user.home}/.ceylon/repo" />
 
-    <moduleset id="modules.xmath.jvm">
+    <moduleset id="modules.jvm">
         <module name="com.vasileff.ceylon.xmath"/>
         <module name="test.com.vasileff.ceylon.xmath.jvm"/>
         <module name="test.com.vasileff.ceylon.xmath.common"/>
     </moduleset>
 
-    <moduleset id="modules.xmath.js">
+    <moduleset id="modules.js">
         <module name="com.vasileff.ceylon.xmath"/>
         <module name="test.com.vasileff.ceylon.xmath.common"/>
     </moduleset>
@@ -29,25 +29,25 @@
 
     <target name="compile">
         <ceylon-compile encoding="${source.encoding}">
-            <moduleset refid="modules.xmath.jvm"/>
+            <moduleset refid="modules.jvm"/>
         </ceylon-compile>
     </target>
 
     <target name="compile-js">
         <ceylon-compile-js encoding="${source.encoding}">
-            <moduleset refid="modules.xmath.js"/>
+            <moduleset refid="modules.js"/>
         </ceylon-compile-js>
     </target>
 
     <target name="test" depends="compile">
         <ceylon-test report="true">
-            <moduleset refid="modules.xmath.jvm"/>
+            <moduleset refid="modules.jvm"/>
         </ceylon-test>
     </target>
 
     <target name="test-js" depends="compile-js">
         <ceylon-test-js report="true">
-            <moduleset refid="modules.xmath.js"/>
+            <moduleset refid="modules.js"/>
         </ceylon-test-js>
     </target>
 
@@ -55,7 +55,7 @@
         <ceylon-doc
                 encoding="${source.encoding}"
                 includesourcecode="true">
-            <moduleset refid="modules.xmath.jvm"/>
+            <moduleset refid="modules.jvm"/>
         </ceylon-doc>
     </target>
 
@@ -66,6 +66,34 @@
                 <include name="com/vasileff/ceylon/xmath/**"/>
             </fileset>
         </copy>
+    </target>
+
+    <target name="publish-herd">
+        <fail message="Please specify a target Herd upload repo url with -Dherd.repo=..." unless="herd.repo"/>
+        <fail message="Please specify a target Herd user name with -Dherd.user=..." unless="herd.user"/>
+        <fail message="Please specify a target Herd password with -Dherd.pass=..." unless="herd.pass"/>
+        <ceylon-compile
+                encoding="${source.encoding}"
+                out="${herd.repo}"
+                user="${herd.user}"
+                pass="${herd.pass}">
+            <moduleset refid="modules.jvm"/>
+        </ceylon-compile>
+        <ceylon-compile-js
+                encoding="${source.encoding}"
+                out="${herd.repo}"
+                user="${herd.user}"
+                pass="${herd.pass}">
+            <moduleset refid="modules.js"/>
+        </ceylon-compile-js>
+        <ceylon-doc
+                encoding="${source.encoding}"
+                includesourcecode="true"
+                out="${herd.repo}"
+                user="${herd.user}"
+                pass="${herd.pass}">
+            <moduleset refid="modules.jvm"/>
+        </ceylon-doc>
     </target>
 
     <target name="clean">
