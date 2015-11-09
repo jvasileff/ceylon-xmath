@@ -724,7 +724,7 @@ Float scalb(Float x, Integer n) {
     }
 }
 
-"The remainder, after dividing the [[dividend]] by the [[divisor]]. This funciton is
+"The remainder, after dividing the [[dividend]] by the [[divisor]]. This function is
  defined as:
 
      dividend - n * divisor
