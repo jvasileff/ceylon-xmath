@@ -723,3 +723,26 @@ Float scalb(Float x, Integer n) {
         return x * Math.pow(2, n);
     }
 }
+
+"The remainder, after dividing the [[dividend]] by the [[divisor]]. This funciton is
+ defined as:
+
+     dividend - n * divisor
+
+ where `n` is the whole part of `dividend / divisor`. The result will have the
+ same sign as the `dividend`.
+
+ * `remainder(infinity, divisor)` is `undefined`,
+ * `remainder(dividend, 0.0)` is `undefined`,
+ * `remainder(dividend, infinity)` is `dividend` for non-infinite dividends."
+shared
+Float remainder(Float dividend, Float divisor) {
+    if (dividend == 0.0 && divisor != 0.0 && !divisor.undefined) {
+        return if (dividend.strictlyNegative) then -0.0 else 0.0;
+    }
+    if (divisor.infinite && !dividend.infinite) {
+        return dividend;
+    }
+    // effectively, undefined is returned when divisor == 0.
+    return dividend - (dividend/divisor).wholePart * divisor;
+}

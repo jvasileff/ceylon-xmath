@@ -1001,6 +1001,213 @@ test void testScalb() {
     };
 }
 
+test void testRemainder() {
+    assertEquals {
+        expected = 1.0;
+        actual=remainder(5.5, 1.5);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 1.0;
+        actual=remainder(5.5, -1.5);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -1.0;
+        actual=remainder(-5.5, 1.5);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -1.0;
+        actual=remainder(-5.5, -1.5);
+        compare = exact;
+    };
+    // zero dividend
+    assertEquals {
+        expected = 0.0;
+        actual=remainder(0.0, 1.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -0.0;
+        actual=remainder(-0.0, 1.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.0;
+        actual=remainder(0.0, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.0;
+        actual=remainder(0.0, -infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -0.0;
+        actual=remainder(-0.0, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -0.0;
+        actual=remainder(-0.0, -infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 0.0 / 0.0; // undefined
+        actual=remainder(0.0, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -0.0 / 0.0; // undefined
+        actual=remainder(-0.0, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(0.0, undefined);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-0.0, undefined);
+        compare = exact;
+    };
+    // infinite dividend (always undefined)
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, -0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, 1.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, -1.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, undefined);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, -undefined);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(infinity, -infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, -0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, 1.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, -1.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, -infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, undefined);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-infinity, -undefined);
+        compare = exact;
+    };
+    // zero divisor
+    assertEquals {
+        expected = undefined;
+        actual=remainder(1.0, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(-1.0, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(undefined, 0.0);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(undefined, 0.0);
+        compare = exact;
+    };
+    // infinite divisor
+    assertEquals {
+        expected = 1.5;
+        actual=remainder(1.5, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = 1.5;
+        actual=remainder(1.5, -infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -1.5;
+        actual=remainder(-1.5, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = -1.5;
+        actual=remainder(-1.5, -infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(undefined, infinity);
+        compare = exact;
+    };
+    assertEquals {
+        expected = undefined;
+        actual=remainder(undefined, -infinity);
+        compare = exact;
+    };
+}
+
 test void floatTests() {
     assertFalse(exact(0.0, -0.0), "Oops! Test is broken because we can't distinguish 0.0 and -0.0");
 }
