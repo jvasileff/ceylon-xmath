@@ -650,7 +650,11 @@ class WholeImpl satisfies Whole {
         variable value v3 = v;
 
         while (!v3.zero) {
-            value [q, t3] = u3.quotientAndRemainder(v3);
+            value qt3 = u3.quotientAndRemainder(v3);
+
+            value q = qt3[0];
+            value t3 = qt3[1];
+
             value t1 = u1 - v1 * q;
             u1 = v1;
             u3 = v3;

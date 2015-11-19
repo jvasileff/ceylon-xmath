@@ -1,3 +1,4 @@
+native("jvm", "js")
 module test.com.vasileff.ceylon.xmath.common "0.0.2-SNAPSHOT" {
     import ceylon.collection "1.2.0"; // to make compile-js work
     import ceylon.test "1.2.0";

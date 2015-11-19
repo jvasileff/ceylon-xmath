@@ -30,7 +30,7 @@ native shared Float expm1(Float num);
 native("jvm") shared Float expm1(Float num)
     =>  JVMMath.expm1(num);
 
-native("js") shared Float expm1(Float num)
+native("js", "dart") shared Float expm1(Float num)
     =>  exp(num) - 1.0;
 
 "The natural logarithm (base \{#0001D452}) of the
@@ -65,7 +65,7 @@ native("jvm") shared
 Float log1p(Float num)
     =>  JVMMath.log1p(num);
 
-native("js") shared
+native("js", "dart") shared
 Float log1p(Float num)
     =>  log(num + 1.0);
 
@@ -541,7 +541,7 @@ shared native("jvm")
 Float cbrt(Float num)
     =>  JVMMath.cbrt(num);
 
-shared native("js")
+shared native("js", "dart")
 Float cbrt(Float num)
     =>  if (num.negative) then
             -(num.negated ^ (1.0/3.0))
