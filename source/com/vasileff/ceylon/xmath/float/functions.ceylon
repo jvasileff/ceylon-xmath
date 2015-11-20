@@ -189,14 +189,9 @@ shared native("jvm")
 Float sinh(Float num)
     =>  JVMMath.sinh(num);
 
-shared native("js")
-Float sinh(Float num) {
-    dynamic {
-        Float pos = Math.exp(num);
-        Float neg = Math.exp(-num);
-        return (pos - neg) / 2;
-    }
-}
+shared native("js", "dart")
+Float sinh(Float num)
+    =>  (exp(num) - exp(-num)) / 2;
 
 "The hyperbolic cosine of the given angle specified in
  radians.
@@ -213,14 +208,9 @@ shared native("jvm")
 Float cosh(Float num)
     =>  JVMMath.cosh(num);
 
-shared native("js")
-Float cosh(Float num) {
-    dynamic {
-        Float pos = Math.exp(num);
-        Float neg = Math.exp(-num);
-        return (pos + neg) / 2;
-    }
-}
+shared native("js", "dart")
+Float cosh(Float num)
+    =>  (exp(num) + exp(-num)) / 2;
 
 "The hyperbolic tangent of the given angle specified in
  radians.
@@ -238,13 +228,11 @@ shared native("jvm")
 Float tanh(Float num)
     =>  JVMMath.tanh(num);
 
-shared native("js")
+shared native("js", "dart")
 Float tanh(Float num) {
-    dynamic {
-        Float pos = Math.exp(num);
-        Float neg = Math.exp(-num);
-        return (pos - neg) / (pos + neg);
-    }
+    value pos = exp(num);
+    value neg = exp(-num);
+    return (pos - neg) / (pos + neg);
 }
 
 "The arc sine of the given number.
@@ -479,7 +467,7 @@ shared native("jvm")
 Float hypot(Float x, Float y)
     =>  JVMMath.hypot(x, y);
 
-shared native("js")
+shared native("js", "dart")
 Float hypot(Float x, Float y) {
     if (x.infinite || y.infinite) {
         return infinity;
@@ -488,13 +476,7 @@ Float hypot(Float x, Float y) {
         return undefined;
     }
     else {
-        dynamic {
-            // assign to Float to coerce correctly
-            // https://github.com/ceylon/ceylon-js/issues/576
-            Float result = Math.sqrt(
-                    Math.pow(x, 2) + Math.pow(y, 2));
-            return result;
-        }
+        return sqrt((x^2) + (y^2));
     }
 }
 
@@ -715,14 +697,11 @@ shared native("jvm")
 Float scalb(Float x, Integer n)
     =>  JVMMath.scalb(x, n);
 
-shared native("js")
-Float scalb(Float x, Integer n) {
+shared native("js", "dart")
+Float scalb(Float x, Integer n)
     // faster than other options per
     // http://jsperf.com/scale-pow2/5
-    dynamic {
-        return x * Math.pow(2, n);
-    }
-}
+    =>  x * 2.0 ^ n;
 
 "The remainder, after dividing the [[dividend]] by the [[divisor]]. This function is
  defined as:
