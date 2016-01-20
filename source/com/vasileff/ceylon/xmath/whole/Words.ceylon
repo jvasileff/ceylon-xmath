@@ -150,8 +150,9 @@ native("js", "dart")  class WordsJS satisfies Words {
     }
 
     shared
-    new copyAppend(Integer wordsSize, Words words, Integer other) {
-        storage = Array.ofSize(wordsSize + 1, 0);
+    new copyAppend(
+            Integer wordsSize, Words words, Integer other)
+            extends ofSize(wordsSize + 1) {
         assert (is WordsJS words);
         words.storage.copyTo(storage, 0, 0, wordsSize);
         storage.set(wordsSize, other);
@@ -187,4 +188,3 @@ native("js", "dart")  class WordsJS satisfies Words {
     Words clone()
         =>  using(storage.clone());
 }
-
