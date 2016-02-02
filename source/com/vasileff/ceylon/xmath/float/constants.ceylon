@@ -1,7 +1,7 @@
 "The `Float` which best approximates the
  mathematical constant \{#0001D452}, the
  base of the natural logarithm."
-//see(`function exp`,`function log`)
+see(`function exp`,`function log`)
 shared Float e = 2.7182818284590452354;
 
 "The Float which best approximates the
