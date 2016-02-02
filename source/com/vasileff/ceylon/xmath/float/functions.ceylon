@@ -666,6 +666,42 @@ Float largest(Float x, Float y)
         else
             y;
 
+"The largest [[Float]] in the given stream, or `null`
+ if the stream is empty."
+shared Float|Absent max<Absent>
+        (Iterable<Float,Absent> values)
+        given Absent satisfies Null {
+    value first = values.first;
+    if (exists first) {
+        variable value max = first;
+        for (x in values) {
+            if (x>max) {
+                max = x;
+            }
+        }
+        return max;
+    }
+    return first;
+}
+
+"The smallest [[Float]] in the given stream, or `null`
+ if the stream is empty."
+shared Float|Absent min<Absent>
+        (Iterable<Float,Absent> values)
+        given Absent satisfies Null {
+    value first = values.first;
+    if (exists first) {
+        variable value min = first;
+        for (x in values) {
+            if (x<min) {
+                min = x;
+            }
+        }
+        return min;
+    }
+    return first;
+}
+
 "The sum of the values in the given stream, or
  `0.0` if the stream is empty."
 shared

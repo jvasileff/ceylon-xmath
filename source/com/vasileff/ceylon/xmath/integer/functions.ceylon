@@ -8,6 +8,42 @@ shared see(`function smallest`)
 Integer largest(Integer x, Integer y)
     =>  if (x > y) then x else y;
 
+"The largest [[Integer]] in the given stream, or `null`
+ if the stream is empty."
+shared Integer|Absent max<Absent>
+        (Iterable<Integer,Absent> values)
+        given Absent satisfies Null {
+    value first = values.first;
+    if (exists first) {
+        variable value max = first;
+        for (x in values) {
+            if (x>max) {
+                max = x;
+            }
+        }
+        return max;
+    }
+    return first;
+}
+
+"The smallest [[Integer]] in the given stream, or `null`
+ if the stream is empty."
+shared Integer|Absent min<Absent>
+        (Iterable<Integer,Absent> values)
+        given Absent satisfies Null {
+    value first = values.first;
+    if (exists first) {
+        variable value min = first;
+        for (x in values) {
+            if (x<min) {
+                min = x;
+            }
+        }
+        return min;
+    }
+    return first;
+}
+
 "The sum of the values in the given stream, or
  `0` if the stream is empty."
 shared
