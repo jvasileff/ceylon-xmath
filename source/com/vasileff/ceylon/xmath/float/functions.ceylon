@@ -178,11 +178,11 @@ Float tan(Float num) {
 
  * `sinh(-0)` is `-0`,
  * `sinh(+0)` is `+0`,
- * `sin(-infinity)` is `-infinity`,
- * `sin(+infinity)` is `+infinity`,
- * `sin(undefined)` is `undefined`.
+ * `sinh(-infinity)` is `-infinity`,
+ * `sinh(+infinity)` is `+infinity`,
+ * `sinh(undefined)` is `undefined`.
  "
-shared native // TODO tests
+shared native
 Float sinh(Float num);
 
 shared native("jvm")
@@ -191,7 +191,9 @@ Float sinh(Float num)
 
 shared native("js", "dart")
 Float sinh(Float num)
-    =>  (exp(num) - exp(-num)) / 2;
+    =>  if (!num.finite || num.fractionalPart == 0.0)
+        then num
+        else (exp(num) - exp(-num)) / 2;
 
 "The hyperbolic cosine of the given angle specified in
  radians.
@@ -201,7 +203,7 @@ Float sinh(Float num)
  * `cosh(+infinity)` is `+infinity`,
  * `cosh(undefined)` is `undefined`.
  "
-shared native // TODO tests
+shared native
 Float cosh(Float num);
 
 shared native("jvm")
@@ -221,7 +223,7 @@ Float cosh(Float num)
  * `tanh(+0)` is `+0`,
  * `tanh(undefined)` is `undefined`.
  "
-shared native // TODO tests
+shared native
 Float tanh(Float num);
 
 shared native("jvm")
@@ -230,6 +232,12 @@ Float tanh(Float num)
 
 shared native("js", "dart")
 Float tanh(Float num) {
+    if (num.infinite) {
+        return num.sign.float;
+    }
+    if (num.fractionalPart == 0.0) {
+        return num;
+    }
     value pos = exp(num);
     value neg = exp(-num);
     return (pos - neg) / (pos + neg);

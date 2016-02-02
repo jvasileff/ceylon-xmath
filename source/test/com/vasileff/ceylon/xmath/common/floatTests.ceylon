@@ -238,6 +238,105 @@ test void testSin() {
     };
 }
 
+test void testSinh() {
+    assertEquals{
+        expected=-infinity;
+        actual=sinh(-infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-0.0;
+        actual=sinh(-0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=0.0;
+        actual=sinh(0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-sinh(10.0);
+        actual=sinh(-10.0);
+        compare=approx;
+    };
+    assertEquals{
+        expected=+infinity;
+        actual=sinh(+infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=sinh(undefined);
+        compare=exact;
+    };
+}
+
+test void testCosh() {
+    assertEquals{
+        expected=+infinity;
+        actual=cosh(-infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=cosh(-0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=1.0;
+        actual=cosh(0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=cosh(10.0);
+        actual=cosh(-10.0);
+        compare=approx;
+    };
+    assertEquals{
+        expected=+infinity;
+        actual=cosh(+infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=cosh(undefined);
+        compare=exact;
+    };
+}
+
+test void testTanh() {
+    assertEquals{
+        expected=-1.0;
+        actual=tanh(-infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-0.0;
+        actual=tanh(-0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=0.0;
+        actual=tanh(0.0);
+        compare=exact;
+    };
+    assertEquals{
+        expected=-tanh(10.0);
+        actual=tanh(-10.0);
+        compare=approx;
+    };
+    assertEquals{
+        expected=+1.0;
+        actual=tanh(+infinity);
+        compare=exact;
+    };
+    assertEquals{
+        expected=undefined;
+        actual=tanh(undefined);
+        compare=exact;
+    };
+}
+
 test void testCos() {
     assertEquals{
         expected=undefined;
