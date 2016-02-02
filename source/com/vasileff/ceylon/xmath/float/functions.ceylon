@@ -560,7 +560,6 @@ Float random() {
  "
 shared see(`function halfEven`, `function ceiling`)
 Float floor(Float num)
-    // TODO review for correctness
     =>  if (num.infinite ||
                 num.undefined ||
                 num.fractionalPart == 0.0) then
@@ -582,14 +581,12 @@ Float floor(Float num)
  "
 shared see(`function floor`, `function halfEven`)
 Float ceiling(Float num)
-    // TODO review for correctness
     =>  if (num.infinite ||
                 num.undefined ||
                 num.fractionalPart == 0.0) then
             num
         else if (num.negative) then
-            // TODO https://github.com/ceylon/ceylon.language/issues/700
-            -num.negated.wholePart
+            num.wholePart
         else
             num.wholePart + 1.0;
 
