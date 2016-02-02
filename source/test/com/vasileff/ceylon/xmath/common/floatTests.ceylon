@@ -922,22 +922,22 @@ test void testHalfEven() {
 test void testSumProduct() {
     assertEquals {
         expected = 0.0;
-        actual=sum();
+        actual=sum {};
         compare = exact;
     };
     assertEquals {
         expected = 6.0;
-        actual=sum(1.0, 2.0, 3.0);
+        actual=sum { 1.0, 2.0, 3.0 };
         compare = exact;
     };
     assertEquals {
         expected = 1.0;
-        actual=product();
+        actual=product {};
         compare = exact;
     };
     assertEquals {
         expected = 6.0;
-        actual=product(1.0, 2.0, 3.0);
+        actual=product { 1.0, 2.0, 3.0 };
         compare = exact;
     };
 }

@@ -666,10 +666,10 @@ Float largest(Float x, Float y)
         else
             y;
 
-"The sum of the given values, or `0.0` if there are no
- arguments."
+"The sum of the values in the given stream, or
+ `0.0` if the stream is empty."
 shared
-Float sum(Float* values) {
+Float sum({Float*} values) {
     variable Float sum=0.0;
     for (x in values) {
         sum+=x;
@@ -677,10 +677,10 @@ Float sum(Float* values) {
     return sum;
 }
 
-"The product of the given values, or `1.0` if there are
- no arguments."
+"The product of the values in the given stream, or
+ `1.0` if the stream is empty."
 shared
-Float product(Float* values) {
+Float product({Float*} values) {
     variable Float product=1.0;
     for (x in values) {
         product*=x;

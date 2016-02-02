@@ -8,10 +8,10 @@ shared see(`function smallest`)
 Integer largest(Integer x, Integer y)
     =>  if (x > y) then x else y;
 
-"The sum of the given values, or `0` if there are no
- arguments."
+"The sum of the values in the given stream, or
+ `0` if the stream is empty."
 shared
-Integer sum(Integer* values) {
+Integer sum({Integer*} values) {
     variable Integer sum=0;
     for (x in values) {
         sum+=x;
@@ -19,10 +19,10 @@ Integer sum(Integer* values) {
     return sum;
 }
 
-"The product of the given values, or `1` if there are
- no arguments."
+"The product of the values in the given stream, or
+ `1` if the stream is empty."
 shared
-Integer product(Integer* values) {
+Integer product({Integer*} values) {
     variable Integer product=1;
     for (x in values) {
         product*=x;
