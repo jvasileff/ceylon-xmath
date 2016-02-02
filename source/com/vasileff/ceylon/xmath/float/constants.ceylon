@@ -11,3 +11,5 @@ shared Float e = 2.7182818284590452354;
 shared Float pi =3.14159265358979323846;
 
 Float undefined = 0.0/0.0;
+
+Float twoFiftyTwo = (2^52).float;

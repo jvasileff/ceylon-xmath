@@ -605,23 +605,20 @@ Float ceiling(Float num)
  "
 shared see(`function floor`, `function ceiling`)
 Float halfEven(Float num) {
-    // TODO review for correctness
     if (num.infinite ||
             num.undefined ||
             num.fractionalPart == 0.0) {
         return num;
-    } else {
-        value twoFiftyTwo = (2^52).float;
-        variable value result = num.magnitude;
-        if (result >= twoFiftyTwo) {
-            return num;
-        }
-        else {
-            //perform rounding
-            result = (twoFiftyTwo + result) - twoFiftyTwo;
-            return result * num.sign.float;
-        }
     }
+
+    variable value result = num.magnitude;
+    if (result >= twoFiftyTwo) {
+        return num;
+    }
+
+    // else, round
+    result = (twoFiftyTwo + result) - twoFiftyTwo;
+    return result * num.sign.float;
 }
 
 "The smaller of the two arguments.
